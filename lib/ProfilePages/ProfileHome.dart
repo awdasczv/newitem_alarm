@@ -10,7 +10,7 @@ class _ProfileHomeState extends State<ProfileHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('ProfilePage 김도윤'),
+        child: Text('ProfilePage wonjaebabo'),
       ),
     );
   }
