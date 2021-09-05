@@ -10,7 +10,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('HomePaged 이원재'),
+        child: Text('HomePage 이원재'),
       ),
     );
   }
