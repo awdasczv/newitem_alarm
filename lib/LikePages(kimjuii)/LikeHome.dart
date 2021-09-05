@@ -10,7 +10,7 @@ class _LikeHomeState extends State<LikeHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('LikePage'),
+        child: Text('LikePage(kimjuii)'),
       ),
     );
   }
