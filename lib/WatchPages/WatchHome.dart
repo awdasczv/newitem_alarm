@@ -10,7 +10,7 @@ class _WatchHomeState extends State<WatchHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('WatchPage'),
+        child: Text('WatchPage 이원재 시발년아'),
       ),
     );
   }
