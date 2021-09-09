@@ -17,24 +17,30 @@ class _ProfileHomeState extends State<ProfileHome> {
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-                Container(
-                  width: double.infinity,
-                  height: 150,
+              Container(
                   color: Colors.blue,
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 50),
+                  padding: EdgeInsets.only(left: 10, right: 10, top: 50, bottom: 50),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       CircleAvatar(
                         radius: 50,
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.grey,
                         backgroundImage: AssetImage('assets/images/profile3.png'),
                       ),
-                      Text("Name")
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text("  Name"),
+                          Text(" "),
+                          Text("  Date")
+                        ],
+                      )
+
                     ],
                   )
 
-                    /*child: Container(
+                /*child: Container(
                       padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 50),
                       child: CircleAvatar(
                         radius: 50,
@@ -42,7 +48,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                         backgroundImage: AssetImage('images/profile.png'),
                       ),
                     )*/
-                ),
+              ),
                /*Expanded(
                    child: Container(
                        child: Column(
