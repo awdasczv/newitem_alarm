@@ -59,7 +59,8 @@ class _ProfileHomeState extends State<ProfileHome> {
                            ]
                        )
                    )
-               )*/
+            ]
+        ))*/
             ]
         )
     );
