@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:newitem_alarm/ProfilePages/ReviewMan.dart';
+import 'package:newitem_alarm/ProfilePages/CommandMan.dart';
+import 'package:newitem_alarm/ProfilePages/LikeMan.dart';
+import 'package:newitem_alarm/ProfilePages/AlarmMan.dart';
+import 'package:newitem_alarm/ProfilePages/Notice.dart';
+import 'package:newitem_alarm/ProfilePages/Manual.dart';
 
 class ProfileHome extends StatefulWidget {
   @override
@@ -9,16 +15,11 @@ class _ProfileHomeState extends State<ProfileHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        /*appBar: AppBar(
-          centerTitle: true,
-          titleSpacing: 0.0,
-          title: Text("My Page"),
-        ),*/
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                padding: EdgeInsets.fromLTRB(0, 30, 0, 20),
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                 color: Colors.blue,
                 child: Center(
                   child: Text("My Page",
@@ -29,7 +30,7 @@ class _ProfileHomeState extends State<ProfileHome> {
               ),
               Container(
                   color: Colors.blue,
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 40, bottom: 80),
+                  padding: EdgeInsets.only(left: 10, right: 10, top: 25, bottom: 45),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -56,28 +57,123 @@ class _ProfileHomeState extends State<ProfileHome> {
 
                     ],
                   )
-
-                /*child: Container(
-                      padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 50),
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.white,
-                        backgroundImage: AssetImage('images/profile.png'),
-                      ),
-                    )*/
               ),
-               /*Expanded(
+               Expanded(
                    child: Container(
-                       child: Column(
-                           mainAxisAlignment: MainAxisAlignment.center,
-                           children: <Widget>[
-                             Text("Name"),
-                             Text("date")
-                           ]
+                       child: ListView(
+                         padding: EdgeInsets.all(8),
+                         children: [
+                           ListTile (
+                             onTap: () {
+                               Navigator.push(
+                                 context,
+                                 MaterialPageRoute(builder: (context) => ReviewMan()),
+                               );
+                             },
+                               title : Text("리뷰 관리",
+                                   style: TextStyle(fontSize: 25),
+                                   textAlign: TextAlign.left )
+                           ),
+
+                           Divider(
+                             color: Colors.black,
+                             thickness: 0.5,
+                             endIndent: 10.0
+                           ),
+
+                           ListTile(
+                               onTap: () {
+                                 Navigator.push(
+                                   context,
+                                   MaterialPageRoute(builder: (context) => CommandMan()),
+                                 );
+                               },
+                               title : Text("댓글 관리",
+                                   style: TextStyle(fontSize: 25),
+                                   textAlign: TextAlign.left)
+                           ),
+
+                           Divider(
+                               color: Colors.black,
+                               thickness: 0.5,
+                               endIndent: 10.0
+                           ),
+
+                           ListTile(
+                               onTap: () {
+                                 Navigator.push(
+                                   context,
+                                   MaterialPageRoute(builder: (context) => LikeMan()),
+                                 );
+                               },
+                               title : Text("찜 목록",
+                                   style: TextStyle(fontSize: 25),
+                                   textAlign: TextAlign.left)
+                           ),
+
+                           Divider(
+                               color: Colors.black,
+                               thickness: 0.5,
+                               endIndent: 10.0
+                           ),
+
+                           ListTile(
+                               onTap: () {
+                                 Navigator.push(
+                                   context,
+                                   MaterialPageRoute(builder: (context) => AlarmMan()),
+                                 );
+                               },
+                               title : Text("알림설정",
+                                   style: TextStyle(fontSize: 25),
+                                   textAlign: TextAlign.left)
+                           ),
+
+                           Divider(
+                               color: Colors.black,
+                               thickness: 0.5,
+                               endIndent: 10.0
+                           ),
+
+                           ListTile(
+                               onTap: () {
+                                 Navigator.push(
+                                   context,
+                                   MaterialPageRoute(builder: (context) => Notice()),
+                                 );
+                               },
+                               title : Text("공지사항",
+                                   style: TextStyle(fontSize: 25),
+                                   textAlign: TextAlign.left)
+                           ),
+
+                           Divider(
+                               color: Colors.black,
+                               thickness: 0.5,
+                               endIndent: 10.0
+                           ),
+
+                           ListTile(
+                               onTap: () {
+                                 Navigator.push(
+                                   context,
+                                   MaterialPageRoute(builder: (context) => Manual()),
+                                 );
+                               },
+                               title : Text("이용약관",
+                                   style: TextStyle(fontSize: 25),
+                                   textAlign: TextAlign.left)
+                           ),
+
+                           Divider(
+                               color: Colors.black,
+                               thickness: 0.5,
+                               endIndent: 10.0
+                           ),
+                         ],
                        )
                    )
-            ]
-        ))*/
+               )
             ]
         )
     );
