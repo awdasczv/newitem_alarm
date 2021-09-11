@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> {
             padding:  EdgeInsets.all(10),
             child: Text('이주의 신상', style: TextStyle(fontSize: 20),),
           ),
+          _itemList()
         ],
       )
     );
@@ -176,6 +177,92 @@ class _HomePageState extends State<HomePage> {
             Text(label, style: TextStyle(fontSize: 10),),
           ],
         ) ,
+      ),
+    );
+  }
+
+  Widget _itemList(){
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: _colorList1.length,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (BuildContext context, int index){
+          return _itemContainer(index);
+        }
+    );
+  }
+
+  Widget _itemContainer(int index){
+    bool _isFavorite = false;
+
+    Icon _icon(){
+      if(_isFavorite){
+        return Icon(Icons.favorite_border);
+      }
+      else return Icon(Icons.favorite);
+    }
+
+    return Container(
+      height: 300,
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              Container(
+                height: 230,
+                color: _colorList1[index],
+                child: Center(
+                  child: FlutterLogo(size: 100,),
+                ),
+              ),
+              Positioned(
+                right: 0.0,
+                bottom: 0.0,
+                child: IconButton(
+                  icon: _icon(),
+                  iconSize: 40,
+                  onPressed: (){
+                    _isFavorite = !_isFavorite;
+///////////////////////////////////////////////////////////////////////////////////
+//오류부분 setstate가 작동이 안됨
+                    setState(() {
+                    });
+                    print(_isFavorite);
+                  },
+///////////////////////////////////////////////////////////////////////////////////
+                ),
+              ),
+            ],
+          ),
+          Container(
+            height: 70,
+            color: Colors.white30,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.teal,
+                    ),
+                    child:Center(child: Text('Profile'),)
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('상품이름 가나다라', style: TextStyle(fontSize: 17),),
+                    Text('가격 28000원',style: TextStyle(fontSize: 17),)
+                  ],
+
+                )
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
