@@ -5,6 +5,7 @@ import 'package:newitem_alarm/ProfilePages/LikeMan.dart';
 import 'package:newitem_alarm/ProfilePages/AlarmMan.dart';
 import 'package:newitem_alarm/ProfilePages/Notice.dart';
 import 'package:newitem_alarm/ProfilePages/Manual.dart';
+import 'package:newitem_alarm/ProfilePages/ChangeProfile.dart';
 
 class ProfileHome extends StatefulWidget {
   @override
@@ -37,11 +38,19 @@ class _ProfileHomeState extends State<ProfileHome> {
                       Container(
                         color: Colors.blue,
                         padding: EdgeInsets.all(15),
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundColor: Colors.white60,
-                          backgroundImage: AssetImage('assets/images/profile3.png'),
-                        ),
+                        child: GestureDetector(
+                            child: CircleAvatar(
+                              radius: 40,
+                              backgroundColor: Colors.white54,
+                              backgroundImage: AssetImage('assets/images/profile3.png'),
+                            ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ChangeProfile()),
+                            );
+                          }
+                        )
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
