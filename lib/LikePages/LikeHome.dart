@@ -34,9 +34,10 @@ class _LikeHomeState extends State<LikeHome>
     return DefaultTabController(
         length: bars.length,
         child: MaterialApp(
-            theme: ThemeData(primarySwatch: Colors.yellow),
+            //theme: ThemeData(primaryColor: Colors.white), //전체테마 변경
             home: Scaffold(
                 appBar: AppBar(
+                  backgroundColor: Colors.white,
                   title: const Text("찜목록",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -83,7 +84,34 @@ class _GoodsPageState extends State<GoodsPage> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(),
+      child: Column(
+        children: <Widget>[
+          Card(
+            elevation: 2, //그림자 깊이
+            margin: EdgeInsets.all(8),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: InkWell(
+              onTap: () {}, //후에 클릭하면 페이지로 이동하도록 수정해야 함.
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Image.network(
+                          "https://t1.daumcdn.net/cfile/tistory/9994463B5C2B89F731"),
+                    )
+                  ],
+                ),
+              ),
+            ), //Card 위젯에 onTap과 같은 위젯 탭하는 액션 추가하기 위해
+          ), //margin 바깥쪽
+        ],
+      ),
     );
   }
 }
