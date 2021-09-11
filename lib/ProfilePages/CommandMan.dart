@@ -5,7 +5,7 @@ class CommandMan extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("찜 목록",
+        title: Text("댓글 관리",
           style: TextStyle(fontSize: 20),
         ),
         centerTitle: true,
