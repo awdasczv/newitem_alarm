@@ -44,12 +44,17 @@ class _ProfileHomeState extends State<ProfileHome> {
                               backgroundColor: Colors.white54,
                               backgroundImage: AssetImage('assets/images/profile3.png'),
                             ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ChangeProfile()),
-                            );
-                          }
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ChangeProfile()),
+                              );
+                              child: Icon(
+                                Icons.camera_alt,
+                                color: Colors.red,
+                                size: 40
+                              );
+                            }
                         )
                       ),
                       Column(
