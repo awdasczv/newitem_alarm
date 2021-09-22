@@ -14,10 +14,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => TestProvider())
-      ],
-      child:  MaterialApp(
+      providers: [ChangeNotifierProvider(create: (context) => TestProvider())],
+      child: MaterialApp(
         title: '먹어봤니',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -39,13 +37,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  final List<Widget> _bottomNavigatorBarList = [HomePage(), LikeHome(), WatchHome(), ProfileHome()];
+  final List<Widget> _bottomNavigatorBarList = [
+    HomePage(),
+    LikeHome(),
+    WatchHome(),
+    ProfileHome()
+  ];
   int _currentPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: IndexedStack(
         index: _currentPageIndex,
@@ -53,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        onTap: (int index){
+        onTap: (int index) {
           setState(() {
             _currentPageIndex = index;
           });
@@ -61,9 +62,9 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: _currentPageIndex,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label:  '찜목록'),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: '찜목록'),
           BottomNavigationBarItem(icon: Icon(Icons.movie), label: '워치'),
-          BottomNavigationBarItem(icon: Icon(Icons.person),label: '프로필')
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: '프로필')
         ],
       ),
     );
