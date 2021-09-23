@@ -9,7 +9,7 @@ class ChangeProfile extends StatefulWidget {
 }
 
 class _ChangeProfileState extends State<ChangeProfile> {
-  PickedFile _imageFile;
+  /*PickedFile _imageFile;
   final ImagePicker _picker = ImagePicker();
 
   Widget build(BuildContext context) {
@@ -23,15 +23,15 @@ class _ChangeProfileState extends State<ChangeProfile> {
               backgroundImage: _imageFile == null ? AssetImage('assets/images/profile3.png') : FileImage(File(_imageFile.path)),
             ),
             Positioned(
-              bottom: 20,
-              right: 20,
+              //bottom: 10,
+              right: 500,
               child: InkWell(
                 onTap: () {
                   showModalBottomSheet(context: context, builder: ((builder) => bottomSheet()));
                 },
                 child: Icon(
                   Icons.camera_alt,
-                  color: Colors.black12,
+                  color: Colors.red,
                   size: 40,
                 ),
               )
@@ -104,8 +104,8 @@ class _ChangeProfileState extends State<ChangeProfile> {
     setState(() {
       _imageFile = pickedFile;
     });
-  }
-  /*@override
+  }*/
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
@@ -121,42 +121,93 @@ class _ChangeProfileState extends State<ChangeProfile> {
                   ),
                 )
             ),
-            Container(
-              padding: EdgeInsets.fromLTRB(20, 120, 20, 120),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Hero(
-                      tag: 'heoro',
-                      child: CircleAvatar(
-                        radius: 80,
-                        backgroundImage: AssetImage('assets/images/profile3.png'),
-                        backgroundColor: Colors.transparent,
-                      ),
-                    ),
-                    SizedBox(height: 45.0),
-                    TextFormField(
-                      keyboardType: TextInputType.name,
-                      initialValue: 'Name',
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder()
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Row(
+            Expanded(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(20, 120, 20, 120),
+                  child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton(
-                          child: Text('완료'),
-                          onPressed: () {},
+                        CircleAvatar(
+                          radius: 80,
+                          backgroundImage: AssetImage('assets/images/profile3.png'),
+                          backgroundColor: Colors.transparent,
+                          child: Container(
+                              padding: EdgeInsets.fromLTRB(0, 120, 0, 0),
+                              child: TextButton(
+                                  onPressed: () {},
+                                  style: ButtonStyle(
+                                      textStyle:
+                                      MaterialStateProperty.all(TextStyle(fontSize: 18)),
+                                      foregroundColor:
+                                      MaterialStateProperty.all(Colors.black),
+                                  ),
+                                  child: Container(
+                                      color: Colors.grey,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "편집",
+                                            style: TextStyle(fontSize: 18),
+
+                                          ),
+                                        ],
+                                      )
+                                  )
+                              )
+                          ),
+                        ),
+                        SizedBox(height: 45.0),
+                        TextFormField(
+                          keyboardType: TextInputType.name,
+                          initialValue: 'Name',
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder()
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              child: Text('완료'),
+                              onPressed: () {},
+                            )
+                          ],
                         )
-                      ],
-                    )
-                  ]
-              ),
+                      ]
+                  ),
+                )
             )
           ]
       ),
     );
-  }*/
+  }
 }
+/*
+Expanded(
+child: CircleAvatar(
+radius: 80,
+backgroundImage: AssetImage('assets/images/profile3.png'),
+backgroundColor: Colors.transparent,
+child: Container(
+padding: EdgeInsets.fromLTRB(0, 120, 0, 0),
+child: FlatButton(
+onPressed: () {},
+child: Container(
+color: Colors.grey,
+child: Row(
+mainAxisAlignment: MainAxisAlignment.center,
+children: [
+Text(
+"편집",
+style: TextStyle(fontSize: 18),
+),
+],
+)
+)
+)
+),
+),
+)
+*/
