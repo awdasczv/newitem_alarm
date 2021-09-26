@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-class WatchHome extends StatefulWidget {
+class WatchList extends StatefulWidget {
 
   @override
-  _WatchHomeState createState() => _WatchHomeState();
+  _WatchListState createState() => _WatchListState();
 }
 
-class _WatchHomeState extends State<WatchHome> {
+class _WatchListState extends State<WatchList > {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
