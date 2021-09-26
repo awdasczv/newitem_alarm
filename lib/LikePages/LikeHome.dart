@@ -86,93 +86,112 @@ class _GoodsPageState extends State<GoodsPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      //충분한 Padding 처리
-      top: false,
-      bottom: false,
-      child: Column(
-        children: <Widget>[
-          Hero(
-            //상품좋아요Card 눌렀을 때 나오는 상품상세페이지와 연결되도록 tag하기 (후에 할 일)
-            tag: 'goodsLikeCard',
-            child: Card(
-              elevation: 2, //그림자 깊이
-              margin: EdgeInsets.all(8),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: InkWell(
-                onTap: () {}, //후에 클릭하면 페이지로 이동하도록 수정해야 함.
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment
-                        .start, //Row일 때, 가로축 기준 위쪽 정렬 //strech
-                    children: [
-                      SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: Image.network(
-                            "https://t1.daumcdn.net/cfile/tistory/9994463B5C2B89F731"),
-                      ),
-                      const Padding(padding: EdgeInsets.only(left: 10)),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment:
-                              CrossAxisAlignment.start, //Column일 때 세로축 기준 왼쪽 정렬
-                          children: [
-                            Text('상품명',
-                                style: TextStyle(
-                                    fontSize: 22, fontWeight: FontWeight.bold)),
-                            Padding(padding: EdgeInsets.only(bottom: 5)),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                RatingBarIndicator(
-                                  rating: 3,
-                                  physics: BouncingScrollPhysics(),
-                                  itemBuilder: (context, _) {
-                                    return Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
-                                    );
-                                  },
-                                  itemPadding:
-                                      EdgeInsets.symmetric(horizontal: 1.0),
-                                  itemCount: 5,
-                                  itemSize: 25,
-                                  direction: Axis.horizontal,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 10),
-                                ),
-                                Text(
-                                  '3점',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Padding(padding: EdgeInsets.only(bottom: 5)),
-                            Text(
-                              '25,000원',
+        child: CustomScrollView(
+      slivers: [
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(2),
+                child: Goods(),
+              );
+            },
+            childCount: 10,
+          ),
+        )
+      ],
+    ));
+  }
+}
+
+Widget Goods() {
+  return SafeArea(
+    //충분한 Padding 처리
+    top: false,
+    bottom: false,
+    child: Column(
+      children: <Widget>[
+        Hero(
+          //상품좋아요Card 눌렀을 때 나오는 상품상세페이지와 연결되도록 tag하기 (후에 할 일)
+          tag: 'goodsLikeCard',
+          child: Card(
+            elevation: 2, //그림자 깊이
+            margin: EdgeInsets.all(8),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: InkWell(
+              onTap: () {}, //후에 클릭하면 페이지로 이동하도록 수정해야 함.
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start, //Row일 때, 가로축 기준 위쪽 정렬 //strech
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: Image.network(
+                          "https://t1.daumcdn.net/cfile/tistory/9994463B5C2B89F731"),
+                    ),
+                    const Padding(padding: EdgeInsets.only(left: 10)),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start, //Column일 때 세로축 기준 왼쪽 정렬
+                        children: [
+                          Text('상품명',
                               style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                        ),
+                                  fontSize: 22, fontWeight: FontWeight.bold)),
+                          Padding(padding: EdgeInsets.only(bottom: 5)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              RatingBarIndicator(
+                                rating: 3,
+                                physics: BouncingScrollPhysics(),
+                                itemBuilder: (context, _) {
+                                  return Icon(
+                                    Icons.star,
+                                    color: Colors.yellow,
+                                  );
+                                },
+                                itemPadding:
+                                    EdgeInsets.symmetric(horizontal: 1.0),
+                                itemCount: 5,
+                                itemSize: 25,
+                                direction: Axis.horizontal,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(right: 10),
+                              ),
+                              Text(
+                                '3점',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(padding: EdgeInsets.only(bottom: 5)),
+                          Text(
+                            '25,000원',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w600),
+                          ),
+                        ],
                       ),
-                    ], //Card 위젯에 onTap과 같은 위젯 탭하는 액션 추가하기 위해
-                  ), //margin 바깥쪽
-                ),
+                    ),
+                  ], //Card 위젯에 onTap과 같은 위젯 탭하는 액션 추가하기 위해
+                ), //margin 바깥쪽
               ),
             ),
-          )
-        ],
-      ),
-    );
-  }
+          ),
+        )
+      ],
+    ),
+  );
 }
 
 class WatchPage extends StatefulWidget {
@@ -185,12 +204,50 @@ class WatchPage extends StatefulWidget {
 class _WatchPageState extends State<WatchPage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _thumbnail(),
-        _watchInfo(),
+    return SafeArea(
+        child: CustomScrollView(
+      slivers: [
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(8),
+                child: Thumbanil(),
+              );
+            },
+            childCount: 10,
+          ),
+        )
       ],
-    );
+    ));
+  }
+}
+
+class Thumbanil extends StatefulWidget {
+  @override
+  _ThumbanilState createState() => _ThumbanilState();
+}
+
+class _ThumbanilState extends State<Thumbanil> {
+  @override
+  Widget build(BuildContext context) {
+    return Hero(
+        //watch좋아요Card 눌렀을 때 나오는 watch상세페이지와 연결되도록 tag하기 (후에 할 일)
+        tag: 'watchLikeCard',
+        child: Card(
+            elevation: 2, //그림자 깊이
+            margin: EdgeInsets.all(2),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: InkWell(
+                onTap: () {}, //후에 클릭하면 페이지로 이동하도록 수정해야 함.
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    children: <Widget>[_thumbnail(), _watchInfo()],
+                  ),
+                ))));
   }
 }
 
@@ -203,28 +260,80 @@ Widget _thumbnail() {
 
 Widget _watchInfo() {
   return Container(
+      padding: const EdgeInsets.only(left: 10, top: 10, bottom: 7),
       child: Row(
-    children: [
-      CircleAvatar(
-        radius: 30,
-        backgroundColor: Colors.grey.withOpacity(0.5),
-        backgroundImage: Image.network(
-                "https://flutter-ko.dev/docs/development/ui/widgets/assets")
-            .image,
-      ),
-      Expanded(
-          child: Column(
         children: [
-          Row(
-            children: [
-              Text("Watch Title"),
-            ],
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: Colors.grey.withOpacity(0.6),
+            backgroundImage: Image.network(
+                    "https://t1.daumcdn.net/cfile/tistory/9994463B5C2B89F731")
+                .image,
           ),
-          Row(
-            children: [],
-          )
+          SizedBox(
+            width: 13,
+          ),
+          Expanded(
+              child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "Watch Title",
+                      style: TextStyle(fontSize: 18),
+                      maxLines: 2,
+                    ),
+                  ), //Title 길때 2줄까지
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Name",
+                    style: TextStyle(
+                        fontSize: 14, color: Colors.black.withOpacity(0.5)),
+                  ),
+                  SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    "·",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: Colors.black.withOpacity(0.5)),
+                  ),
+                  SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    "조회수",
+                    style: TextStyle(
+                        fontSize: 14, color: Colors.black.withOpacity(0.5)),
+                  ),
+                  SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    "·",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: Colors.black.withOpacity(0.5)),
+                  ),
+                  SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    "20XX-0X-XX",
+                    style: TextStyle(
+                        fontSize: 14, color: Colors.black.withOpacity(0.5)),
+                  ),
+                ],
+              )
+            ],
+          ))
         ],
-      ))
-    ],
-  ));
+      ));
 }
