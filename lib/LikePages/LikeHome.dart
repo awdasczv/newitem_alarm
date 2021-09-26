@@ -93,7 +93,7 @@ class _GoodsPageState extends State<GoodsPage> {
             (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(2),
-                child: Goods(),
+                child: Goods(index),
               );
             },
             childCount: 10,
@@ -104,7 +104,9 @@ class _GoodsPageState extends State<GoodsPage> {
   }
 }
 
-Widget Goods() {
+Widget Goods(int index) {
+  var ratingscore = index * 0.5;
+  var cost = (index + 1) * 1000;
   return SafeArea(
     //충분한 Padding 처리
     top: false,
@@ -140,7 +142,8 @@ Widget Goods() {
                         crossAxisAlignment:
                             CrossAxisAlignment.start, //Column일 때 세로축 기준 왼쪽 정렬
                         children: [
-                          Text('상품명',
+                          Text('상품명$index',
+                              maxLines: 2,
                               style: TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.bold)),
                           Padding(padding: EdgeInsets.only(bottom: 5)),
@@ -148,7 +151,7 @@ Widget Goods() {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               RatingBarIndicator(
-                                rating: 3,
+                                rating: ratingscore,
                                 physics: BouncingScrollPhysics(),
                                 itemBuilder: (context, _) {
                                   return Icon(
@@ -163,12 +166,12 @@ Widget Goods() {
                                 direction: Axis.horizontal,
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 10),
+                                padding: EdgeInsets.only(right: 7),
                               ),
                               Text(
-                                '3점',
+                                '$ratingscore점',
                                 style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -176,9 +179,11 @@ Widget Goods() {
                           ),
                           Padding(padding: EdgeInsets.only(bottom: 5)),
                           Text(
-                            '25,000원',
+                            '$cost원',
                             style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w600),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black.withOpacity(0.8)),
                           ),
                         ],
                       ),
@@ -241,7 +246,7 @@ class _ThumbanilState extends State<Thumbanil> {
               borderRadius: BorderRadius.circular(8),
             ),
             child: InkWell(
-                onTap: () {}, //후에 클릭하면 페이지로 이동하도록 수정해야 함.
+                onTap: () {}, //후에 클릭하면 상세페이지로 이동하도록 수정해야 함.
                 child: Padding(
                   padding: const EdgeInsets.all(8),
                   child: Column(
