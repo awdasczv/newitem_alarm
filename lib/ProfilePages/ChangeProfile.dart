@@ -87,7 +87,8 @@ class _ChangeProfileState extends State<ChangeProfile> {
                           child: CircleAvatar(
                             radius: 80,
                             //backgroundImage: widget.imagePath == null ? AssetImage('assets/images/profile3.png') : FileImage(File(_image.path)),
-                            backgroundImage: _image == null ? widget.imagePath : FileImage(File(_image.path)),
+                            backgroundImage: widget.imagePath != _image ? AssetImage('assets/images/profile3.png') : FileImage(File(_image.path)),
+                            //backgroundImage: _image == null ? widget.imagePath : Image.file(File(_image.path)),
                             backgroundColor: Colors.transparent,
                           ),
                           onTap: () async {
