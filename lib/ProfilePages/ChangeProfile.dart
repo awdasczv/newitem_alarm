@@ -104,6 +104,8 @@ class _ChangeProfileState extends State<ChangeProfile> {
     });
   }
 }*/
+
+
 class ChangeProfile extends StatefulWidget {
   final String imagePath;
 
@@ -232,4 +234,3 @@ class _ChangeProfileState extends State<ChangeProfile> {
     });
   }
 }
-
