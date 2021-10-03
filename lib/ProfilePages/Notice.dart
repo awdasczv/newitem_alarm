@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import  'package:newitem_alarm/ProfilePages/NoticeList.dart';
 
 class Notice extends StatelessWidget {
   @override
@@ -9,7 +10,6 @@ class Notice extends StatelessWidget {
         slivers: <Widget>[
           // 앱바 추가
           SliverAppBar(
-            pinned: true,
             title : Container(
               child: Text("공지사항"),
             ),
@@ -29,20 +29,27 @@ class Notice extends StatelessWidget {
 
             delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
               return Padding(padding:const EdgeInsets.all(3.0),
+              child: GestureDetector(
                 child: Container(
-                  height: 200.0,
-                  color: Colors.grey,
-                  child: Center(
-                    child: Text("이것은 공지사항입니다.: $index",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+              height: 200.0,
+              color: Colors.grey,
+              child: Center(
+              child: Text("이것은 공지사항입니다.: $index",textAlign: TextAlign.center,
+              style: TextStyle(
+              color: Colors.black,
+              fontSize: 14.0,
+              fontWeight: FontWeight.bold,
+              ),
+              ),
+              ),
                 ),
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => NoticeList()),
+                  );
+                  },
+              ),
               );
             },
             ),
