@@ -39,10 +39,9 @@ class Notice extends StatelessWidget {
               color: Colors.black,
               fontSize: 14.0,
               fontWeight: FontWeight.bold,
-
-                      ),
-                    ),
-                  ),
+              ),
+              ),
+              ),
                 ),
                 onTap: (){
                   Navigator.push(
