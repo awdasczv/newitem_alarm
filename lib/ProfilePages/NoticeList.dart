@@ -9,7 +9,6 @@ class NoticeList extends StatelessWidget {
         slivers: <Widget>[
           // 앱바 추가
           SliverAppBar(
-            pinned: true,
             title : Container(
               child: Text("공지사항"),
             ),
