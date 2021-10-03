@@ -97,12 +97,12 @@ class _ChangeProfileState extends State<ChangeProfile> {
       ),
     );
   }
-  Future _getImage() async {
+  /*Future _getImage() async {
     PickedFile image = await _picker.getImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
     });
-  }
+  }*/
 }*/
 
 
@@ -117,6 +117,7 @@ class ChangeProfile extends StatefulWidget {
 
 class _ChangeProfileState extends State<ChangeProfile> {
   String _name;
+  String _im;
   final textfieldController = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
@@ -129,8 +130,15 @@ class _ChangeProfileState extends State<ChangeProfile> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _im = widget.imagePath;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -151,15 +159,18 @@ class _ChangeProfileState extends State<ChangeProfile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GestureDetector(
-                            child: CircleAvatar(
-                              radius: 80,
-                              //backgroundImage: widget.imagePath == null ? AssetImage('assets/images/profile3.png') : FileImage(File(_image.path)),
-                              //backgroundImage: widget.imagePath != _image ? AssetImage('assets/images/profile3.png') : FileImage(File(_image.path)),
-                              backgroundImage: _image == null ? AssetImage('assets/images/profile3.png') : FileImage(File(_image.path)),
-                              backgroundColor: Colors.transparent,
-                            ),
+                          child: Hero(
+                            tag: "profileImage",
+                              child: CircleAvatar(
+                                radius: 80,
+                                //backgroundImage: widget.imagePath == null ? AssetImage('assets/images/profile3.png') : FileImage(File(_image.path)),
+                                //backgroundImage: widget.imagePath != _image ? AssetImage('assets/images/profile3.png') : FileImage(File(_image.path)),
+                                backgroundImage: _im.length == 0 ? AssetImage('assets/images/profile3.png') : FileImage(File(_im)),
+                                backgroundColor: Colors.transparent,
+                              ),
+                          ),
                             onTap: () {
-                              showDialog(context: context, builder: ((builder) => _showDialog()));
+                              _showDialog();
                             }
                         ),
                         SizedBox(height: 45.0),
@@ -175,10 +186,13 @@ class _ChangeProfileState extends State<ChangeProfile> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton(
+                              child: Hero(
+                                tag: "submit",
+                                child: Text("완료")
+                              ),
                               onPressed: (){
-                                Navigator.pop(context, [_image.path, textfieldController.text]);
+                                Navigator.pop(context, [_im, textfieldController.text]);
                               },
-                              child: Text('완료'),
                               //onPressed: () {},
                             )
                           ],
@@ -191,32 +205,43 @@ class _ChangeProfileState extends State<ChangeProfile> {
       ),
     );
   }
-  Widget _showDialog() {
+  Widget _showDialog() {              //카메라 및 사진 팝업창 표시 함수
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text("카메라 및 사진"),
-          actions: <Widget>[
-            Column(
+          shape: RoundedRectangleBorder(                //팝업창 모서리 둥글게
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          title: new Text("카메라 및 사진", style: TextStyle(fontWeight: FontWeight.bold),),      //팝업창 제목
+          content: SizedBox(
+            height: 120,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                new ElevatedButton.icon(
-                  icon: Icon(Icons.camera, size: 50,),
-                  onPressed: () {
-                    takePhoto(ImageSource.camera);
+                new TextButton(                                               //카메라로 사진 촬영 버튼 생성
+                  onPressed: () async {
+                    await takePhoto(ImageSource.camera);
+                    Navigator.pop(context);
                   },
-                  label: Text("카메라로 사진 촬영", style: TextStyle(fontSize:20),),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("카메라로 사진 촬영", style: TextStyle(fontSize: 17, color: Colors.black), textAlign: TextAlign.start),
+                  )
                 ),
-                new ElevatedButton.icon(
-                  icon: Icon(Icons.photo_library, size: 50,),
-                  onPressed: () {
-                    takePhoto(ImageSource.gallery);
+                new TextButton(                                             // 앨범에서 사진 선택 버튼 생성
+                  onPressed: () async {
+                    await takePhoto(ImageSource.gallery);
+                    Navigator.pop(context);
                   },
-                  label: Text("앨범에서 사진 선택", style: TextStyle(fontSize: 20),),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("앨범에서 사진 선택", style: TextStyle(fontSize: 17, color: Colors.black), textAlign: TextAlign.start),
+                  )
                 )
               ],
-            )
-          ]
+            ),
+          )
         );
       }
     );
@@ -224,13 +249,7 @@ class _ChangeProfileState extends State<ChangeProfile> {
   takePhoto(ImageSource source) async {
     final pickedFile = await _picker.getImage(source: source);
     setState(() {
-      _image = pickedFile;
-    });
-  }
-  Future _getImage() async {
-    PickedFile image = await _picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      _image = image;
+      _im = pickedFile.path;
     });
   }
 }
