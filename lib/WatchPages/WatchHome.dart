@@ -23,26 +23,180 @@ class _WatchHomeState extends State<WatchHome> {
         title: Text('워치',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 27, color: Colors.black),),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(getYoutubeVideoId(_testYoutubeLink[0])),
-          Text(getYoutubeVideoId(_testYoutubeLink[1])),
-          Text(getYoutubeVideoId(_testYoutubeLink[2])),
-          Text(getYoutubeVideoId(_testYoutubeLink[3])),
-          Text(getYoutubeVideoId(_testYoutubeLink[4])),
-          Text(_testYoutubeLink[4]),
+          Expanded(child: _wholeWidgetView())
         ],
+      )
+    );
+  }
+
+  Widget _wholeWidgetView(){
+    return ListView.separated(
+      scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemBuilder: (BuildContext context, int index){
+          return Container(
+            padding: EdgeInsets.fromLTRB(10, 2, 0, 2),
+            height: 244,
+            child: _rowListView(),
+          );
+        },
+        separatorBuilder: (BuildContext context, int index){
+          return Divider(
+            color: Colors.black26,thickness: 5,
+          );
+        },
+        itemCount: 10
+    );
+  }
+
+  Widget _rowListView(){
+    return ListView.separated(
+      scrollDirection: Axis.horizontal,
+      shrinkWrap: true,
+        itemCount: _testYoutubeLink.length + 1,
+        itemBuilder: (BuildContext context, int index){
+          if(index != _testYoutubeLink.length ){
+            return _youtubeThumbnail(_testYoutubeLink[index]);
+          }
+          else return IconButton(
+              onPressed: (){},
+              iconSize: 50,
+              icon: Icon(Icons.double_arrow,color: Colors.black54,)
+          );
+        },
+        separatorBuilder: (BuildContext context, int index){return SizedBox(width: 40,);},
+    );
+  }
+
+  Widget _youtubeThumbnail(String url){
+    return SizedBox(
+      width: 306,
+      height: 240,
+      child:  Hero(
+        //watch좋아요Card 눌렀을 때 나오는 watch상세페이지와 연결되도록 tag하기 (후에 할 일)
+        tag: 'watchLikeCard',
+        child: Card(
+            elevation: 2, //그림자 깊이
+            margin: EdgeInsets.all(2),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: InkWell(
+                onTap: () {}, //후에 클릭하면 상세페이지로 이동하도록 수정해야 함.
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    children: <Widget>[_thumbnail(url), _watchInfo(url)],
+                  ),
+                )
+            )
+        ),
       ),
     );
   }
 
-  Widget _youtubeThumbnail(){
+  Widget _thumbnail(String url) {
     return Container(
+      height: 162,
+      width: 288,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: Image.network(getYoutubeThumbnailImageLink(url)).image,
+        )
+      ),
     );
   }
 
+  Widget _watchInfo(String url) {
+    return Container(
+        padding: const EdgeInsets.only(left: 10, top: 10, bottom: 7),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              radius: 20,
+              backgroundColor: Colors.grey.withOpacity(0.6),
+              backgroundImage: Image.network(
+                  "https://t1.daumcdn.net/cfile/tistory/9994463B5C2B89F731")
+                  .image,
+            ),
+            SizedBox(
+              width: 13,
+            ),
+            Expanded(
+               child:  Column(
+                 children: [
+                   Row(
+                     children: [
+                       Expanded(
+                         child: Text(
+                           "Watch Title",
+                           style: TextStyle(fontSize: 16),
+                           maxLines: 2,
+                         ),
+                       ), //Title 길때 2줄까지
+                     ],
+                   ),
+                   Row(
+                     children: [
+                       Text(
+                         "Name",
+                         style: _style(),
+                       ),
+                       SizedBox(
+                         width: 3,
+                       ),
+                       Text(
+                         "·",
+                         style: TextStyle(
+                             fontWeight: FontWeight.bold,
+                             fontSize: 14,
+                             color: Colors.black.withOpacity(0.5)),
+                       ),
+                       SizedBox(
+                         width: 3,
+                       ),
+                       Text(
+                         "조회수",
+                         style: _style()
+                       ),
+                       SizedBox(
+                         width: 3,
+                       ),
+                       Text(
+                         "·",
+                         style: TextStyle(
+                             fontWeight: FontWeight.bold,
+                             fontSize: 14,
+                             color: Colors.black.withOpacity(0.5)),
+                       ),
+                       SizedBox(
+                         width: 3,
+                       ),
+                       Text(
+                         "20XX-0X-XX",
+                         style: TextStyle(
+                             fontSize: 14, color: Colors.black.withOpacity(0.5)),
+                       ),
+                     ],
+                   )
+                 ],
+               )
+           )
+          ],
+        ));
+  }
+  TextStyle _style(){
+    return TextStyle(
+        fontSize: 12,
+        color: Colors.black.withOpacity(0.5)
+    );
+  }
+}
 
+String getYoutubeThumbnailImageLink(String url){
+  return 'https://img.youtube.com/vi/' + getYoutubeVideoId(url) + '/maxresdefault.jpg';
 }
 
 String getYoutubeVideoId(String url){
