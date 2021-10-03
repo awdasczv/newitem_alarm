@@ -29,24 +29,30 @@ class _ProfileHomeState extends State<ProfileHome> {
             children: <Widget>[
               Container(
                 padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                color: Colors.blue,
+                color: Colors.orangeAccent,
                 child: Center(
                   child: Text("My Page",
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.white),
                     //textAlign: TextAlign.center,
                   ),
                 )
               ),
               Container(
-                  color: Colors.blue,
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 25, bottom: 45),
+                  color: Colors.orangeAccent,
+                  padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        color: Colors.blue,
+                        color: Colors.orangeAccent,
                         padding: EdgeInsets.only(left: 20, right: 30, top: 20, bottom: 20),
-                        child: GestureDetector(
+                          child: CircleAvatar(
+                            radius: 40,
+                            backgroundColor: Colors.white54,
+                            backgroundImage: _imagePath.length == 0 ? AssetImage('assets/images/profile3.png') : FileImage(File(_imagePath)),
+                          ),
+
+                        /*child: GestureDetector(
                             child: CircleAvatar(
                               radius: 50,
                               backgroundColor: Colors.white54,
@@ -63,13 +69,13 @@ class _ProfileHomeState extends State<ProfileHome> {
                                 _name = a[1];
                               });
                             }
-                        )
+                        )*/
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(_name,
-                              style: TextStyle(fontSize: 40),
+                              style: TextStyle(fontSize: 30, color: Colors.white),
                               textAlign: TextAlign.center),
                           /*Text("Date",
                               style: TextStyle(fontSize: 18),
@@ -79,6 +85,30 @@ class _ProfileHomeState extends State<ProfileHome> {
 
                     ],
                   )
+              ),
+              GestureDetector(
+                child: Container(
+                  color: Colors.orangeAccent,
+                  padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.edit, color: Colors.white,),
+                      Text(" 프로필 수정하기", style: TextStyle(fontSize: 25, color: Colors.white), )
+                    ],
+                  )
+                ),
+                  onTap: () async{
+                    var a = await
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChangeProfile(imagePath: _imagePath)),
+                    );
+                    setState(() {
+                      _imagePath = a[0];
+                      _name = a[1];
+                    });
+                  }
               ),
                Expanded(
                    child: Container(

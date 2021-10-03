@@ -219,25 +219,32 @@ class _ChangeProfileState extends State<ChangeProfile> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                new TextButton(                                               //카메라로 사진 촬영 버튼 생성
+                new TextButton(                   //카메라로 사진 촬영 버튼 생성
+                  child: Hero(
+                    tag: "camera",
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text("카메라로 사진 촬영", style: TextStyle(fontSize: 17, color: Colors.black), textAlign: TextAlign.start),
+                      )
+                  ),
                   onPressed: () async {
                     await takePhoto(ImageSource.camera);
                     Navigator.pop(context);
                   },
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("카메라로 사진 촬영", style: TextStyle(fontSize: 17, color: Colors.black), textAlign: TextAlign.start),
-                  )
                 ),
-                new TextButton(                                             // 앨범에서 사진 선택 버튼 생성
+                new TextButton(                     // 앨범에서 사진 선택 버튼 생성
+                  child: Hero(
+                    tag: "gallery",
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text("앨범에서 사진 선택", style: TextStyle(fontSize: 17, color: Colors.black), textAlign: TextAlign.start),
+                      )
+                  ),
                   onPressed: () async {
                     await takePhoto(ImageSource.gallery);
                     Navigator.pop(context);
                   },
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("앨범에서 사진 선택", style: TextStyle(fontSize: 17, color: Colors.black), textAlign: TextAlign.start),
-                  )
+
                 )
               ],
             ),
@@ -247,7 +254,7 @@ class _ChangeProfileState extends State<ChangeProfile> {
     );
   }
   takePhoto(ImageSource source) async {
-    final pickedFile = await _picker.getImage(source: source);
+    final pickedFile = await _picker.pickImage(source: source);
     setState(() {
       _im = pickedFile.path;
     });
