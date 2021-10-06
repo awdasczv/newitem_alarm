@@ -14,6 +14,17 @@ class _CommandManState extends State<CommandMan> {
   var _isChecked4 = false;
   var _isChecked5 = false;
 
+  bool visible = false;
+
+  void _delete() {
+    setState(() {
+      Text(" 삭제");
+      if(_isChecked1 = true) {
+
+      }
+    });
+  }
+
 
   /*void edit() {
     setState(() {
@@ -62,8 +73,14 @@ class _CommandManState extends State<CommandMan> {
                               primary: Colors.white10,
                               onPrimary: Colors.black,
                             ),
-                            onPressed: (){},//edit,
-                            child: Text("편집"),
+                            onPressed: () {
+                              Text(" 편집");
+                              setState(() {
+                                visible = true;
+                              });
+                            },
+                              // 편집을 누르면 편집 버튼이 삭제로 변경
+                            child: visible == true ? Text(" 삭제") : Text(" 편집")
                           )
                       )
                     ],
@@ -91,14 +108,15 @@ class _CommandManState extends State<CommandMan> {
                             )
                         ),
                       ),
-                      Checkbox(
+                      // 편집을 누르면 체크박스 활성화
+                      visible == true ? Checkbox(
                         value: _isChecked1,
                         onChanged:  (value) {
                           setState(() {
                             _isChecked1 = value;
                           });
                         },
-                      )
+                      ) : Text("")
                     ],
                   )
               ),
@@ -122,14 +140,14 @@ class _CommandManState extends State<CommandMan> {
                             )
                         ),
                       ),
-                      Checkbox(
+                      visible == true ? Checkbox(
                         value: _isChecked2,
                         onChanged:  (value) {
                           setState(() {
                             _isChecked2 = value;
                           });
                         },
-                      )
+                      ) : Text("")
                     ],
                   )
               ),
@@ -154,14 +172,14 @@ class _CommandManState extends State<CommandMan> {
                             )
                         ),
                       ),
-                      Checkbox(
+                      visible == true ? Checkbox(
                         value: _isChecked3,
                         onChanged:  (value) {
                           setState(() {
                             _isChecked3 = value;
                           });
                         },
-                      )
+                      ) : Text("")
                     ],
                   )
               ),
@@ -185,14 +203,14 @@ class _CommandManState extends State<CommandMan> {
                             )
                         ),
                       ),
-                      Checkbox(
+                      visible == true ? Checkbox(
                         value: _isChecked4,
                         onChanged:  (value) {
                           setState(() {
                             _isChecked4 = value;
                           });
                         },
-                      )
+                      ) : Text("")
                     ],
                   )
               ),
@@ -216,14 +234,14 @@ class _CommandManState extends State<CommandMan> {
                             )
                         ),
                       ),
-                      Checkbox(
+                      visible == true ? Checkbox(
                         value: _isChecked5,
                         onChanged:  (value) {
                           setState(() {
                             _isChecked5 = value;
                           });
                         },
-                      )
+                      ) : Text("")
                     ],
                   )
               ),
