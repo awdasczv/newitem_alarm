@@ -8,6 +8,14 @@ class CommandMan extends StatefulWidget {
 
 class _CommandManState extends State<CommandMan> {
 
+  final List<String> comment = <String> [
+    "댓글@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+    "댓글@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+    "댓글@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+    "댓글@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+    "댓글@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+  ];
+
   var _isChecked1 = false;
   var _isChecked2 = false;
   var _isChecked3 = false;
@@ -251,5 +259,7 @@ class _CommandManState extends State<CommandMan> {
       )
     );
   }
+  Widget ListView.builder(
 
+      )
 }
