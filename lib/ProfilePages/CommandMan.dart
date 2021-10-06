@@ -8,12 +8,12 @@ class CommandMan extends StatefulWidget {
 
 class _CommandManState extends State<CommandMan> {
 
-  final List<String> comment = <String> [
-    "댓글@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-    "댓글@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-    "댓글@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-    "댓글@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-    "댓글@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+  List<String> _comment = [
+    "댓글@@@@@@@@@@@@@@@@@@@@",
+    "댓글@@@@@@@@@@@@@@@@@@@@",
+    "댓글@@@@@@@@@@@@@@@@@@@@",
+    "댓글@@@@@@@@@@@@@@@@@@@@",
+    "댓글@@@@@@@@@@@@@@@@@@@@"
   ];
 
   var _isChecked1 = false;
@@ -62,41 +62,40 @@ class _CommandManState extends State<CommandMan> {
           icon: Icon(Icons.arrow_back_ios)
         ),
       ),
-      body: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("내가 쓴 댓글", style: TextStyle(fontSize: 28),),
-                      Padding(
-                          padding: EdgeInsets.only(left: 155),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.white10,
-                              onPrimary: Colors.black,
-                            ),
-                            onPressed: () {
-                              Text(" 편집");
-                              setState(() {
-                                visible = true;
-                              });
-                            },
-                              // 편집을 누르면 편집 버튼이 삭제로 변경
-                            child: visible == true ? Text(" 삭제") : Text(" 편집")
-                          )
-                      )
-                    ],
-                  )
-              ),
-
-              //댓글 내용
-              Padding(
+      body: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("내가 쓴 댓글", style: TextStyle(fontSize: 28),),
+                Padding(
+                    padding: EdgeInsets.only(left: 155),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.white10,
+                          onPrimary: Colors.black,
+                        ),
+                        onPressed: () {
+                          Text(" 편집");
+                          setState(() {
+                            visible = true;
+                          });
+                        },
+                        // 편집을 누르면 편집 버튼이 삭제로 변경
+                        child: visible == true ? Text(" 삭제") : Text(" 편집")
+                    )
+                )
+              ],
+            )
+        ),
+        Expanded(
+          child: _ListView(),
+        ),
+        //댓글 내용
+        /*Padding(
                   padding: EdgeInsets.fromLTRB(5, 40, 5, 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -252,14 +251,21 @@ class _CommandManState extends State<CommandMan> {
                       ) : Text("")
                     ],
                   )
-              ),
-            ],
-          )
-        )
-      )
+              ),*/
+      ],
+    )
     );
   }
-  Widget ListView.builder(
-
-      )
+  Widget _ListView() {
+    return ListView.separated(
+      padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
+      itemCount: _comment.length,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          title: Text(_comment[index], style: TextStyle( fontSize: 23),),
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.black26,thickness: 2,)
+    );
+  }
 }
