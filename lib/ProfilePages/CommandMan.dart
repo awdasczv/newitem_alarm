@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:newitem_alarm/ProfilePages/EditComment.dart';
 class CommandMan extends StatefulWidget {
 
   @override
@@ -16,6 +16,8 @@ class _CommandManState extends State<CommandMan> {
     "댓글@@@@@@@@@@@@@@@@@@@@"
   ];
 
+  List<bool> _checkBox = [];
+
   var _isChecked1 = false;
   var _isChecked2 = false;
   var _isChecked3 = false;
@@ -23,9 +25,13 @@ class _CommandManState extends State<CommandMan> {
   var _isChecked5 = false;
 
   bool editButton = false;
-  bool deleteButton = false;
 
   int index;
+
+  void initState() {
+    super.initState();
+    _checkBox = List<bool>.filled(_comment.length, false);
+  }
 
 
 
@@ -73,14 +79,16 @@ class _CommandManState extends State<CommandMan> {
                           primary: Colors.white10,
                           onPrimary: Colors.black,
                         ),
-                        onPressed: () {
-                          Text(" 편집");
+                        onPressed: () async {
+                          await Navigator.push(context, MaterialPageRoute(builder: (context) => EditComment(comment: _comment)),
+                          );
                           setState(() {
                             editButton = true;
                           });
                         },
+                        child: Text(" 편집"),
                         // 편집을 누르면 편집 버튼이 삭제로 변경
-                        child: editButton == true ? _delete() : Text(" 편집")
+                        //child: editButton == true ? Text(" 삭제") : Text(" 편집")
                     )
                 )
               ],
@@ -252,11 +260,17 @@ class _CommandManState extends State<CommandMan> {
     );
   }
   Widget _ListView() {
-    return ListView.separated(
+    return ListView.builder(
       padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
       itemCount: _comment.length,
       itemBuilder: (BuildContext context, int index) {
-        if( editButton == false ) {
+        return Card(
+          child: ListTile(
+            title: Text(_comment[index]),
+            onTap:() {},
+          )
+        );
+        /*if( editButton == false ) {
           return ListTile(
             title: Text(_comment[0], style: TextStyle(fontSize: 23),),
             onTap:() {},
@@ -285,10 +299,12 @@ class _CommandManState extends State<CommandMan> {
             )
           ],
         );*/
+        */
       },
-      separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.black26,thickness: 2,)
+      //separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.black26,thickness: 2,)
     );
   }
+  /*
   Widget _delete() {
     setState(() {
       Text(" 삭제");
@@ -315,4 +331,5 @@ class _CommandManState extends State<CommandMan> {
     });
     return _delete();
   }
+   */
 }
