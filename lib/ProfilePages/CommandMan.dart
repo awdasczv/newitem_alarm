@@ -9,44 +9,15 @@ class CommandMan extends StatefulWidget {
 class _CommandManState extends State<CommandMan> {
 
   List<String> _comment = [
-    "댓글@@@@@@@@@@@@@@@@@@@@",
-    "댓글@@@@@@@@@@@@@@@@@@@@",
-    "댓글@@@@@@@@@@@@@@@@@@@@",
-    "댓글@@@@@@@@@@@@@@@@@@@@",
-    "댓글@@@@@@@@@@@@@@@@@@@@"
+    "댓글11111111111111111111111111111111111111",
+    "댓글22222222222222222222222222222222222222222222222",
+    "댓글3333333333333333333333333333333333333",
+    "댓글44444444444444444444444444444444444444444444444444444",
+    "댓글5555555555555555555555555555555"
   ];
-
-  List<bool> _checkBox = [];
-
-  var _isChecked1 = false;
-  var _isChecked2 = false;
-  var _isChecked3 = false;
-  var _isChecked4 = false;
-  var _isChecked5 = false;
 
   bool editButton = false;
 
-  int index;
-
-  void initState() {
-    super.initState();
-    _checkBox = List<bool>.filled(_comment.length, false);
-  }
-
-
-
-  /*void edit() {
-    setState(() {
-      Checkbox(
-        value: _isChecked,
-        onChanged:  (value) {
-          setState(() {
-            _isChecked = value;
-          });
-        },
-      );
-    });
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +58,6 @@ class _CommandManState extends State<CommandMan> {
                           });
                         },
                         child: Text(" 편집"),
-                        // 편집을 누르면 편집 버튼이 삭제로 변경
-                        //child: editButton == true ? Text(" 삭제") : Text(" 편집")
                     )
                 )
               ],
@@ -97,168 +66,11 @@ class _CommandManState extends State<CommandMan> {
         Expanded(
           child: _ListView(),
         ),
-        //댓글 내용
-        /*Padding(
-                  padding: EdgeInsets.fromLTRB(5, 40, 5, 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                            color: Colors.grey,
-                            padding: EdgeInsets.fromLTRB(2, 25, 2, 25),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text("리뷰 관리 @@@@@@@@@@@@@@@@@@@@@@@@2",
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.left ),
-
-                              ],
-                            )
-                        ),
-                      ),
-                      // 편집을 누르면 체크박스 활성화
-                      visible == true ? Checkbox(
-                        value: _isChecked1,
-                        onChanged:  (value) {
-                          setState(() {
-                            _isChecked1 = value;
-                          });
-                        },
-                      ) : Text("")
-                    ],
-                  )
-              ),
-              Padding(
-                  padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                            color: Colors.grey,
-                            padding: EdgeInsets.fromLTRB(2, 25, 2, 25),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text("리뷰 관리 @@@@@@@@@@@@@@@@@@@@@@@@2",
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.left ),
-
-                              ],
-                            )
-                        ),
-                      ),
-                      visible == true ? Checkbox(
-                        value: _isChecked2,
-                        onChanged:  (value) {
-                          setState(() {
-                            _isChecked2 = value;
-                          });
-                        },
-                      ) : Text("")
-                    ],
-                  )
-              ),
-
-              Padding(
-                  padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                            color: Colors.grey,
-                            padding: EdgeInsets.fromLTRB(2, 25, 2, 25),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text("리뷰 관리 @@@@@@@@@@@@@@@@@@@@@@@@2",
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.left ),
-
-                              ],
-                            )
-                        ),
-                      ),
-                      visible == true ? Checkbox(
-                        value: _isChecked3,
-                        onChanged:  (value) {
-                          setState(() {
-                            _isChecked3 = value;
-                          });
-                        },
-                      ) : Text("")
-                    ],
-                  )
-              ),
-              Padding(
-                  padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                            color: Colors.grey,
-                            padding: EdgeInsets.fromLTRB(2, 25, 2, 25),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text("리뷰 관리 @@@@@@@@@@@@@@@@@@@@@@@@2",
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.left ),
-
-                              ],
-                            )
-                        ),
-                      ),
-                      visible == true ? Checkbox(
-                        value: _isChecked4,
-                        onChanged:  (value) {
-                          setState(() {
-                            _isChecked4 = value;
-                          });
-                        },
-                      ) : Text("")
-                    ],
-                  )
-              ),
-              Padding(
-                  padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                            color: Colors.grey,
-                            padding: EdgeInsets.fromLTRB(2, 25, 2, 25),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text("리뷰 관리 @@@@@@@@@@@@@@@@@@@@@@@@2",
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.left ),
-
-                              ],
-                            )
-                        ),
-                      ),
-                      visible == true ? Checkbox(
-                        value: _isChecked5,
-                        onChanged:  (value) {
-                          setState(() {
-                            _isChecked5 = value;
-                          });
-                        },
-                      ) : Text("")
-                    ],
-                  )
-              ),*/
       ],
     )
     );
   }
+  //댓글 보여줌
   Widget _ListView() {
     return ListView.builder(
       padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
@@ -270,36 +82,6 @@ class _CommandManState extends State<CommandMan> {
             onTap:() {},
           )
         );
-        /*if( editButton == false ) {
-          return ListTile(
-            title: Text(_comment[0], style: TextStyle(fontSize: 23),),
-            onTap:() {},
-          );
-        }
-        else return _delete();
-        /*Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                ListTile(
-                  title: Text(_comment[0], style: TextStyle(fontSize: 23),),
-                  onTap:() {},
-                ),
-                /*editButton == true ? Checkbox(
-                  value: _isChecked1,
-                  onChanged: (value) {
-                    setState(() {
-                      _isChecked1 = value;
-                    });
-                  },
-                ) : Text(""),*/
-              ],
-            )
-          ],
-        );*/
-        */
       },
       //separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.black26,thickness: 2,)
     );
