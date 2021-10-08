@@ -75,7 +75,7 @@ class _EditCommentState extends State<EditComment> {
                     //child: Text("선택한 항목 삭제", style: TextStyle(fontSize: 20, color: Colors.white),),
                   ),
                 onTap: () {
-
+                    _deleteDialog();
                 }
               )
             ]
@@ -83,7 +83,7 @@ class _EditCommentState extends State<EditComment> {
     );
   }
 
-  Widget _EditList() {
+ /* Widget _EditList() {
     return ListView.builder(
         padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
         itemCount: widget.comment.length,
@@ -103,15 +103,116 @@ class _EditCommentState extends State<EditComment> {
         }
     );
   }
-  /*
+  */
+  /*Widget _EditList() {
+    return ListView.builder(
+      itemCount: widget.comment.length,
+      itemBuilder: (context, index) {
+        final item = widget.comment[index];
+        return Dismissible(
+          key: Key(item),
+          //direction: DismissDirection.startToEnd,
+          child: CheckboxListTile(
+            title: Text(item),
+            value: _checkBox[index],
+            onChanged: (value) {
+              setState(() {
+                _checkBox[index] = value;
+
+
+                //widget.comment.removeAt(index);
+              });
+            },
+            /*
+            trailing: IconButton(
+              icon: Icon(Icons.delete_forever),
+              onPressed: () {
+                setState(() {
+                  widget.comment.removeAt(index);
+                });
+              },
+            ),
+            */
+          ),
+          onDismissed: (direction) {
+            setState(() {
+              widget.comment.removeAt(index);
+            });
+          },
+        );
+      },
+    );
+  }*/
+  Widget _EditList() {
+    return ListView.builder(
+      itemCount: widget.comment.length,
+      itemBuilder: (context, index) {
+        final item = widget.comment[index];
+        return CheckboxListTile(
+          title: Text(item),
+          value: _checkBox[index],
+          onChanged: (value) {
+            setState(() {
+              _checkBox[index] = value;
+            });
+          },
+        );
+      },
+    );
+  }
+/*
   Widget _delete() {
     setState(() {
-      if(_checkBox == true) {
-        Dismissible(
-          key: Key(comment)
-        )
+      if( = false) {
+
       }
+      widget.comment.removeAt(index);
     });
   }
-  */
+*/
+  Widget _deleteDialog() {              //선택 항목 삭제 팝업
+    showDialog(
+        context: context,
+        barrierDismissible: false, //바깥 영역 터치시 닫을지 여부
+        builder: (BuildContext context) {
+          return AlertDialog(
+              shape: RoundedRectangleBorder(                //팝업창 모서리 둥글게
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              //title: new Text("", style: TextStyle(fontWeight: FontWeight.bold),),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: [
+                    Text("선택 항목을 삭제 하시겠습니까?", style: TextStyle(fontWeight: FontWeight.bold),),
+                  ]
+                ),
+              ),
+            actions: <Widget>[
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red,
+                  onPrimary: Colors.white,
+                ),
+                child: Text("삭제", style: TextStyle(fontWeight: FontWeight.bold), ),
+                onPressed:() {
+                  //widget.comment.removeAt(index)
+                  Navigator.of(context).pop();
+                },
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue,
+                  onPrimary: Colors.white,
+                ),
+                child: Text("아니오", style: TextStyle(fontWeight: FontWeight.bold), ),
+                onPressed:() {
+                  //widget.comment.removeAt(index)
+                  Navigator.of(context).pop();
+                },
+              )
+            ]
+          );
+        }
+    );
+  }
 }
