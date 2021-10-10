@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/ProfilePages/EditComment.dart';
+
 class CommandMan extends StatefulWidget {
 
   @override
@@ -16,77 +17,77 @@ class _CommandManState extends State<CommandMan> {
     "댓글5555555555555555555555555555555"
   ];
 
-  bool editButton = false;
+  bool commentEditButton = false;
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text("댓글 관리",
-        style: TextStyle(fontSize: 20),),
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back_ios)
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: Text("댓글 관리",
+            style: TextStyle(fontSize: 20),),
+          centerTitle: true,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.arrow_back_ios)
+          ),
         ),
-      ),
-      body: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(
-            padding: EdgeInsets.fromLTRB(10, 10, 10, 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("내가 쓴 댓글", style: TextStyle(fontSize: 28),),
-                Padding(
-                    padding: EdgeInsets.only(left: 155),
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.white10,
-                          onPrimary: Colors.black,
-                        ),
-                        onPressed: () async {
-                          await Navigator.push(context, MaterialPageRoute(builder: (context) => EditComment(comment: _comment)),
-                          );
-                          setState(() {
-                            editButton = true;
-                          });
-                        },
-                        child: Text(" 편집"),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("내가 쓴 댓글", style: TextStyle(fontSize: 28),),
+                    Padding(
+                        padding: EdgeInsets.only(left: 155),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white10,
+                            onPrimary: Colors.black,
+                          ),
+                          onPressed: () async {
+                            await Navigator.push(context, MaterialPageRoute(builder: (context) => EditComment(comment: _comment)),
+                            );
+                            setState(() {
+                              commentEditButton = true;
+                            });
+                          },
+                          child: Text(" 편집"),
+                        )
                     )
+                  ],
                 )
-              ],
-            )
-        ),
-        Expanded(
-          child: _ListView(),
-        ),
-      ],
-    )
+            ),
+            Expanded(
+              child: _CommentListView(),
+            ),
+          ],
+        )
     );
   }
   //댓글 보여줌
-  Widget _ListView() {
+  Widget _CommentListView() {
     return ListView.builder(
       padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
       itemCount: _comment.length,
       itemBuilder: (BuildContext context, int index) {
         return Card(
-          child: ListTile(
-            title: Text(_comment[index]),
-            onTap:() {},
-          )
+            child: ListTile(
+              title: Text(_comment[index]),
+              onTap:() {},
+            )
         );
       },
       //separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.black26,thickness: 2,)
     );
   }
-  /*
+/*
   Widget _delete() {
     setState(() {
       Text(" 삭제");

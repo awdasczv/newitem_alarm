@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
-class EditComment extends StatefulWidget {
-  final List<String> comment;
+class EditReview extends StatefulWidget {
+  final List<String> review;
 
-  const EditComment({Key key, this.comment}) : super(key: key);
+  const EditReview({Key key, this.review}) : super(key: key);
   @override
-  _EditCommentState createState() => _EditCommentState();
+  _EditReviewState createState() => _EditReviewState();
 }
 
-class _EditCommentState extends State<EditComment> {
+class _EditReviewState extends State<EditReview> {
 
-  List<bool> _commentCheckBox = [];
+  List<bool> _reviewCheckBox = [];
 
-  bool commentAllCheck = false;
+  bool reviewAllCheck = false;
 
   void initState() {
     super.initState();
-    _commentCheckBox = List<bool>.filled(widget.comment.length, false);
+    _reviewCheckBox = List<bool>.filled(widget.review.length, false);
   }
 
   @override
@@ -43,10 +43,10 @@ class _EditCommentState extends State<EditComment> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Checkbox(
-                        value: commentAllCheck,
+                        value: reviewAllCheck,
                         onChanged: (value) {
                           setState(() {
-                            commentAllCheck = value;
+                            reviewAllCheck = value;
                           });
                         },
                       ),
@@ -58,7 +58,7 @@ class _EditCommentState extends State<EditComment> {
                   )
               ),
               Expanded(
-                child: _CommentEditList(),
+                child: _ReviewEditList(),
               ),
               GestureDetector(
                   child: Container(
@@ -75,7 +75,7 @@ class _EditCommentState extends State<EditComment> {
                     //child: Text("선택한 항목 삭제", style: TextStyle(fontSize: 20, color: Colors.white),),
                   ),
                   onTap: () {
-                    _CommentDeleteDialog();
+                    _ReviewDeleteDialog();
                   }
               )
             ]
@@ -143,17 +143,17 @@ class _EditCommentState extends State<EditComment> {
       },
     );
   }*/
-  Widget _CommentEditList() {
+  Widget _ReviewEditList() {
     return ListView.builder(
-      itemCount: widget.comment.length,
+      itemCount: widget.review.length,
       itemBuilder: (context, index) {
-        final item = widget.comment[index];
+        final item = widget.review[index];
         return CheckboxListTile(
           title: Text(item),
-          value: _commentCheckBox[index],
+          value: _reviewCheckBox[index],
           onChanged: (value) {
             setState(() {
-              _commentCheckBox[index] = value;
+              _reviewCheckBox[index] = value;
             });
           },
         );
@@ -170,7 +170,7 @@ class _EditCommentState extends State<EditComment> {
     });
   }
 */
-  Widget _CommentDeleteDialog() {              //선택 항목 삭제 팝업
+  Widget _ReviewDeleteDialog() {              //선택 항목 삭제 팝업
     showDialog(
         context: context,
         barrierDismissible: false, //바깥 영역 터치시 닫을지 여부
