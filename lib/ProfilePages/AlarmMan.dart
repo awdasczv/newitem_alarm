@@ -18,11 +18,11 @@ class _AlarmManState extends State<AlarmMan> {
   ];
 
   List<bool> _alarmSwitch = [];
-  bool _allAlarmSwitch = false;
+  bool _allAlarmSwitch = true;
 
   void initState() {
     super.initState();
-    _alarmSwitch = List<bool>.filled(_alarm.length, false);
+    _alarmSwitch = List<bool>.filled(_alarm.length, true);
   }
 
   @override
@@ -76,6 +76,7 @@ class _AlarmManState extends State<AlarmMan> {
             setState(() {
               _alarmSwitch[index] = value;
               //Navigator.pop(context, [_alarmSwitch]);
+              bool _value = value;
             });
           },
         );

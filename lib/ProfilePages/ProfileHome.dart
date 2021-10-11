@@ -43,6 +43,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      //프로필 사진
                       Container(
                         color: Colors.orangeAccent,
                         padding: EdgeInsets.only(left: 20, right: 30, top: 20, bottom: 20),
@@ -51,26 +52,9 @@ class _ProfileHomeState extends State<ProfileHome> {
                             backgroundColor: Colors.white54,
                             backgroundImage: _imagePath.length == 0 ? AssetImage('assets/images/profile3.png') : FileImage(File(_imagePath)),
                           ),
-
-                        /*child: GestureDetector(
-                            child: CircleAvatar(
-                              radius: 50,
-                              backgroundColor: Colors.white54,
-                              backgroundImage: _imagePath.length == 0 ? AssetImage('assets/images/profile3.png') : FileImage(File(_imagePath)),
-                            ),
-                            onTap: () async{
-                              var a = await
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => ChangeProfile(imagePath: _imagePath)),
-                              );
-                              setState(() {
-                                _imagePath = a[0];
-                                _name = a[1];
-                              });
-                            }
-                        )*/
                       ),
+
+                      //프로필 이름
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -86,6 +70,8 @@ class _ProfileHomeState extends State<ProfileHome> {
                     ],
                   )
               ),
+
+              //프로필 수정
               GestureDetector(
                 child: Container(
                   color: Colors.orangeAccent,
@@ -115,6 +101,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                        child: ListView(
                          padding: EdgeInsets.all(8),
                          children: [
+                           //리뷰 관리 페이지 이동
                            ListTile (
                              onTap: () {
                                Navigator.push(
@@ -133,6 +120,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                              endIndent: 10.0
                            ),
 
+                           //댓글 관리 페이지 이동
                            ListTile(
                                onTap: () {
                                  Navigator.push(
@@ -151,6 +139,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                                endIndent: 10.0
                            ),
 
+                           //찜 목록 페이지 이동
                            ListTile(
                                onTap: () {
                                  Navigator.push(
@@ -169,6 +158,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                                endIndent: 10.0
                            ),
 
+                           //알림 설정 페이지 이동
                            ListTile(
                                onTap: () {
                                  Navigator.push(
@@ -187,6 +177,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                                endIndent: 10.0
                            ),
 
+                           //공지사항 페이지 이동
                            ListTile(
                                onTap: () {
                                  Navigator.push(
@@ -205,6 +196,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                                endIndent: 10.0
                            ),
 
+                           //이용약관 페이지 이동
                            ListTile(
                                onTap: () {
                                  Navigator.push(
