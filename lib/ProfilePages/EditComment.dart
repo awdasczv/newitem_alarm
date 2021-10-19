@@ -9,6 +9,7 @@ class EditComment extends StatefulWidget {
 }
 
 class _EditCommentState extends State<EditComment> {
+  int index;
 
   List<bool> _commentCheckBox = [];
 
@@ -46,7 +47,9 @@ class _EditCommentState extends State<EditComment> {
                         value: commentAllCheck,
                         onChanged: (value) {
                           setState(() {
-                            commentAllCheck = value;
+                            if (commentAllCheck = value) {
+                              _commentCheckBox = List<bool>.filled(widget.comment.length, true);
+                            }
                           });
                         },
                       ),
@@ -150,10 +153,14 @@ class _EditCommentState extends State<EditComment> {
         final item = widget.comment[index];
         return CheckboxListTile(
           title: Text(item),
+          controlAffinity: ListTileControlAffinity.leading,
           value: _commentCheckBox[index],
           onChanged: (value) {
             setState(() {
               _commentCheckBox[index] = value;
+              if(_commentCheckBox[index] = false) {
+                commentAllCheck = false;
+              }
             });
           },
         );
