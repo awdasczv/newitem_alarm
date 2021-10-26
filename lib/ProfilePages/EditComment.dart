@@ -158,9 +158,9 @@ class _EditCommentState extends State<EditComment> {
           onChanged: (value) {
             setState(() {
               _commentCheckBox[index] = value;
-              if(_commentCheckBox[index] = false) {
+              /*if(_commentCheckBox[index] = false) {
                 commentAllCheck = false;
-              }
+              }*/
             });
           },
         );
@@ -201,9 +201,13 @@ class _EditCommentState extends State<EditComment> {
                     onPrimary: Colors.white,
                   ),
                   child: Text("삭제", style: TextStyle(fontWeight: FontWeight.bold), ),
-                  onPressed:() {
+                  onPressed:() async {
                     //widget.comment.removeAt(index);
-                    Navigator.of(context).pop();
+                    var a = await Navigator.of(context).pop();
+                    /*if(a=yes) {
+
+                      Navigator.of(context).pop();
+                    }*/
                   },
                 ),
                 ElevatedButton(
