@@ -52,7 +52,7 @@ class _CommandManState extends State<CommandMan> {
                             onPrimary: Colors.black,
                           ),
                           onPressed: () async {
-                            await Navigator.push(context, MaterialPageRoute(builder: (context) => EditComment(comment: _comment)),
+                            var a = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditComment(comment: _comment)),
                             );
                             setState(() {
                               commentEditButton = true;
