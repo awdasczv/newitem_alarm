@@ -177,8 +177,8 @@ class _EditCommentState extends State<EditComment> {
     });
   }
 */
-  Widget _CommentDeleteDialog() {              //선택 항목 삭제 팝업
-    showDialog(
+  Future _CommentDeleteDialog() async{              //선택 항목 삭제 팝업
+    var a = await showDialog(
         context: context,
         barrierDismissible: false, //바깥 영역 터치시 닫을지 여부
         builder: (BuildContext context) {
@@ -201,14 +201,18 @@ class _EditCommentState extends State<EditComment> {
                     onPrimary: Colors.white,
                   ),
                   child: Text("삭제", style: TextStyle(fontWeight: FontWeight.bold), ),
-                  onPressed:() async {
-                    //widget.comment.removeAt(index);
-                    var a = await Navigator.of(context).pop();
-                    /*if(a=yes) {
-
-                      Navigator.of(context).pop();
-                    }*/
+                  onPressed: () {
+                    Navigator.pop(context, 1);
                   },
+
+                  /*onPressed:() async {
+                    //widget.comment.removeAt(index);
+                    var a = await Navigator.pop(context, _commentCheckBox);
+                    if(a=yes) {
+                      widget.comment.removeAt(index);
+                      Navigator.pop(context, _commentCheckBox);
+                    }
+                  },*/
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -218,12 +222,15 @@ class _EditCommentState extends State<EditComment> {
                   child: Text("아니오", style: TextStyle(fontWeight: FontWeight.bold), ),
                   onPressed:() {
                     //widget.comment.removeAt(index)
-                    Navigator.of(context).pop();
+                    Navigator.pop(context, 2);
                   },
                 )
               ]
           );
         }
     );
+    if(a == 1) {
+      Navigator.pop(context, _commentCheckBox);
+    }
   }
 }
