@@ -54,6 +54,14 @@ class _CommandManState extends State<CommandMan> {
                           onPressed: () async {
                             var a = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditComment(comment: _comment)),
                             );
+                            if(a != null) {
+                              for(int i = 0; i < _comment.length; i++) {
+                                if (a[i] == true) {
+                                  _comment[i] = "";
+                                }
+                              }
+                              _comment.removeWhere((_comment)=>_comment == "");
+                            }
                             setState(() {
                               commentEditButton = true;
                             });
