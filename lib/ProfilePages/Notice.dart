@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import  'package:newitem_alarm/ProfilePages/NoticeList.dart';
+import 'package:newitem_alarm/ProfilePages/NoticeList.dart';
 
 class Notice extends StatelessWidget {
   @override
@@ -33,14 +33,14 @@ class Notice extends StatelessWidget {
                 child: Container(
               height: 200.0,
               color: Colors.grey,
-              child: Center(
-              child: Text("이것은 공지사항입니다.: $index",textAlign: TextAlign.center,
-              style: TextStyle(
-              color: Colors.black,
-              fontSize: 14.0,
-              fontWeight: FontWeight.bold,
-              ),
-              ),
+              child: Center
+                (
+                child: Text("이것은 공지사항입니다.: $index",textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14.0, fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
                 ),
                 onTap: (){
