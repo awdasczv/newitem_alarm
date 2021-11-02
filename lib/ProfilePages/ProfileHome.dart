@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/ProfilePages/ReviewMan.dart';
 import 'package:newitem_alarm/ProfilePages/CommandMan.dart';
-import 'package:newitem_alarm/ProfilePages/LikeMan.dart';
 import 'package:newitem_alarm/ProfilePages/AlarmMan.dart';
 import 'package:newitem_alarm/ProfilePages/Notice.dart';
 import 'package:newitem_alarm/ProfilePages/Manual.dart';
@@ -129,25 +128,6 @@ class _ProfileHomeState extends State<ProfileHome> {
                                  );
                                },
                                title : Text("댓글 관리",
-                                   style: TextStyle(fontSize: 25),
-                                   textAlign: TextAlign.left)
-                           ),
-
-                           Divider(
-                               color: Colors.black,
-                               thickness: 0.5,
-                               endIndent: 10.0
-                           ),
-
-                           //찜 목록 페이지 이동
-                           ListTile(
-                               onTap: () {
-                                 Navigator.push(
-                                   context,
-                                   MaterialPageRoute(builder: (context) => LikeMan()),
-                                 );
-                               },
-                               title : Text("찜 목록",
                                    style: TextStyle(fontSize: 25),
                                    textAlign: TextAlign.left)
                            ),
