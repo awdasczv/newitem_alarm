@@ -46,7 +46,12 @@ class _EditReviewState extends State<EditReview> {
                         value: reviewAllCheck,
                         onChanged: (value) {
                           setState(() {
-                            reviewAllCheck = value;
+                            if (reviewAllCheck = value) {
+                              _reviewCheckBox = List<bool>.filled(widget.review.length, true);
+                            }
+                            else {
+                              _reviewCheckBox = List<bool>.filled(widget.review.length, false);
+                            }
                           });
                         },
                       ),
@@ -83,66 +88,6 @@ class _EditReviewState extends State<EditReview> {
     );
   }
 
-  /* Widget _EditList() {
-    return ListView.builder(
-        padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-        itemCount: widget.comment.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-              child: CheckboxListTile(
-                title: Text(widget.comment[index]),
-                value: _checkBox[index],
-                onChanged: (value) {
-                  setState(() {
-                    _checkBox[index] = value;
-                    print(index);
-                  });
-                },
-              )
-          );
-        }
-    );
-  }
-  */
-  /*Widget _EditList() {
-    return ListView.builder(
-      itemCount: widget.comment.length,
-      itemBuilder: (context, index) {
-        final item = widget.comment[index];
-        return Dismissible(
-          key: Key(item),
-          //direction: DismissDirection.startToEnd,
-          child: CheckboxListTile(
-            title: Text(item),
-            value: _checkBox[index],
-            onChanged: (value) {
-              setState(() {
-                _checkBox[index] = value;
-
-
-                //widget.comment.removeAt(index);
-              });
-            },
-            /*
-            trailing: IconButton(
-              icon: Icon(Icons.delete_forever),
-              onPressed: () {
-                setState(() {
-                  widget.comment.removeAt(index);
-                });
-              },
-            ),
-            */
-          ),
-          onDismissed: (direction) {
-            setState(() {
-              widget.comment.removeAt(index);
-            });
-          },
-        );
-      },
-    );
-  }*/
   Widget _ReviewEditList() {
     return ListView.builder(
       itemCount: widget.review.length,
@@ -150,10 +95,19 @@ class _EditReviewState extends State<EditReview> {
         final item = widget.review[index];
         return CheckboxListTile(
           title: Text(item),
+          controlAffinity: ListTileControlAffinity.leading,
           value: _reviewCheckBox[index],
           onChanged: (value) {
             setState(() {
               _reviewCheckBox[index] = value;
+              List<bool> _temp = _reviewCheckBox.where((element) => element == false).toList();
+
+              if(!value) {
+                reviewAllCheck = false;
+              }
+              if(_temp.length == 0) {
+                reviewAllCheck = true;
+              }
             });
           },
         );
@@ -170,8 +124,8 @@ class _EditReviewState extends State<EditReview> {
     });
   }
 */
-  Widget _ReviewDeleteDialog() {              //선택 항목 삭제 팝업
-    showDialog(
+  Future _ReviewDeleteDialog() async{              //선택 항목 삭제 팝업
+    var a = await showDialog(
         context: context,
         barrierDismissible: false, //바깥 영역 터치시 닫을지 여부
         builder: (BuildContext context) {
@@ -196,7 +150,7 @@ class _EditReviewState extends State<EditReview> {
                   child: Text("삭제", style: TextStyle(fontWeight: FontWeight.bold), ),
                   onPressed:() {
                     //widget.comment.removeAt(index);
-                    Navigator.of(context).pop();
+                    Navigator.pop(context, 1);
                   },
                 ),
                 ElevatedButton(
@@ -207,12 +161,15 @@ class _EditReviewState extends State<EditReview> {
                   child: Text("아니오", style: TextStyle(fontWeight: FontWeight.bold), ),
                   onPressed:() {
                     //widget.comment.removeAt(index)
-                    Navigator.of(context).pop();
+                    Navigator.pop(context, 2);
                   },
                 )
               ]
           );
         }
     );
+    if(a == 1) {
+      Navigator.pop(context, _reviewCheckBox);
+    }
   }
 }

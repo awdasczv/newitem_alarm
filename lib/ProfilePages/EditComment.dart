@@ -46,10 +46,15 @@ class _EditCommentState extends State<EditComment> {
                       Checkbox(
                         value: commentAllCheck,
                         onChanged: (value) {
+
                           setState(() {
                             if (commentAllCheck = value) {
                               _commentCheckBox = List<bool>.filled(widget.comment.length, true);
                             }
+                            else {
+                              _commentCheckBox = List<bool>.filled(widget.comment.length, false);
+                            }
+
                           });
                         },
                       ),
@@ -86,66 +91,6 @@ class _EditCommentState extends State<EditComment> {
     );
   }
 
-  /* Widget _EditList() {
-    return ListView.builder(
-        padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-        itemCount: widget.comment.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-              child: CheckboxListTile(
-                title: Text(widget.comment[index]),
-                value: _checkBox[index],
-                onChanged: (value) {
-                  setState(() {
-                    _checkBox[index] = value;
-                    print(index);
-                  });
-                },
-              )
-          );
-        }
-    );
-  }
-  */
-  /*Widget _EditList() {
-    return ListView.builder(
-      itemCount: widget.comment.length,
-      itemBuilder: (context, index) {
-        final item = widget.comment[index];
-        return Dismissible(
-          key: Key(item),
-          //direction: DismissDirection.startToEnd,
-          child: CheckboxListTile(
-            title: Text(item),
-            value: _checkBox[index],
-            onChanged: (value) {
-              setState(() {
-                _checkBox[index] = value;
-
-
-                //widget.comment.removeAt(index);
-              });
-            },
-            /*
-            trailing: IconButton(
-              icon: Icon(Icons.delete_forever),
-              onPressed: () {
-                setState(() {
-                  widget.comment.removeAt(index);
-                });
-              },
-            ),
-            */
-          ),
-          onDismissed: (direction) {
-            setState(() {
-              widget.comment.removeAt(index);
-            });
-          },
-        );
-      },
-    );
-  }*/
   Widget _CommentEditList() {
     return ListView.builder(
       itemCount: widget.comment.length,
@@ -157,26 +102,25 @@ class _EditCommentState extends State<EditComment> {
           value: _commentCheckBox[index],
           onChanged: (value) {
             setState(() {
+
               _commentCheckBox[index] = value;
-              /*if(_commentCheckBox[index] = false) {
+              List<bool> _temp = _commentCheckBox.where((element) => element == false).toList();
+
+              if(!value) {
                 commentAllCheck = false;
-              }*/
+              }
+              if(_temp.length == 0) {
+                commentAllCheck = true;
+
+              }
+
             });
           },
         );
       },
     );
   }
-/*
-  Widget _delete() {
-    setState(() {
-      if( = true) {
 
-      }
-      widget.comment.remove(widget.comment);
-    });
-  }
-*/
   Future _CommentDeleteDialog() async{              //선택 항목 삭제 팝업
     var a = await showDialog(
         context: context,
