@@ -10,11 +10,11 @@ class AlarmMan extends StatefulWidget {
 class _AlarmManState extends State<AlarmMan> {
 
   List<String> _alarm = [
-    "댓글11111111111111111111111111111111111111",
-    "댓글22222222222222222222222222222222222222222222222",
-    "댓글3333333333333333333333333333333333333",
-    "댓글44444444444444444444444444444444444444444444444444444",
-    "댓글5555555555555555555555555555555"
+    "알림1",
+    "알림2",
+    "알림3",
+    "알림4",
+    "알림5"
   ];
 
   List<bool> _alarmSwitch = [];
@@ -37,7 +37,10 @@ class _AlarmManState extends State<AlarmMan> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
+            Padding(
+              padding: EdgeInsets.all(10),
+            ) ,
+            /*Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -54,7 +57,7 @@ class _AlarmManState extends State<AlarmMan> {
 
                   ],
                 )
-            ),
+            ),*/
             Container(
                 child: Expanded(
                   child: _AlarmList(),
@@ -64,26 +67,34 @@ class _AlarmManState extends State<AlarmMan> {
         )
     );
   }
+
+  //스위치 체크
   Widget _AlarmList() {
-    return ListView.builder(
+    return ListView.separated(
       itemCount: _alarm.length,
       itemBuilder: (context, index) {
         final item = _alarm[index];
         return SwitchListTile(
-          title: Text(item),
+          title: Text(item, style: TextStyle(fontSize: 25)),
           value: _alarmSwitch[index],
           onChanged: (value) {
             setState(() {
               _alarmSwitch[index] = value;
-              //Navigator.pop(context, [_alarmSwitch]);
-              bool _value = value;
+              /*if (!value) {
+                _allAlarmSwitch = false;
+              }*/
+
             });
           },
         );
       },
+
+      separatorBuilder: (BuildContext context, int index) => const Divider(),
     );
   }
-  Widget _AllSwitchCheck() {
+
+  // 전체 선택 스위치 체크
+  /*Widget _AllSwitchCheck() {
     setState(() {
       if(_allAlarmSwitch == true) {
         _alarmSwitch = List<bool>.filled(_alarm.length, true);
@@ -92,5 +103,5 @@ class _AlarmManState extends State<AlarmMan> {
         _alarmSwitch = List<bool>.filled(_alarm.length, false);
       }
     });
-  }
+  }*/
 }

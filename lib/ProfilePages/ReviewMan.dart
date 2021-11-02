@@ -52,8 +52,16 @@ class _ReviewManState extends State<ReviewMan> {
                             onPrimary: Colors.black,
                           ),
                           onPressed: () async {
-                            await Navigator.push(context, MaterialPageRoute(builder: (context) => EditReview(review: _review)),
+                            var a = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditReview(review: _review)),
                             );
+                            if (a != null) {
+                              for(int i = 0; i < _review.length; i++) {
+                                if (a[i] == true) {
+                                  _review[i] = "";
+                                }
+                              }
+                              _review.removeWhere((_review) => _review == "");
+                            }
                             setState(() {
                               _reviewEditButton = true;
                             });
@@ -87,32 +95,4 @@ class _ReviewManState extends State<ReviewMan> {
       //separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.black26,thickness: 2,)
     );
   }
-/*
-  Widget _delete() {
-    setState(() {
-      Text(" 삭제");
-      Checkbox(
-        value: _isChecked1,
-        onChanged:  (value) {
-          setState(() {
-            _isChecked1 = value;
-          });
-        },
-      );
-      setState(() {
-        if(_isChecked1 = true) {
-          Dismissible(
-            key: Key(_comment[0]),
-            onDismissed: (direction) {
-              setState(() {
-                _comment.removeAt(0);
-              });
-            },
-          );
-        }
-      });
-    });
-    return _delete();
-  }
-   */
 }

@@ -95,32 +95,4 @@ class _CommandManState extends State<CommandMan> {
       //separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.black26,thickness: 2,)
     );
   }
-/*
-  Widget _delete() {
-    setState(() {
-      Text(" 삭제");
-      Checkbox(
-        value: _isChecked1,
-        onChanged:  (value) {
-          setState(() {
-            _isChecked1 = value;
-          });
-        },
-      );
-      setState(() {
-        if(_isChecked1 = true) {
-          Dismissible(
-            key: Key(_comment[0]),
-            onDismissed: (direction) {
-              setState(() {
-                _comment.removeAt(0);
-              });
-            },
-          );
-        }
-      });
-    });
-    return _delete();
-  }
-   */
 }
