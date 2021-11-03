@@ -69,13 +69,8 @@ class _EditReviewState extends State<EditReview> {
                   child: Container(
                       padding: EdgeInsets.fromLTRB(140, 0, 140, 0),
                       color: Colors.blue,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                              child: Text("선택한 항목 삭제",maxLines: 80, style: TextStyle(fontSize: 20, color: Colors.black,))
-                          )
-                        ],
+                      child: FittedBox(
+                          child: Text("선택한 항목 삭제",maxLines: 80, style: TextStyle(fontSize: 20, color: Colors.black,))
                       )
                     //child: Text("선택한 항목 삭제", style: TextStyle(fontSize: 20, color: Colors.white),),
                   ),
