@@ -21,6 +21,7 @@ class _CommandManState extends State<CommandMan> {
   bool commentEditButton = false;
 
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,7 +95,8 @@ class _CommandManState extends State<CommandMan> {
               ),
               title: Text(_comment[index]),
               onTap:() {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MyComment(firstComment: _comment)),
+                String aComment = _comment[index];
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MyComment(myComment: aComment)),
                 );
               },
             )
