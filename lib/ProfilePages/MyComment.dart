@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 
 class MyComment extends StatefulWidget {
-  final List<String> firstComment;
+  final String myComment;
 
-  const MyComment({Key key, this.firstComment}) : super(key: key);
+  const MyComment({Key key, this.myComment}) : super(key: key);
   @override
   _MyCommentState createState() => _MyCommentState();
 }
@@ -29,13 +29,13 @@ class _MyCommentState extends State<MyComment> {
       body: Column(
         children: [
           Expanded(
-            child: _FirstComment(),
+            child: _MyComment(),
           )
         ],
       )
     );
   }
-  Widget _FirstComment() {
+  Widget _MyComment() {
     return Container(
         child: Column(
           children: [
@@ -44,7 +44,7 @@ class _MyCommentState extends State<MyComment> {
                 radius: 20,
                 child: Icon(Icons.person),
               ),
-              title: Text(widget.firstComment[0]),
+              title: Text(widget.myComment),
             ),
             Row(
               children: [
@@ -58,7 +58,7 @@ class _MyCommentState extends State<MyComment> {
                       radius: 20,
                       child: Icon(Icons.person, /*size:*/),
                     ),
-                    title: Text(widget.firstComment[0]),
+                    title: Text(widget.myComment),
                   ),
                 )
               ],
