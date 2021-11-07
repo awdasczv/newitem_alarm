@@ -81,10 +81,10 @@ class Body extends StatelessWidget {
                     color: Colors.yellow,
                   ),
                   Text(
-                    goods.starScore ?? "",
+                    '${goods.starScore}',
                     style: TextStyle(fontSize: 10, color: Colors.black),
                   ),
-                  Text("($goods.review ?? " ")",
+                  Text("(${goods.review})",
                       style: TextStyle(fontSize: 10, color: Colors.black)),
                   const SizedBox(
                     width: 15,
@@ -115,7 +115,7 @@ class Body extends StatelessWidget {
                   const SizedBox(
                     width: 5,
                   ),
-                  Text(goods.price ?? "" + "원",
+                  Text("${goods.price}" + "원",
                       style:
                           TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
                 ],
