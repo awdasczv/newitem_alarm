@@ -7,7 +7,8 @@ import '../../model/goods.dart';
 
 class Body extends StatelessWidget {
   final Goods goods; //goods.dart에 있는 Goods 객체 넘겨받기
-  Body({Key key, @required this.goods}) : super(key: key);
+  const Body({Key key, @required this.goods}) : super(key: key);
+
   //StatelessWidget에서 super.initState();가 안되어서 일단 주석처리함.
   // int _currentPage = 0;
   // PageController pageController = PageController(initialPage: 0);
@@ -44,13 +45,13 @@ class Body extends StatelessWidget {
             Container(
               height: 200,
               child: Image.network(
-                goods.imageUrl1 ?? "",
+                goods.imageUrl1,
                 fit: BoxFit.cover,
               ),
             ),
             Container(
               height: 200,
-              child: Image.network(goods.imageUrl2 ?? "", fit: BoxFit.cover),
+              child: Image.network(goods.imageUrl2, fit: BoxFit.cover),
             )
           ],
         ),
@@ -62,11 +63,11 @@ class Body extends StatelessWidget {
               Row(
                 children: [
                   CircleAvatar(
-                    child: Image.network(goods.brandlogo ?? ""),
+                    child: Image.network(goods.brandlogo),
                     radius: 40,
                   ),
                   Text(
-                    goods.title ?? "",
+                    goods.title,
                     style: TextStyle(
                         fontSize: 20,
                         color: Colors.black,
@@ -160,12 +161,10 @@ class Body extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Container(
-                width: 500,
-                child: Divider(
-                  color: Colors.black54,
-                  thickness: 1.5,
-                ),
+              Divider(
+                height: 1,
+                color: Colors.black54,
+                thickness: 1.5,
               ), //구분선
               const SizedBox(
                 height: 10,

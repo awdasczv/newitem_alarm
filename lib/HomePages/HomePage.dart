@@ -230,6 +230,7 @@ class _HomePageState extends State<HomePage> {
               child: InkWell(
                   onTap: () {
                     Navigator.pushNamed(
+                      //goodsDetail.dart와 연결되도록  Navigator push함.
                       context,
                       DetailMain.routeName,
                     );

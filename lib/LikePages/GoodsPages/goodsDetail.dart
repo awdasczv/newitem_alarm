@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:newitem_alarm/model/goods.dart';
 
-import '../../LikePages/GoodsPages/goodsDetail_Body.dart';
-import '../../model/goods.dart';
+import '../GoodsPages/goodsDetail_Body.dart';
 
 class DetailMain extends StatefulWidget {
   static String routeName = "/goodsDetail";
-  final Goods goods; //goods.dart에 있는 Goods 객체 넘겨받기
-  const DetailMain({Key key, @required this.goods}) : super(key: key);
+  // final Goods goods; //goods.dart에 있는 Goods 객체 넘겨받기
+  // // const DetailMain({@required this.goods});
 
   @override
   _DetailMainState createState() => _DetailMainState();
@@ -21,6 +21,11 @@ class _DetailMainState extends State<DetailMain> {
           iconTheme: const IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
         ),
-        body: Body(goods: goodsList[0]));
+        body: Padding(
+          padding: EdgeInsets.all(10),
+          child: Body(
+            goods: goodsList[0],
+          ),
+        ));
   }
 }

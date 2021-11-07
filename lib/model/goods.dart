@@ -11,7 +11,7 @@ class Goods {
   double starScore;
   int review;
   String describe;
-  dynamic launchdate;
+  String launchdate;
 
   Goods(
       {this.brandlogo,
@@ -56,7 +56,8 @@ List<Goods> goodsList = [
   1. 국내생산 그래놀라 90%/n
   2. 상큼한 딸기 그래놀라와 달콤한 허니 그래놀라!/n
   3. 리얼 딸기와 상큼한 딸기칼슘볼이 듬뿍!/n
-  4. 리얼딸기과즙과 비정제 사탕수수당을 넣어 깊은 풍미의 달콤함"""),
+  4. 리얼딸기과즙과 비정제 사탕수수당을 넣어 깊은 풍미의 달콤함""",
+      launchdate: '2021-11-07'),
   Goods(
     brandlogo:
         "https://blog.kakaocdn.net/dn/nsXAr/btq0g0l5ndp/9xoD9kQ9bpRSSdisnPk9K1/img.jpg",
