@@ -23,12 +23,14 @@ environment:
 dependencies:
   provider: ^6.0.1
   page_view_indicators: ^2.0.0
+  youtube_player_flutter: ^8.0.0
   image_picker: ^0.8.4
   flutter_rating_bar: ^3.2.0
   flutter:
     sdk: flutter
   json_annotation: ^4.0.1 #^4.2.0이상부터는 Dark SDK >=2.14.0이어야 함.
   #json 직렬화(serializable)을 위해서.
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
