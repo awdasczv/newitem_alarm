@@ -5,6 +5,7 @@ import '../../LikePages/GoodsPages/goodsDetail_Body.dart';
 import '../../model/goods.dart';
 
 class DetailMain extends StatefulWidget {
+  static String routeName = "/goodsDetail";
   final Goods goods; //goods.dart에 있는 Goods 객체 넘겨받기
   const DetailMain({Key key, @required this.goods}) : super(key: key);
 
