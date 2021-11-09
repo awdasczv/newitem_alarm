@@ -217,9 +217,14 @@ class _HomePageState extends State<HomePage> {
 
     Icon _icon() {
       if (_isFavorite) {
-        return Icon(Icons.favorite_border);
+        return Icon(
+          Icons.favorite,
+          color: Colors.redAccent,
+        );
       } else
-        return Icon(Icons.favorite);
+        return Icon(
+          Icons.favorite_border,
+        );
     }
 
     return Container(
@@ -257,7 +262,7 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () {
                                 _isFavorite = !_isFavorite;
 ///////////////////////////////////////////////////////////////////////////////////
-//오류부분 setstate가 작동이 안됨
+//오류부분 setstate가 작동이 안됨(아마 state가 반영되지 않는 위젯이라 그런 것 아닐까 의심..)
                                 setState(() {});
                                 print(_isFavorite);
                               },
