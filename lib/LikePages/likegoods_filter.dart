@@ -26,7 +26,7 @@ class _GoodsFilterState extends State<GoodsFilter> {
                 Text(
                   '$_default',
                   style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 16,
                       color: Colors.black,
                       fontWeight: FontWeight.bold),
                 ), //언젠가 TextStyle을 그냥 통일해서 하나를 계속 사용하면 편할 듯 싶음.
@@ -50,7 +50,7 @@ class _GoodsFilterState extends State<GoodsFilter> {
               child: Text(
                 "$option",
                 style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 16,
                     color: Colors.black,
                     fontWeight: FontWeight.bold),
               ),
