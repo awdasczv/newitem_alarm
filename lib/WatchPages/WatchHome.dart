@@ -8,6 +8,8 @@ class WatchHome extends StatefulWidget {
   _WatchHomeState createState() => _WatchHomeState();
 }
 
+const String api_key = "AIzaSyABPzqx5k1q_Le_cIVTsbaiCgeUZwo04XA";
+
 class _WatchHomeState extends State<WatchHome> {
   final _testYoutubeLink = [
     'https://www.youtube.com/watch?v=1BFakMxJUIg&ab_channel=%EC%8A%88%EC%B9%B4%EC%9B%94%EB%93%9C', //슈카
