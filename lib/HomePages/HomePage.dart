@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/LikePages/GoodsPages/goodsDetail.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
+import 'package:newitem_alarm/HomePages/SearchPage.dart';
 
 class HomePage extends StatefulWidget {
   static String routeName = "/home";
@@ -98,10 +99,41 @@ class _HomePageState extends State<HomePage> {
                   ),
                   IconButton(
                     icon: Icon(Icons.search),
-                    onPressed: () {},
+                    onPressed: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SearchPage()),
+                      );
+                    },
                     iconSize: 30,
                     color: Colors.white,
                   )
+                  /*
+                  GestureDetector(
+                child: Container(
+                  color: Colors.orangeAccent,
+                  padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.edit, color: Colors.white,),
+                      Text(" 프로필 수정하기", style: TextStyle(fontSize: 25, color: Colors.white), )
+                    ],
+                  )
+                ),
+                  onTap: () async{
+                    var a = await
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChangeProfile(imagePath: _imagePath)),
+                    );
+                    setState(() {
+                      _imagePath = a[0];
+                      _name = a[1];
+                    });
+                  }
+              ),
+                  */
                 ],
               ),
             ))
