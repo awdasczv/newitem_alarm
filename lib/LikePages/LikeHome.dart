@@ -1,31 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:newitem_alarm/main.dart';
+import 'package:tab_indicator_styler/tab_indicator_styler.dart';
+
+import '../LikePages/likegoods_filter.dart';
 
 class LikeHome extends StatefulWidget {
+  static String routeName = "/LikeHome";
   @override
   _LikeHomeState createState() => _LikeHomeState();
 }
 
 class _LikeHomeState extends State<LikeHome>
     with SingleTickerProviderStateMixin {
-  int _page = 0;
-  PageController _pageController; //PageView
+  //SingleTickProviderStateMixin Tab bar controller 애니메이션 처리를 위해(즉, vsync 사용을 위해)
   TabController _tabController; //TabView
 
-  final bars = ['상품', '워치'];
+  final bar = ['상품', '워치'];
   //탭바 제목
 
   @override
   void initState() {
-    _pageController = PageController(initialPage: 0); //첫 번 째 페이지부터 Pageview
-    this._tabController = TabController(length: bars.length, vsync: this);
+    this._tabController = TabController(length: bar.length, vsync: this);
     super.initState();
   } //initState() 위젯 생성될 때 호출됨.
 
   @override
   void dispose() {
-    _pageController.dispose();
     _tabController.dispose();
     super.dispose();
   } //dispose() 위젯 종료될 때(pop) 호출됨.(Controller 객체 제거될 때 변수에 할당된 메모리 제거하기 위해)
@@ -33,40 +35,64 @@ class _LikeHomeState extends State<LikeHome>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: bars.length,
+        length: bar.length,
         child: MaterialApp(
             //theme: ThemeData(primaryColor: Colors.white), //전체테마 변경
             home: Scaffold(
                 appBar: AppBar(
+                  leading: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back_ios_sharp,
+                      color: Colors.black,
+                    ),
+                    iconSize: 28,
+                    tooltip: 'Back Icon',
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        //goodsDetail.dart와 연결되도록  Navigator push함.
+                        context,
+                        MyApp.routeName,
+                      );
+                    },
+                  ),
+                  elevation: 0,
+                  //shadowColor: Colors.black,
+                  shape: Border(
+                      bottom: BorderSide(color: Colors.black26, width: 1)),
                   backgroundColor: Colors.white,
                   title: const Text("찜목록",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 27,
                           color: Colors.black)),
+                  titleSpacing: -5,
                   bottom: TabBar(
                     labelColor: Colors.black,
                     unselectedLabelColor: Colors.grey,
                     labelStyle:
-                        TextStyle(fontSize: 19, fontWeight: FontWeight.w400),
-                    indicatorColor: Colors.black,
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    indicatorColor: Colors.black, //선 색깔
                     controller: _tabController,
-                    onTap: (index) {
-                      _page = index;
-                      _pageController.animateToPage(_page,
-                          duration: Duration(milliseconds: 150),
-                          curve: Curves.ease);
-                    },
-                    tabs: bars.map((_bar) {
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicator: MaterialIndicator(
+                      height: 5,
+                      topLeftRadius: 0,
+                      topRightRadius: 0,
+                      bottomLeftRadius: 5,
+                      bottomRightRadius: 5,
+                      tabPosition: TabPosition.bottom,
+                    ), //tab_indicator_styler에서 가져옴.
+                    tabs: bar.map((_bar) {
                       return Tab(
                         text: _bar,
                       ); //_bar는 bars안에 있는 '상품', '워치'
                     }).toList(),
                   ),
                 ),
-                body: PageView(
-                  controller: _pageController,
-                  allowImplicitScrolling: true,
+                body: TabBarView(
+                  //Pageview를 TabBarView로 수정
+                  controller: _tabController,
+                  //allowImplicitScrolling: true,
                   children: <Widget>[
                     GoodsPage(), //상품 화면
                     WatchPage(), //워치 화면
@@ -87,7 +113,23 @@ class _GoodsPageState extends State<GoodsPage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: CustomScrollView(
+      //SliverAppBar보다는 고정된 Appbar가 적절할 것 같아서 CustomScrollView를 다른 View로 수정할 예정
+      //pinned:true 속성이 있기 때문에 SliverAppBar 그대로 사용하기로 함.
+      //pinned:true(고정하지 않고), 그냥 floating 속성으로 올렸나가 내리면 나오는 식으로 사용하기로 함.
       slivers: [
+        SliverAppBar(
+          toolbarHeight: 48,
+          floating: true,
+          elevation: 0,
+          backgroundColor: Colors.white,
+          titleSpacing: 0,
+          actions: [
+            SizedBox(
+              child: GoodsFilter(),
+              width: 110,
+            )
+          ],
+        ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
@@ -98,7 +140,7 @@ class _GoodsPageState extends State<GoodsPage> {
             },
             childCount: 10,
           ),
-        )
+        ),
       ],
     ));
   }
@@ -107,6 +149,7 @@ class _GoodsPageState extends State<GoodsPage> {
 Widget Goods(int index) {
   var ratingscore = index * 0.5;
   var cost = (index + 1) * 1000;
+  var favorite = index;
   return SafeArea(
     //충분한 Padding 처리
     top: false,
@@ -193,7 +236,7 @@ Widget Goods(int index) {
               ),
             ),
           ),
-        )
+        ),
       ],
     ),
   );

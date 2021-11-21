@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:newitem_alarm/LikePages/GoodsPages/goodsDetail.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
 
 class HomePage extends StatefulWidget {
+  static String routeName = "/home";
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-
   final _colorList1 = [
     Colors.blue,
     Colors.orange,
@@ -27,32 +28,34 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        children: [
-          _banner(),
-          _category(),
-          Padding(
-            padding:  EdgeInsets.all(10),
-            child: Text('이주의 신상', style: TextStyle(fontSize: 20),),
+        body: ListView(
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      children: [
+        _banner(),
+        _category(),
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: Text(
+            '이주의 신상',
+            style: TextStyle(fontSize: 20),
           ),
-          _itemList()
-        ],
-      )
-    );
+        ),
+        _itemList()
+      ],
+    ));
   }
 
-  Widget _banner(){
+  Widget _banner() {
     return Stack(
       children: [
         Container(
           height: 300,
           child: PageView.builder(
             controller: _pageController,
-            itemBuilder: (BuildContext context, int index){
-              return  Container(
-                color: _colorList2[_currentPageNotifier.value%2],
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                color: _colorList2[_currentPageNotifier.value % 2],
                 child: Center(
                   child: FlutterLogo(
                     textColor: _colorList1[index % _colorList1.length],
@@ -62,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             },
-            onPageChanged: (int index){
+            onPageChanged: (int index) {
               _currentPageNotifier.value = index % _colorList1.length;
             },
           ),
@@ -88,26 +91,36 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextButton(onPressed: (){},child: Text('먹어봤니',style: TextStyle(fontSize: 20,color: Colors.white)),),
-                  IconButton(icon: Icon(Icons.search), onPressed: (){},iconSize: 30,color: Colors.white,)
+                  TextButton(
+                    onPressed: () {},
+                    child: Text('먹어봤니',
+                        style: TextStyle(fontSize: 20, color: Colors.white)),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {},
+                    iconSize: 30,
+                    color: Colors.white,
+                  )
                 ],
               ),
-            )
-        )
+            ))
       ],
     );
   }
 
-  Widget _category(){
+  Widget _category() {
     return SizedBox(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding:  EdgeInsets.all(10),
-            child: Text('카테고리', style: TextStyle(fontSize: 20),),
+            padding: EdgeInsets.all(10),
+            child: Text(
+              '카테고리',
+              style: TextStyle(fontSize: 20),
+            ),
           ),
-
           Padding(
             padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
             child: Row(
@@ -165,114 +178,143 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _customButton(IconData icons, String label){
+  Widget _customButton(IconData icons, String label) {
     return Container(
       width: 60,
       child: InkWell(
         //splashColor: Colors.green,
-        onTap: (){print(label);},
+        onTap: () {
+          print(label);
+        },
         child: Column(
           children: [
-            Icon(icons,size: 40,),
-            Text(label, style: TextStyle(fontSize: 10),),
+            Icon(
+              icons,
+              size: 40,
+            ),
+            Text(
+              label,
+              style: TextStyle(fontSize: 10),
+            ),
           ],
-        ) ,
+        ),
       ),
     );
   }
 
-  Widget _itemList(){
+  Widget _itemList() {
     return ListView.builder(
-      shrinkWrap: true,
-      itemCount: _colorList1.length,
+        shrinkWrap: true,
+        itemCount: _colorList1.length,
         physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (BuildContext context, int index){
+        itemBuilder: (BuildContext context, int index) {
           return _itemContainer(index);
-        }
-    );
+        });
   }
 
-  Widget _itemContainer(int index){
+  Widget _itemContainer(int index) {
     bool _isFavorite = false;
 
-    Icon _icon(){
-      if(_isFavorite){
-        return Icon(Icons.favorite_border);
-      }
-      else return Icon(Icons.favorite);
+    Icon _icon() {
+      if (_isFavorite) {
+        return Icon(
+          Icons.favorite,
+          color: Colors.redAccent,
+        );
+      } else
+        return Icon(
+          Icons.favorite_border,
+        );
     }
 
     return Container(
       height: 300,
       child: Column(
         children: [
-          Stack(
-            children: [
-              Container(
-                height: 230,
-                color: _colorList1[index],
-                child: Center(
-                  child: FlutterLogo(size: 100,),
-                ),
-              ),
-              Positioned(
-                right: 0.0,
-                bottom: 0.0,
-                child: IconButton(
-                  icon: _icon(),
-                  iconSize: 40,
-                  onPressed: (){
-                    _isFavorite = !_isFavorite;
-///////////////////////////////////////////////////////////////////////////////////
-//오류부분 setstate가 작동이 안됨
-                    setState(() {
-                    });
-                    print(_isFavorite);
+          Expanded(
+              child: InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      //goodsDetail.dart와 연결되도록  Navigator push함.
+                      context,
+                      DetailMain.routeName,
+                    );
                   },
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Container(
+                            height: 230,
+                            color: _colorList1[index],
+                            child: Center(
+                              child: FlutterLogo(
+                                size: 100,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 0.0,
+                            bottom: 0.0,
+                            child: IconButton(
+                              icon: _icon(),
+                              iconSize: 40,
+                              onPressed: () {
+                                _isFavorite = !_isFavorite;
 ///////////////////////////////////////////////////////////////////////////////////
-                ),
-              ),
-            ],
-          ),
-          Container(
-            height: 70,
-            color: Colors.white30,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.teal,
-                    ),
-                    child:Center(child: Text('Profile'),)
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('상품이름 가나다라', style: TextStyle(fontSize: 17),),
-                    Text('가격 28000원',style: TextStyle(fontSize: 17),)
-                  ],
-
-                )
-              ],
-            ),
-          )
+//오류부분 setstate가 작동이 안됨(아마 state가 반영되지 않는 위젯이라 그런 것 아닐까 의심..)
+                                setState(() {});
+                                print(_isFavorite);
+                              },
+///////////////////////////////////////////////////////////////////////////////////
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 70,
+                        color: Colors.white30,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Container(
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.teal,
+                                  ),
+                                  child: Center(
+                                    child: Text('Profile'),
+                                  )),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '상품이름 가나다라',
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                Text(
+                                  '가격 28000원',
+                                  style: TextStyle(fontSize: 17),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )))
         ],
       ),
     );
   }
-
-
 }
 
-
-class TestProvider extends ChangeNotifier{
-  void testFunction(){
+class TestProvider extends ChangeNotifier {
+  void testFunction() {
     print('Provider test');
   }
 }
