@@ -31,6 +31,7 @@ dependencies:
   json_annotation: ^4.0.1 #^4.2.0이상부터는 Dark SDK >=2.14.0이어야 함.
   #json 직렬화(serializable)을 위해서.
   tab_indicator_styler: ^2.0.0
+  carousel_slider: ^4.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
