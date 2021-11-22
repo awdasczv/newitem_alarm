@@ -63,14 +63,11 @@ class _TopState extends State<Top> {
               return Container(
                   width: MediaQuery.of(context).size.width,
                   child: FittedBox(
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                       child: ClipRect(
                         child: Align(
                           alignment: Alignment.center,
-                          child: Image.network(
-                            item,
-                            fit: BoxFit.cover,
-                          ),
+                          child: Image.network(item),
                         ),
                       ))); //ClipRect : Clips the image in rectangle //ClipRRect : Clips the image in circle
             }).toList(),
