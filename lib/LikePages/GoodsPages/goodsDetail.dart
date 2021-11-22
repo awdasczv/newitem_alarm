@@ -64,10 +64,9 @@ class _DetailMainState extends State<DetailMain> {
           ],
         ),
         body: Padding(
-          padding: EdgeInsets.all(10),
-          child: Body(
-            goods: goodsList[0],
-          ),
-        ));
+            padding: EdgeInsets.all(10),
+            child: ListView(
+              children: [Top(goods: goodsList[0])],
+            )));
   }
 }

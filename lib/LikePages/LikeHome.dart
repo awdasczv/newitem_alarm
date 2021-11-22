@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:newitem_alarm/main.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 import '../LikePages/likegoods_filter.dart';
@@ -40,21 +39,6 @@ class _LikeHomeState extends State<LikeHome>
             //theme: ThemeData(primaryColor: Colors.white), //전체테마 변경
             home: Scaffold(
                 appBar: AppBar(
-                  leading: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back_ios_sharp,
-                      color: Colors.black,
-                    ),
-                    iconSize: 28,
-                    tooltip: 'Back Icon',
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        //goodsDetail.dart와 연결되도록  Navigator push함.
-                        context,
-                        MyApp.routeName,
-                      );
-                    },
-                  ),
                   elevation: 0,
                   //shadowColor: Colors.black,
                   shape: Border(
@@ -65,7 +49,6 @@ class _LikeHomeState extends State<LikeHome>
                           fontWeight: FontWeight.bold,
                           fontSize: 27,
                           color: Colors.black)),
-                  titleSpacing: -5,
                   bottom: TabBar(
                     labelColor: Colors.black,
                     unselectedLabelColor: Colors.grey,
