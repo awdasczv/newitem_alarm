@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:newitem_alarm/LikePages/GoodsPages/goodsDetail.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
 import 'package:newitem_alarm/HomePages/SearchPage.dart';
+import 'package:newitem_alarm/HomePages/FastFood.dart';
 
 class HomePage extends StatefulWidget {
   static String routeName = "/home";
@@ -215,8 +216,8 @@ class _HomePageState extends State<HomePage> {
       width: 60,
       child: InkWell(
         //splashColor: Colors.green,
-        onTap: () {
-          print(label);
+        onTap: () async {
+          await Navigator.push(context, MaterialPageRoute(builder: (context) => FastFood()),);
         },
         child: Column(
           children: [
