@@ -422,6 +422,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  scrolling_page_indicator:
+    dependency: "direct main"
+    description:
+      name: scrolling_page_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
   shelf:
     dependency: transitive
     description:
