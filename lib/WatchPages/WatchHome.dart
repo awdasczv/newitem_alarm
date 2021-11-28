@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:newitem_alarm/main.dart';
+import 'package:newitem_alarm/WatchPages/WatchDetail.dart';
+import 'package:newitem_alarm/model/YoutubeApiModel.dart';
 import 'package:http/http.dart' as http;
 
 class WatchHome extends StatefulWidget {
@@ -13,64 +14,10 @@ class WatchHome extends StatefulWidget {
 
 const String api_key = "AIzaSyABPzqx5k1q_Le_cIVTsbaiCgeUZwo04XA";
 
-class YoutubeAPI{
-  String channel_id;
-  String video_id;
-  String channel_thumbnails;
-  String video_thumbnails;
-  String video_title;
-  String channel_name;
-  String video_discription;
-  String video_published_date;
-
-  YoutubeAPI({
-    @required this.channel_id,
-    @required this.video_id,
-    @required this.channel_thumbnails,
-    @required this.video_thumbnails,
-    @required this.video_title,
-    @required this.channel_name,
-    @required this.video_discription,
-    @required this.video_published_date
-  });
-  factory YoutubeAPI.fromJson(Map<String, dynamic> channelJson, Map<String, dynamic> videoJson){
-    return YoutubeAPI(
-        channel_id: channelJson['id'],
-        video_id: videoJson['id'],
-        channel_thumbnails: channelJson['snippet']['thumbnails']['default']['url'],
-        video_thumbnails: videoJson['snippet']['thumbnails']['maxres']['url'],
-        video_title: videoJson['snippet']['title'],
-        channel_name: channelJson['snippet']['title'],
-        video_discription: videoJson['snippet']['description'],
-        video_published_date : videoJson['snippet']['publishedAt']
-    );
-  }
-}
-
 //예시 체널정보 api 링크 https://www.googleapis.com/youtube/v3/channels?id=UCsJ6RuBiTVWRX156FVbeaGg&key=AIzaSyABPzqx5k1q_Le_cIVTsbaiCgeUZwo04XA&part=snippet
 //예시 동영상 정보 api 링크 https://www.googleapis.com/youtube/v3/videos?id=1BFakMxJUIg&key=AIzaSyABPzqx5k1q_Le_cIVTsbaiCgeUZwo04XA&part=snippet
 
-Future<List<YoutubeAPI>> fetchYoutubeMetaData(List<String> channelIDList, List<String> youtubeLinkList)async{
 
-  List<YoutubeAPI> res = [];
-  for(int i = 0 ; i < channelIDList.length ; i++){
-    String _request1 = 'https://www.googleapis.com/youtube/v3/channels?id=' + channelIDList[i] + '&key=AIzaSyABPzqx5k1q_Le_cIVTsbaiCgeUZwo04XA&part=snippet';//체널정보
-    String _request2 = 'https://www.googleapis.com/youtube/v3/videos?id=' + getYoutubeVideoId(youtubeLinkList[i]) + '&key=AIzaSyABPzqx5k1q_Le_cIVTsbaiCgeUZwo04XA&part=snippet';//유튜브 동영상정보
-    final _res1 = await http.get(Uri.parse(_request1));//체널정보
-    final _res2 = await http.get(Uri.parse(_request2));//유튜브 동영상정보
-
-    if(_res1.statusCode == 200 && _res2.statusCode == 200){
-      var channelJson = jsonDecode(_res1.body)['items'][0];
-      var videoJson = jsonDecode(_res2.body)['items'][0];
-
-      res.add(YoutubeAPI.fromJson(channelJson, videoJson));
-
-    }
-    else throw Exception("Fail to load ArvInfo");
-  }
-  return res;
-
-}
 
 class _WatchHomeState extends State<WatchHome> {
 
@@ -183,7 +130,7 @@ class _WatchHomeState extends State<WatchHome> {
       height: 240,
       child: Hero(
         //watch좋아요Card 눌렀을 때 나오는 watch상세페이지와 연결되도록 tag하기 (후에 할 일)
-        tag: 'watchLikeCard',
+        tag: metadata.video_id,
         child: Card(
             elevation: 2, //그림자 깊이
             margin: EdgeInsets.all(2),
@@ -191,7 +138,9 @@ class _WatchHomeState extends State<WatchHome> {
               borderRadius: BorderRadius.circular(8),
             ),
             child: InkWell(
-                onTap: () {}, //후에 클릭하면 상세페이지로 이동하도록 수정해야 함.
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => WatchDetail(videoData: metadata,) ));
+                }, //후에 클릭하면 상세페이지로 이동하도록 수정해야 함.
                 child: Padding(
                   padding: const EdgeInsets.all(8),
                   child: Column(
@@ -283,23 +232,3 @@ class _WatchHomeState extends State<WatchHome> {
   }
 }
 
-
-
-String getYoutubeThumbnailImageLink(String url) {
-  return 'https://img.youtube.com/vi/' +
-      getYoutubeVideoId(url) +
-      '/maxresdefault.jpg';
-}
-
-String getYoutubeVideoId(String url) {
-  String _res = '';
-  for (int i = 0; i < url.length - 1; i++) {
-    if (url[i] == 'v' && url[i + 1] == '=') {
-      for (int j = i + 2; url[j] != '&'; j++) {
-        _res = _res + url[j];
-      }
-      break;
-    }
-  }
-  return _res;
-}
