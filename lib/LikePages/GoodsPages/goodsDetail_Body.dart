@@ -56,49 +56,81 @@ class _TopState extends State<Top> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        children: [
-          CarouselSlider(
-            items: imageList.map((item) {
-              return Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: ClipRect(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Image.network(item),
+        child: Column(
+      children: [
+        Stack(
+          overflow: Overflow.visible, //overflow된 자식 보이게
+          fit: StackFit.loose, //Stack에서 Positioned 안된 자식 크기 조정(loose하게)
+          // alignment: Alignment.center,
+          children: [
+            CarouselSlider(
+              items: imageList.map((item) {
+                return Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: FittedBox(
+                        fit: BoxFit.fill,
+                        child: ClipRect(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Image.network(item),
+                          ),
+                        ))); //ClipRect : Clips the image in rectangle //ClipRRect : Clips the image in circle
+              }).toList(),
+              options: CarouselOptions(
+                  viewportFraction: 1.0,
+                  autoPlay: true,
+                  enlargeCenterPage: true,
+                  enlargeStrategy: CenterPageEnlargeStrategy.height,
+                  aspectRatio: 1,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _currentimage = index;
+                    });
+                  }),
+            ),
+            Positioned(
+                left: 0.0,
+                right: 0.0,
+                bottom: 30.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: imageList.map((url) {
+                    int index = imageList.indexOf(url);
+                    return Container(
+                      width:
+                          8.0, //기기 가로사이즈 // MediaQuery.of(context).size.width
+                      height: 10.0,
+                      margin: EdgeInsets.symmetric(horizontal: 4.0),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _currentimage == index
+                              ? Colors.black26
+                              : Colors.black),
+                    );
+                  }).toList(),
+                )),
+            Positioned.fill(
+                bottom: -MediaQuery.of(context).size.height * .28,
+                // top: MediaQuery.of(context).size.height * .50,
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Card(
+                      elevation: 5,
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
                         ),
-                      ))); //ClipRect : Clips the image in rectangle //ClipRRect : Clips the image in circle
-            }).toList(),
-            options: CarouselOptions(
-                autoPlay: true,
-                enlargeCenterPage: true,
-                aspectRatio: 2.0,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _currentimage = index;
-                  });
-                }),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: imageList.map((url) {
-              int index = imageList.indexOf(url);
-              return Container(
-                width: 8.0, //기기 가로사이즈 // MediaQuery.of(context).size.width
-                height: 12.0,
-                margin: EdgeInsets.symmetric(horizontal: 4.0),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _currentimage == index
-                        ? Colors.black26
-                        : Colors.black87),
-              );
-            }).toList(),
-          )
-        ],
-      ),
-    );
+                        height: 230,
+                        width: MediaQuery.of(context).size.width * .93,
+                      ),
+                    )))
+          ],
+        ),
+      ],
+    ));
   }
 }
