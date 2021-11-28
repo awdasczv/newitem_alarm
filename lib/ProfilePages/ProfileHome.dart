@@ -6,6 +6,7 @@ import 'package:newitem_alarm/ProfilePages/AlarmMan.dart';
 import 'package:newitem_alarm/ProfilePages/Notice.dart';
 import 'package:newitem_alarm/ProfilePages/Manual.dart';
 import 'package:newitem_alarm/ProfilePages/ChangeProfile.dart';
+import 'package:newitem_alarm/ProfilePages/SignInScreen.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileHome extends StatefulWidget {
@@ -108,6 +109,9 @@ class _ProfileHomeState extends State<ProfileHome> {
                                  MaterialPageRoute(builder: (context) => ReviewMan()),
                                );
                              },
+
+
+
                                title : Text("리뷰 관리",
                                    style: TextStyle(fontSize: 25),
                                    textAlign: TextAlign.left )
@@ -117,6 +121,24 @@ class _ProfileHomeState extends State<ProfileHome> {
                              color: Colors.black,
                              thickness: 0.5,
                              endIndent: 10.0
+                           ),
+
+                           ListTile(
+                               onTap: () {
+                                 Navigator.push(
+                                   context,
+                                   MaterialPageRoute(builder: (context) => SignInScreen()),
+                                 );
+                               },
+                               title : Text("로그인",
+                                   style: TextStyle(fontSize: 25),
+                                   textAlign: TextAlign.left)
+                           ),
+
+                           Divider(
+                               color: Colors.black,
+                               thickness: 0.5,
+                               endIndent: 10.0
                            ),
 
                            //댓글 관리 페이지 이동
@@ -194,6 +216,9 @@ class _ProfileHomeState extends State<ProfileHome> {
                                thickness: 0.5,
                                endIndent: 10.0
                            ),
+
+
+
                          ],
                        )
                    )
