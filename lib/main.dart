@@ -5,12 +5,15 @@ import 'package:newitem_alarm/ProfilePages/ProfileHome.dart';
 import 'package:newitem_alarm/WatchPages/WatchHome.dart';
 import 'package:provider/provider.dart';
 
+import 'routes.dart';
+
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  static String routeName = "/MyApp";
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -22,6 +25,7 @@ class MyApp extends StatelessWidget {
         ),
         home: MyHomePage(title: '먹어봤니'),
         debugShowCheckedModeBanner: false,
+        routes: route,
       ),
     );
   }

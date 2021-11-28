@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/ProfilePages/EditComment.dart';
+import 'package:newitem_alarm/ProfilePages/MyComment.dart';
 
 class CommandMan extends StatefulWidget {
 
@@ -18,6 +19,7 @@ class _CommandManState extends State<CommandMan> {
   ];
 
   bool commentEditButton = false;
+
 
 
   @override
@@ -87,8 +89,16 @@ class _CommandManState extends State<CommandMan> {
       itemBuilder: (BuildContext context, int index) {
         return Card(
             child: ListTile(
+              leading: CircleAvatar(
+                radius: 20,
+                child: Icon(Icons.person),
+              ),
               title: Text(_comment[index]),
-              onTap:() {},
+              onTap:() {
+                String aComment = _comment[index];
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MyComment(myComment: aComment)),
+                );
+              },
             )
         );
       },
