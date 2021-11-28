@@ -31,6 +31,7 @@ class _DetailMainState extends State<DetailMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.grey[200],
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(
@@ -63,10 +64,8 @@ class _DetailMainState extends State<DetailMain> {
             )
           ],
         ),
-        body: Padding(
-            padding: EdgeInsets.all(10),
-            child: ListView(
-              children: [Top(goods: goodsList[0])],
-            )));
+        body: ListView(
+          children: [Top(goods: goodsList[0])],
+        ));
   }
 }
