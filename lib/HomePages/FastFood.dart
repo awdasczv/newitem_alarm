@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-
+import 'package:page_view_indicators/page_view_indicators.dart';
 import 'package:flutter/material.dart';
 import 'package:scrolling_page_indicator/scrolling_page_indicator.dart';
 
@@ -11,44 +11,79 @@ class FastFood extends StatefulWidget {
 
 class _State extends State<FastFood> {
 
+  final _colorList1 = [
+    Colors.blue,
+    Colors.orange,
+    Colors.green,
+    Colors.pink,
+    Colors.red,
+    Colors.amber,
+    Colors.brown,
+    Colors.yellow,
+  ];
+  final _colorList2 = [Colors.teal, Colors.black87];
+
+  final _pageController = PageController();
+  final _currentPageNotifier = ValueNotifier<int>(0);
+
   DateTime _selectedDate;
 
-  PageController _controller = PageController();
+  //PageController _controller = PageController();
 
   Widget calendar() {
-    if(_selectedDate == null) {
+    if (_selectedDate == null) {
       return Text("");
     }
     else {
       return Text('$_selectedDate', style: TextStyle(fontSize: 20),);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('패스트푸드'),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_sharp,
-          ),
-          iconSize: 28,
-          tooltip: 'Back Icon',
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      body: Column(
-        children: [
-          _Calendar(),
-          _Swipe(),
-          _ScrollPage()
-        ],
-      )
+        body: NestedScrollView( // 한 화면에 여러 개의 스크롤 사용 가능
+            headerSliverBuilder: (BuildContext context,
+                bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  title: Row(
+                    children: [
+                      Text("패스트푸드"),
+                      _Calendar()
+                    ],
+                  ),
+                  centerTitle: true,
+                  floating: true,
+                  snap: true,
+                  leading: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back_ios_sharp,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                      return Container();
+                    },
+                    childCount: 20,
+                  ),
+                ),
+              ];
+            },
+            body: Column(
+              children: [
+                Expanded(child: _itemList()),
+              ],
+            )
+        )
     );
   }
+
   Widget _Calendar() {
     return Row(
       children: [
@@ -79,64 +114,182 @@ class _State extends State<FastFood> {
       ],
     );
   }
-  Widget _Swipe() {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: PageView(
-        controller: _controller,
-        children: [
-          Container(
-            child: Container(
-              padding: EdgeInsets.all(30),
-              color: Colors.red,
-              child: Container(
-                padding: EdgeInsets.fromLTRB(0, 25, 0, 0),
-                color: Colors.white
-              )
+
+  Widget _itemList() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: _colorList1.length,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        return Column(
+          children: [
+            _Swipe(index),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _Swipe(int index) {
+    return Column(
+      children: [
+        Stack(
+            children: [
+              Container(
+                height: 300,
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      color: _colorList2[_currentPageNotifier.value % 2],
+                      child: Center(
+                        child: FlutterLogo(
+                          textColor: _colorList1[index % _colorList1.length],
+                          size: 100,
+                          style: FlutterLogoStyle.stacked,
+                        ),
+                      ),
+                    );
+                  },
+                  onPageChanged: (int index) {
+                    _currentPageNotifier.value = index % _colorList1.length;
+                  },
+                ),
+              ),
+              Positioned(
+                left: 0.0,
+                right: 0.0,
+                bottom: 0.0,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CirclePageIndicator(
+                    itemCount: _colorList1.length,
+                    currentPageNotifier: _currentPageNotifier,
+                  ),
+                ),
+              ),
+            ]
+        ),
+        Container(
+            height: 70,
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.teal,
+                        ),
+                        child: Center(
+                          child: Text("Logo"),
+                        )
+                    )
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("상품이름 가나다라", style: TextStyle(fontSize:17),),
+                    Text("가격 2800원", style: TextStyle(fontSize: 17),)
+                  ],
+                )
+              ],
             )
-          ),
-          Container(
-              child: Container(
-                padding: EdgeInsets.all(30),
-                color: Colors.green,
-                child:  Container(
-                  padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                  color:  Colors.white,
+        )
+      ],
+    );
+      /*Container(
+      height: 300,
+      child: Column(
+        children: [
+          Stack(
+              children: [
+                Container(
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        color: _colorList2[_currentPageNotifier.value % 2],
+                        child: Center(
+                          child: FlutterLogo(
+                            textColor: _colorList1[index % _colorList1.length],
+                            size: 100,
+                            style: FlutterLogoStyle.stacked,
+                          ),
+                        ),
+                      );
+                    },
+                    onPageChanged: (int index) {
+                      _currentPageNotifier.value = index % _colorList1.length;
+                    },
+                  ),
                 ),
-              )
-          ),
-          Container(
-              child: Container(
-                padding: EdgeInsets.all(30),
-                color: Colors.blue,
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                  color:  Colors.white,
+                Positioned(
+                  left: 0.0,
+                  right: 0.0,
+                  bottom: 0.0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CirclePageIndicator(
+                      itemCount: _colorList1.length,
+                      currentPageNotifier: _currentPageNotifier,
+                    ),
+                  ),
                 ),
+              ]
+          ),
+          /*Container(
+              height: 70,
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.teal,
+                          ),
+                          child: Center(
+                            child: Text("Logo"),
+                          )
+                      )
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("상품이름 가나다라", style: TextStyle(fontSize:17),),
+                      Text("가격 2800원", style: TextStyle(fontSize: 17),)
+                    ],
+                  )
+                ],
               )
-          )
+          ),*/
         ],
-      )
-    );
-  }
-  Widget _ScrollPage() {
-    return Container(
-      padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-      color: Colors.white,
-      child: ScrollingPageIndicator(
-        dotColor: Colors.grey,
-        dotSelectedColor: Colors.blue,
-        dotSize: 10,
-        dotSelectedSize: 12,
-        dotSpacing: 20,
-        controller: _controller,
-        itemCount: 3,
-        orientation: Axis.horizontal,
       ),
+    );*/
+  }
+
+  Widget _ScrollPage() {
+    return ScrollingPageIndicator(
+      dotColor: Colors.grey,
+      dotSelectedColor: Colors.blue,
+      dotSize: 10,
+      dotSelectedSize: 12,
+      dotSpacing: 20,
+      controller: _pageController,
+      itemCount: 3,
+      orientation: Axis.horizontal,
     );
   }
-  /*Widget Sliver() {
-    body: CustomScrollView(
+
+  Widget _Sliver() {
+    return CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
             title: Text("패스트푸드"),
@@ -176,6 +329,6 @@ class _State extends State<FastFood> {
             ),
           )
         ]
-    ),
-  }*/
+    );
+  }
 }
