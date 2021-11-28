@@ -6,8 +6,8 @@ import 'package:newitem_alarm/ProfilePages/AlarmMan.dart';
 import 'package:newitem_alarm/ProfilePages/Notice.dart';
 import 'package:newitem_alarm/ProfilePages/Manual.dart';
 import 'package:newitem_alarm/ProfilePages/ChangeProfile.dart';
-import 'package:newitem_alarm/ProfilePages/LoginPage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:newitem_alarm/ProfilePages/SignInScreen.dart';
 
 class ProfileHome extends StatefulWidget {
   @override
@@ -231,7 +231,7 @@ class _ProfileHomeState extends State<ProfileHome> {
     return Center(
         child: ElevatedButton(
             onPressed: () async{
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
             },
             child: Text("로그인/회원가입", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.white))
         )
