@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 import 'package:page_view_indicators/page_view_indicators.dart';
 import 'package:flutter/material.dart';
-import 'package:scrolling_page_indicator/scrolling_page_indicator.dart';
+import 'package:cupertino_date_textbox/cupertino_date_textbox.dart';
+import 'package:intl/intl.dart';
+import 'package:share/share.dart';
 
 class FastFood extends StatefulWidget {
 
@@ -10,6 +12,9 @@ class FastFood extends StatefulWidget {
 }
 
 class _State extends State<FastFood> {
+
+  DateTime _selectedDateTime = DateTime.now();
+  String text = '';
 
   final _colorList1 = [
     Colors.blue,
@@ -26,19 +31,23 @@ class _State extends State<FastFood> {
   final _pageController = PageController();
   final _currentPageNotifier = ValueNotifier<int>(0);
 
-  DateTime _selectedDate;
+  void _Month(DateTime _month) {
+    setState(() {
+      _selectedDateTime = _month;
+    });
+  }
 
   //PageController _controller = PageController();
-
+/*
   Widget calendar() {
     if (_selectedDate == null) {
       return Text("");
     }
     else {
-      return Text('$_selectedDate', style: TextStyle(fontSize: 20),);
+      return Text('$_selectedDateTime', style: TextStyle(fontSize: 20),);
     }
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +59,7 @@ class _State extends State<FastFood> {
                   title: Row(
                     children: [
                       Text("패스트푸드"),
-                      _Calendar()
+
                     ],
                   ),
                   centerTitle: true,
@@ -77,13 +86,14 @@ class _State extends State<FastFood> {
             },
             body: Column(
               children: [
+                _Calendar(),
                 Expanded(child: _itemList()),
               ],
             )
         )
     );
   }
-
+/*
   Widget _Calendar() {
     return Row(
       children: [
@@ -114,7 +124,7 @@ class _State extends State<FastFood> {
       ],
     );
   }
-
+*/
   Widget _itemList() {
     return ListView.builder(
       shrinkWrap: true,
@@ -201,134 +211,27 @@ class _State extends State<FastFood> {
         )
       ],
     );
-      /*Container(
-      height: 300,
+  }
+  Widget _Calendar() {
+    final String formattedDate = DateFormat.yMMM().format(_selectedDateTime);
+    final selectedText = Text('$formattedDate');
+
+    return Material(
+      color: Colors.transparent,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Stack(
-              children: [
-                Container(
-                  child: PageView.builder(
-                    controller: _pageController,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        color: _colorList2[_currentPageNotifier.value % 2],
-                        child: Center(
-                          child: FlutterLogo(
-                            textColor: _colorList1[index % _colorList1.length],
-                            size: 100,
-                            style: FlutterLogoStyle.stacked,
-                          ),
-                        ),
-                      );
-                    },
-                    onPageChanged: (int index) {
-                      _currentPageNotifier.value = index % _colorList1.length;
-                    },
-                  ),
-                ),
-                Positioned(
-                  left: 0.0,
-                  right: 0.0,
-                  bottom: 0.0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CirclePageIndicator(
-                      itemCount: _colorList1.length,
-                      currentPageNotifier: _currentPageNotifier,
-                    ),
-                  ),
-                ),
-              ]
+          //const Text('month', //style: TextStyle(color: CupertinoColors.systemBlue, fontSize: 15),),
+          const Padding(
+            padding: EdgeInsets.only(bottom: 5.0),
           ),
-          /*Container(
-              height: 70,
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.teal,
-                          ),
-                          child: Center(
-                            child: Text("Logo"),
-                          )
-                      )
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("상품이름 가나다라", style: TextStyle(fontSize:17),),
-                      Text("가격 2800원", style: TextStyle(fontSize: 17),)
-                    ],
-                  )
-                ],
-              )
-          ),*/
+          CupertinoDateTextBox(
+              initialValue: _selectedDateTime,
+              onDateChange: _Month,
+              hintText: DateFormat.yMMM().format(_selectedDateTime)
+          ),
         ],
       ),
-    );*/
-  }
-
-  Widget _ScrollPage() {
-    return ScrollingPageIndicator(
-      dotColor: Colors.grey,
-      dotSelectedColor: Colors.blue,
-      dotSize: 10,
-      dotSelectedSize: 12,
-      dotSpacing: 20,
-      controller: _pageController,
-      itemCount: 3,
-      orientation: Axis.horizontal,
-    );
-  }
-
-  Widget _Sliver() {
-    return CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            title: Text("패스트푸드"),
-            centerTitle: true,
-            floating: true,
-            snap: true,
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios_sharp,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                return GestureDetector(
-                  child: Container(
-                      height: 50.0,
-                      color: Colors.orange,
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                        color: Colors.blueGrey,
-                      )
-                  ),
-                  /*onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => NoticeList()),
-                        );
-                      },*/
-                );
-              },
-              childCount: 20,
-            ),
-          )
-        ]
     );
   }
 }
