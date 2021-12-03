@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        //routes: route,
+
         home: AnimatedSplashScreen(
           splash: SplashScreen(),
           nextScreen: MyHomePage(),
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         ),
         //home: MyHomePage(title: '먹어봤니'),
         debugShowCheckedModeBanner: false,
-
+        routes: route,
       ),
     );
   }
