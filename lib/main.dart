@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         ),
         //home: MyHomePage(title: '먹어봤니'),
         debugShowCheckedModeBanner: false,
-
+        routes: route,
       ),
     );
   }

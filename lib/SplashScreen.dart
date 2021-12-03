@@ -8,10 +8,6 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 2), () {
-      //1 자동으로 페이지 넘어가게 만드는 방법
-      Navigator.pushReplacementNamed(context, MyApp.routeName);
-    });
 
     return Scaffold(
       backgroundColor: Colors.white,
