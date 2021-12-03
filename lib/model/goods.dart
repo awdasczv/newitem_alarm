@@ -12,17 +12,22 @@ class Goods {
   int review;
   String describe;
   String launchdate;
+  int total_review_count;
+  int photoreview_count;
 
-  Goods(
-      {this.brandlogo,
-      this.imageUrl1,
-      this.imageUrl2,
-      this.title,
-      this.price,
-      this.starScore,
-      this.review,
-      this.describe,
-      this.launchdate});
+  Goods({
+    this.brandlogo,
+    this.imageUrl1,
+    this.imageUrl2,
+    this.title,
+    this.price,
+    this.starScore,
+    this.review,
+    this.describe,
+    this.launchdate,
+    this.total_review_count,
+    this.photoreview_count,
+  });
   // factory Goods.fromJson(dynamic json) => _$GoodsFromJson(json); //후에 API만들고 직렬화할 것.
   // Map toJson() => _$GoodsToJSon(this);
   // Goods.fromJson(Map json) {
@@ -57,7 +62,9 @@ List<Goods> goodsList = [
   2. 상큼한 딸기 그래놀라와 달콤한 허니 그래놀라!/n
   3. 리얼 딸기와 상큼한 딸기칼슘볼이 듬뿍!/n
   4. 리얼딸기과즙과 비정제 사탕수수당을 넣어 깊은 풍미의 달콤함""",
-      launchdate: '2021-11-07'),
+      launchdate: '20210907',
+      total_review_count: 11,
+      photoreview_count: 5),
   Goods(
     brandlogo:
         "https://blog.kakaocdn.net/dn/nsXAr/btq0g0l5ndp/9xoD9kQ9bpRSSdisnPk9K1/img.jpg",
