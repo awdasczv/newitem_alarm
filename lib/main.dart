@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:newitem_alarm/HomePages/HomePage.dart';
 import 'package:newitem_alarm/LikePages/LikeHome.dart';
 import 'package:newitem_alarm/ProfilePages/ProfileHome.dart';
+import 'package:newitem_alarm/SplashScreen.dart';
 import 'package:newitem_alarm/WatchPages/WatchHome.dart';
 import 'package:provider/provider.dart';
-
 import 'routes.dart';
 
 void main() {
@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
         ),
         home: MyHomePage(title: '먹어봤니'),
         debugShowCheckedModeBanner: false,
+        initialRoute: SplashScreen.routeName,
         routes: route,
       ),
     );
