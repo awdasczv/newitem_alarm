@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:newitem_alarm/WatchPages/WatchHome.dart';
 import 'package:newitem_alarm/main.dart';
+import 'package:newitem_alarm/WatchPages/WatchHome.dart';
+import 'package:newitem_alarm/ProfilePages/SignInScreen.dart';
 import './LikePages/GoodsPages/goodsDetail.dart';
 import './LikePages/LikeHome.dart';
 import 'HomePages/HomePage.dart';
-import 'package:newitem_alarm/ProfilePages/SignInScreen.dart';
-//import 'screens/main_screens.dart';
-// import 'screens/splash/splash_screen.dart';
+import 'package:newitem_alarm/SplashScreen.dart';
+
 
 
 final Map<String, WidgetBuilder> route = {
@@ -15,6 +15,6 @@ final Map<String, WidgetBuilder> route = {
   LikeHome.routeName: (context) => LikeHome(),
   MyApp.routeName: (context) => MyApp(),
   WatchHome.routeName: (context) => WatchHome(),
-  SignInScreen.routeName: (context) => SignInScreen()
-  //SplashScreen.routeName: (context) => SplashScreen(),
+  SignInScreen.routeName: (context) => SignInScreen(),
+  SplashScreen.routeName: (context) => SplashScreen(),
 };

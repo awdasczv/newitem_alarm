@@ -7,6 +7,7 @@ import '../LikePages/likegoods_filter.dart';
 
 class LikeHome extends StatefulWidget {
   static String routeName = "/LikeHome";
+
   @override
   _LikeHomeState createState() => _LikeHomeState();
 }
@@ -17,6 +18,7 @@ class _LikeHomeState extends State<LikeHome>
   TabController _tabController; //TabView
 
   final bar = ['상품', '워치'];
+
   //탭바 제목
 
   @override
@@ -54,7 +56,8 @@ class _LikeHomeState extends State<LikeHome>
                     unselectedLabelColor: Colors.grey,
                     labelStyle:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    indicatorColor: Colors.black, //선 색깔
+                    indicatorColor: Colors.black,
+                    //선 색깔
                     controller: _tabController,
                     indicatorSize: TabBarIndicatorSize.label,
                     indicator: MaterialIndicator(
@@ -64,7 +67,8 @@ class _LikeHomeState extends State<LikeHome>
                       bottomLeftRadius: 5,
                       bottomRightRadius: 5,
                       tabPosition: TabPosition.bottom,
-                    ), //tab_indicator_styler에서 가져옴.
+                    ),
+                    //tab_indicator_styler에서 가져옴.
                     tabs: bar.map((_bar) {
                       return Tab(
                         text: _bar,
@@ -130,7 +134,7 @@ class _GoodsPageState extends State<GoodsPage> {
 }
 
 Widget Goods(int index) {
-  var ratingscore = index * 0.5;
+  var starScore = index * 0.5;
   var cost = (index + 1) * 1000;
   var favorite = index;
   return SafeArea(
@@ -149,7 +153,8 @@ Widget Goods(int index) {
               borderRadius: BorderRadius.circular(8),
             ),
             child: InkWell(
-              onTap: () {}, //후에 클릭하면 페이지로 이동하도록 수정해야 함.
+              onTap: () {},
+              // InkWell은 GestureDetector랑 달리 누르면 잉크 퍼지듯이, 후에 클릭하면 페이지로 이동하도록 수정해야 함.
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: Row(
@@ -177,12 +182,14 @@ Widget Goods(int index) {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               RatingBarIndicator(
-                                rating: ratingscore,
+                                //수정필요
+                                rating: starScore,
                                 physics: BouncingScrollPhysics(),
+                                //BouncingScrollPhysics() 끝에서 되돌아오는 scroll physics
                                 itemBuilder: (context, _) {
                                   return Icon(
                                     Icons.star,
-                                    color: Colors.yellow,
+                                    color: Colors.amber,
                                   );
                                 },
                                 itemPadding:
@@ -195,7 +202,7 @@ Widget Goods(int index) {
                                 padding: EdgeInsets.only(right: 7),
                               ),
                               Text(
-                                '$ratingscore점',
+                                '$starScore점',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
