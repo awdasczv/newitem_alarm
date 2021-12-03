@@ -10,7 +10,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 2), () {
       //1 자동으로 페이지 넘어가게 만드는 방법
-      Navigator.pushReplacementNamed(context, HomePage.routeName);
+      Navigator.pushReplacementNamed(context, MyApp.routeName);
     });
 
     return Scaffold(
@@ -19,7 +19,7 @@ class SplashScreen extends StatelessWidget {
         child: Text(
           "먹어봤니",
               style: TextStyle(
-            color: Color(0xfff8ffde),
+            color: Colors.black,//Color(0xfff8ffde),
           fontSize: 28.0,
           fontWeight: FontWeight.bold,
         ),
