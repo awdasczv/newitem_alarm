@@ -13,7 +13,7 @@ class SplashScreen extends StatelessWidget {
         child: Text(
           "먹어봤니?",
               style: TextStyle(
-                color: Color(0xffeee6c4),
+                color: Colors.black,
                 fontSize: 59.0,
                 fontWeight: FontWeight.bold,
         ),

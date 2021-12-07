@@ -26,8 +26,11 @@ class _ReviewManState extends State<ReviewMan> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text("리뷰 관리",
-            style: TextStyle(fontSize: 20),),
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
+          ),
           centerTitle: true,
+          backgroundColor: Colors.white,
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
