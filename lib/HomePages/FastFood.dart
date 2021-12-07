@@ -56,13 +56,10 @@ class _State extends State<FastFood> {
                 bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
-                  title: Row(
-                    children: [
-                      Text("패스트푸드"),
-
-                    ],
-                  ),
                   centerTitle: true,
+                  backgroundColor: Color(0xFFff0000),
+                  title:
+                  Text("패스트푸드"),
                   floating: true,
                   snap: true,
                   leading: IconButton(
@@ -71,9 +68,10 @@ class _State extends State<FastFood> {
                     ),
                     onPressed: () {
                       Navigator.pop(context);
-                    },
+                      },
                   ),
-                ),
+              ),
+
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                         (context, index) {
