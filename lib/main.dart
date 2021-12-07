@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-
         home: AnimatedSplashScreen(
           splash: SplashScreen(),
           nextScreen: MyHomePage(),
@@ -32,8 +31,6 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         routes: route,
-        initialRoute: SplashScreen.routeName,
-
       ),
     );
   }
