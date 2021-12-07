@@ -218,6 +218,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                     color: Colors.white))));
   }*/
 
+  // _isLogin = false
   Widget b() {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
@@ -235,10 +236,7 @@ class _ProfileHomeState extends State<ProfileHome> {
             ),
           )),
       Container(
-        /*decoration: BoxDecoration(
-          border: Border.all(color: Colors.black12, width: 3)
-        ),*/
-          color: Colors.transparent,
+        color: Colors.transparent,
           padding: EdgeInsets.all(50),
           child: Center(
               child: ElevatedButton(
