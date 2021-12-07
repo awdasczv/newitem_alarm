@@ -35,7 +35,7 @@ class _ProfileHomeState extends State<ProfileHome> {
           children: <Widget>[
             Container(
                 padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                color: Colors.black,//orangeAccent,
+                color: Colors.orangeAccent,
                 child: Center(
                   child: Text(
                     "My Page",
@@ -59,19 +59,19 @@ class _ProfileHomeState extends State<ProfileHome> {
   // 프로필
   Widget LoginProfile() {
     return Container(
-        color: Colors.transparent,//orangeAccent,
+        color: Colors.orangeAccent,
         padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             //프로필 사진
             Container(
-              color: Colors.transparent,//orangeAccent,
+              color: Colors.orangeAccent,
               padding:
               EdgeInsets.only(left: 20, right: 30, top: 20, bottom: 20),
               child: CircleAvatar(
                 radius: 40,
-                backgroundColor: Colors.grey,
+                backgroundColor: Colors.white54,
                 backgroundImage: _imagePath.length == 0
                     ? AssetImage('assets/images/profile3.png')
                     : FileImage(File(_imagePath)),
@@ -83,7 +83,7 @@ class _ProfileHomeState extends State<ProfileHome> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(_name,
-                    style: TextStyle(fontSize: 30, color: Colors.black),
+                    style: TextStyle(fontSize: 30, color: Colors.white),
                     textAlign: TextAlign.center),
               ],
             )
@@ -95,7 +95,7 @@ class _ProfileHomeState extends State<ProfileHome> {
   Widget ProfileImage() {
     return GestureDetector(
         child: Container(
-            color: Colors.white,//orangeAccent,
+            color: Colors.orangeAccent,
             padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -106,7 +106,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                 ),
                 Text(
                   " 프로필 수정하기",
-                  style: TextStyle(fontSize: 25, color: Colors.black),
+                  style: TextStyle(fontSize: 25, color: Colors.white),
                 )
               ],
             )),
@@ -218,7 +218,6 @@ class _ProfileHomeState extends State<ProfileHome> {
                     color: Colors.white))));
   }*/
 
-  // _isLogin = false
   Widget b() {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
