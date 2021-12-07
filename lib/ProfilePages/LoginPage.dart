@@ -31,17 +31,14 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Column(
-        children: <Widget>[
-          Center(
-            child: Text(
-              "회원가입",
-              style: TextStyle(
-                  height: 1.5, fontWeight: FontWeight.bold, fontSize: 35),
-            ),
-          )
-        ],
-      )),
+        backgroundColor: Colors.black,
+          title: Text(
+            "회원가입",
+            style: TextStyle(
+                height: 1.5, fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),
+          ),
+        centerTitle: true,
+      ),
       body: Id(),
     );
   }
@@ -113,6 +110,9 @@ class _LoginPageState extends State<LoginPage> {
                 margin: const EdgeInsets.only(top: 16.0),
                 alignment: Alignment.centerRight,
                 child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.black)
+                  ),
                   onPressed: () {
                     //_register();
                     Navigator.push(context,
