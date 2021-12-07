@@ -52,6 +52,7 @@ class _WatchHomeState extends State<WatchHome> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
+          centerTitle: true,
           title: Text(
             '워치',
             style: TextStyle(
