@@ -56,7 +56,7 @@ class _WatchHomeState extends State<WatchHome> {
           title: Text(
             '워치',
             style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 27, color: Colors.black),
+                fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
           ),
         ),
         body: Column(

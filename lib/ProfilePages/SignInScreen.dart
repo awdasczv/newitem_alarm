@@ -19,7 +19,11 @@ class SignInScreen extends StatelessWidget {
         ),
         ),
       ),
+
         body: SignFrom(),
+
+
+      body: SignFrom(),
 
     );
   }

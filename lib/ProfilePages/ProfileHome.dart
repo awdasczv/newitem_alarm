@@ -20,7 +20,7 @@ class _ProfileHomeState extends State<ProfileHome> {
   final ImagePicker _picker = ImagePicker();
   PickedFile _image;
 
-  bool _isLogin = false;
+  bool _isLogin = true;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                     "My Page",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 30,
+                        fontSize: 25,
                         color: Colors.white),
                     //textAlign: TextAlign.center,
                   ),
@@ -224,24 +224,37 @@ class _ProfileHomeState extends State<ProfileHome> {
         crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
       Container(
           padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-          color: Color(0xff00cc66),
+          color: Colors.white70,
           child: Center(
             child: Text(
               "My Page",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
-                  color: Colors.white),
+                  color: Colors.black),
               //textAlign: TextAlign.center,
             ),
           )),
       Container(
+
         color: Colors.transparent,
           padding: EdgeInsets.all(50),
+
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+                  color: Colors.black,
+                  width: 1.0,
+                )
+            )
+        ),
+
+        padding: EdgeInsets.all(50),
+
           child: Center(
               child: ElevatedButton(
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Color(0xffffc0cb))
+                      backgroundColor: MaterialStateProperty.all(Colors.black)
                   ),
                   onPressed: () async {
                     Navigator.push(context,
