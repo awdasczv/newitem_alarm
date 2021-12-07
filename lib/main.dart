@@ -5,8 +5,12 @@ import 'package:newitem_alarm/ProfilePages/ProfileHome.dart';
 import 'package:newitem_alarm/SplashScreen.dart';
 import 'package:newitem_alarm/WatchPages/WatchHome.dart';
 import 'package:provider/provider.dart';
+<<<<<<< Updated upstream
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:newitem_alarm/routes.dart';
+=======
+
+>>>>>>> Stashed changes
 void main() {
   runApp(MyApp());
 }
@@ -29,7 +33,12 @@ class MyApp extends StatelessWidget {
           splashTransition:SplashTransition.fadeTransition,
         ),
         debugShowCheckedModeBanner: false,
+<<<<<<< Updated upstream
         routes: route,
+=======
+        initialRoute: SplashScreen.routeName,
+
+>>>>>>> Stashed changes
       ),
     );
   }
