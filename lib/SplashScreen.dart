@@ -8,19 +8,19 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
         child: Text(
           "먹어봤니?",
               style: TextStyle(
-<<<<<<< Updated upstream
+
             color: Color(0xffeee6c4),
           fontSize: 59.0,
-=======
+
             color: Colors.black,
           fontSize: 28.0,
->>>>>>> Stashed changes
           fontWeight: FontWeight.bold,
         ),
         ),

@@ -4,7 +4,6 @@ import 'package:newitem_alarm/LikePages/GoodsPages/goodsDetail.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
 import 'package:newitem_alarm/HomePages/SearchPage.dart';
 import 'package:newitem_alarm/HomePages/FastFood.dart';
-//import 'package:newitem_alarm/routes.dart';
 
 class HomePage extends StatefulWidget {
   static String routeName = "/home";
@@ -30,26 +29,23 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-          body: ListView(
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            children: [
-              _banner(),
-              _category(),
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  '이주의 신상',
-                  style: TextStyle(fontSize: 20),
-                ),
+    return Scaffold(
+        body: ListView(
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          children: [
+            _banner(),
+            _category(),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                '이주의 신상',
+                style: TextStyle(fontSize: 20),
               ),
-              _itemList()
-            ],
-          )),
-      //routes: route,
-    );
+            ),
+            _itemList()
+          ],
+        ));
   }
 
   Widget _banner() {
