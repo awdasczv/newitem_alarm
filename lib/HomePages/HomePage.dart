@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     Color(0xffb5c7ed),
     Color(0xfffcffb0),
   ];
-  final _colorList2 = [Colors.teal, Colors.black87];
+  final _colorList2 = [Colors.black54, Colors.black87];
 
   final _pageController = PageController();
   final _currentPageNotifier = ValueNotifier<int>(0);

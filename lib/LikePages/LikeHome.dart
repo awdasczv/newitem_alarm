@@ -50,7 +50,7 @@ class _LikeHomeState extends State<LikeHome>
                   title: const Text("찜목록",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 27,
+                          fontSize: 25,
                           color: Colors.black)),
                   bottom: TabBar(
                     labelColor: Colors.black,

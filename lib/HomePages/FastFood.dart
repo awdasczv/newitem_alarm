@@ -57,7 +57,7 @@ class _State extends State<FastFood> {
               return <Widget>[
                 SliverAppBar(
                   centerTitle: true,
-                  backgroundColor: Color(0xFFff0000),
+                  backgroundColor: Colors.black,
                   title:
                   Text("패스트푸드"),
                   floating: true,
