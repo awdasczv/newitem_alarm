@@ -13,14 +13,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _colorList1 = [
-    Colors.blue,
-    Colors.orange,
-    Colors.green,
-    Colors.pink,
-    Colors.red,
-    Colors.amber,
-    Colors.brown,
-    Colors.yellow,
+    Color(0xffaee4ff),
+    Color(0xffffe4af),
+    Color(0xffafffba),
+    Color(0xfffcc6f7),
+    Color(0xffffafb0),
+    Color(0xfff2cfa5),
+    Color(0xffb5c7ed),
+    Color(0xfffcffb0),
   ];
   final _colorList2 = [Colors.teal, Colors.black87];
 
@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   TextButton(
                     onPressed: () {},
-                    child: Text('먹어봤니',
+                    child: Text('먹어봤니?',
                         style: TextStyle(fontSize: 20, color: Colors.white)),
                   ),
                   IconButton(
