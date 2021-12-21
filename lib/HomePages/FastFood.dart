@@ -14,6 +14,7 @@ class FastFood extends StatefulWidget {
 class _State extends State<FastFood> {
 
   DateTime _selectedDateTime = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
   String text = '';
 
   final _colorList1 = [
@@ -38,7 +39,7 @@ class _State extends State<FastFood> {
   }
 
   //PageController _controller = PageController();
-/*
+
   Widget calendar() {
     if (_selectedDate == null) {
       return Text("");
@@ -47,7 +48,7 @@ class _State extends State<FastFood> {
       return Text('$_selectedDateTime', style: TextStyle(fontSize: 20),);
     }
   }
-*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +92,7 @@ class _State extends State<FastFood> {
         )
     );
   }
-/*
+
   Widget _Calendar() {
     return Row(
       children: [
@@ -122,7 +123,7 @@ class _State extends State<FastFood> {
       ],
     );
   }
-*/
+
   Widget _itemList() {
     return ListView.builder(
       shrinkWrap: true,
@@ -210,26 +211,27 @@ class _State extends State<FastFood> {
       ],
     );
   }
-  Widget _Calendar() {
-    final String formattedDate = DateFormat.yMMM().format(_selectedDateTime);
-    final selectedText = Text('$formattedDate');
-
-    return Material(
-      color: Colors.transparent,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //const Text('month', //style: TextStyle(color: CupertinoColors.systemBlue, fontSize: 15),),
-          const Padding(
-            padding: EdgeInsets.only(bottom: 5.0),
-          ),
-          CupertinoDateTextBox(
-              initialValue: _selectedDateTime,
-              onDateChange: _Month,
-              hintText: DateFormat.yMMM().format(_selectedDateTime)
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _Calendar() {
+  //   final String formattedDate = DateFormat.yMMM().format(_selectedDateTime);
+  //   final selectedText = Text('$formattedDate');
+  //
+  //   return Material(
+  //     color: Colors.transparent,
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         //const Text('month', //style: TextStyle(color: CupertinoColors.systemBlue, fontSize: 15),),
+  //         const Padding(
+  //           padding: EdgeInsets.only(bottom: 5.0),
+  //         ),
+  //         CupertinoDateTextBox(
+  //        //     initialValue: _selectedDateTime,
+  //             onDateChange: _Month,
+  //             hintText: DateFormat.yMMM().format(_selectedDateTime),
+  //
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }
