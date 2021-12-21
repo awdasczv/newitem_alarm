@@ -15,7 +15,7 @@ class ProfileHome extends StatefulWidget {
 }
 
 class _ProfileHomeState extends State<ProfileHome> {
-  String _name = "이름";
+  String _name = "";
   String _imagePath = "";
   final ImagePicker _picker = ImagePicker();
   PickedFile _image;
@@ -57,13 +57,16 @@ class _ProfileHomeState extends State<ProfileHome> {
 
   // 프로필
   Widget LoginProfile() {
-    return Container(
-        color: Colors.transparent,
-        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+    return Card(
+        color: Colors.white,
+        //padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              SizedBox(
+                height: 15,
+              ),
               //프로필 사진
               Container(
                 color: Colors.transparent,
@@ -85,6 +88,10 @@ class _ProfileHomeState extends State<ProfileHome> {
                   Text(_name,
                       style: TextStyle(fontSize: 30,),
                       textAlign: TextAlign.center),
+                  SizedBox(
+                    height: 15,
+                  )
+
                 ],
               )
             ],
