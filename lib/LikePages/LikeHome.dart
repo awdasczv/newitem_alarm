@@ -43,20 +43,21 @@ class _LikeHomeState extends State<LikeHome>
                 appBar: AppBar(
                   elevation: 0,
                   //shadowColor: Colors.black,
+                  centerTitle: true,
                   shape: Border(
                       bottom: BorderSide(color: Colors.black26, width: 1)),
                   backgroundColor: Colors.white,
                   title: const Text("찜목록",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 27,
+                          fontSize: 25,
                           color: Colors.black)),
                   bottom: TabBar(
                     labelColor: Colors.black,
                     unselectedLabelColor: Colors.grey,
                     labelStyle:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    indicatorColor: Colors.black,
+                    indicatorColor: Colors.white,
                     //선 색깔
                     controller: _tabController,
                     indicatorSize: TabBarIndicatorSize.label,

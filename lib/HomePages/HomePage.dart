@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/LikePages/GoodsPages/goodsDetail.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
+import 'package:newitem_alarm/HomePages/SearchPage.dart';
+import 'package:newitem_alarm/HomePages/FastFood.dart';
 
 class HomePage extends StatefulWidget {
   static String routeName = "/home";
@@ -11,16 +13,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _colorList1 = [
-    Colors.blue,
-    Colors.orange,
-    Colors.green,
-    Colors.pink,
-    Colors.red,
-    Colors.amber,
-    Colors.brown,
-    Colors.yellow,
+    Color(0xffaee4ff),
+    Color(0xffffe4af),
+    Color(0xffafffba),
+    Color(0xfffcc6f7),
+    Color(0xffffafb0),
+    Color(0xfff2cfa5),
+    Color(0xffb5c7ed),
+    Color(0xfffcffb0),
   ];
-  final _colorList2 = [Colors.teal, Colors.black87];
+  final _colorList2 = [Colors.black54, Colors.black87];
 
   final _pageController = PageController();
   final _currentPageNotifier = ValueNotifier<int>(0);
@@ -29,21 +31,21 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      children: [
-        _banner(),
-        _category(),
-        Padding(
-          padding: EdgeInsets.all(10),
-          child: Text(
-            '이주의 신상',
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
-        _itemList()
-      ],
-    ));
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          children: [
+            _banner(),
+            _category(),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                '이주의 신상',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            _itemList()
+          ],
+        ));
   }
 
   Widget _banner() {
@@ -93,15 +95,46 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   TextButton(
                     onPressed: () {},
-                    child: Text('먹어봤니',
+                    child: Text('먹어봤니?',
                         style: TextStyle(fontSize: 20, color: Colors.white)),
                   ),
                   IconButton(
                     icon: Icon(Icons.search),
-                    onPressed: () {},
+                    onPressed: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SearchPage()),
+                      );
+                    },
                     iconSize: 30,
                     color: Colors.white,
                   )
+                  /*
+                  GestureDetector(
+                child: Container(
+                  color: Colors.orangeAccent,
+                  padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.edit, color: Colors.white,),
+                      Text(" 프로필 수정하기", style: TextStyle(fontSize: 25, color: Colors.white), )
+                    ],
+                  )
+                ),
+                  onTap: () async{
+                    var a = await
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChangeProfile(imagePath: _imagePath)),
+                    );
+                    setState(() {
+                      _imagePath = a[0];
+                      _name = a[1];
+                    });
+                  }
+              ),
+                  */
                 ],
               ),
             ))
@@ -183,8 +216,8 @@ class _HomePageState extends State<HomePage> {
       width: 60,
       child: InkWell(
         //splashColor: Colors.green,
-        onTap: () {
-          print(label);
+        onTap: () async {
+          await Navigator.push(context, MaterialPageRoute(builder: (context) => FastFood()),);
         },
         child: Column(
           children: [

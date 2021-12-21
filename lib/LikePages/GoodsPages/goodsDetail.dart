@@ -21,6 +21,7 @@ class _DetailMainState extends State<DetailMain> {
     return Scaffold(
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
+          centerTitle: true,
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios_sharp,

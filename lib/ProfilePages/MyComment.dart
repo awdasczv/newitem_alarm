@@ -12,6 +12,7 @@ class MyComment extends StatefulWidget {
 
 
 class _MyCommentState extends State<MyComment> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,8 +50,8 @@ class _MyCommentState extends State<MyComment> {
             Row(
               children: [
                 Container(
-                  padding: EdgeInsets.fromLTRB(30, 30, 10, 30),
-                  child: Icon(Icons.subdirectory_arrow_right_rounded)
+                    padding: EdgeInsets.fromLTRB(30, 30, 10, 30),
+                    child: Icon(Icons.subdirectory_arrow_right_rounded)
                 ),
                 Expanded(
                   child: ListTile(
