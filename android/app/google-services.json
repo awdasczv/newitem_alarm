@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "603098354719",
+    "project_id": "didueat-dc7b6",
+    "storage_bucket": "didueat-dc7b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603098354719:android:d5281e6d6f17ffc7e9312a",
+        "android_client_info": {
+          "package_name": "com.example.newitem_alarm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "603098354719-c1hrl5mel157hpfnidd3cqrpl0abjp7p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.newitem_alarm",
+            "certificate_hash": "1807f32200415fd37c4dcf4ea0ae9208916ca36d"
+          }
+        },
+        {
+          "client_id": "603098354719-3dd9v634inmvec7s7ss9a2jaia2be0hd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9igRf5Vthm9owINvPIPQyyPl175oajjg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "603098354719-3dd9v634inmvec7s7ss9a2jaia2be0hd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
