@@ -55,20 +55,27 @@ class _ChangeProfileState extends State<ChangeProfile> {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        GestureDetector(
-                          child: Hero(
-                            tag: "profileImage",
-                              child: CircleAvatar(
-                                radius: 80,
-                                //backgroundImage: widget.imagePath == null ? AssetImage('assets/images/profile3.png') : FileImage(File(_image.path)),
-                                //backgroundImage: widget.imagePath != _image ? AssetImage('assets/images/profile3.png') : FileImage(File(_image.path)),
-                                backgroundImage: _im.length == 0 ? AssetImage('assets/images/profile3.png') : FileImage(File(_im)),
-                                backgroundColor: Colors.transparent,
-                              ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.black,
+                              border: Border.all(),
+                              shape: BoxShape.circle
                           ),
-                            onTap: () {
-                              _showDialog();
-                            }
+                          child: GestureDetector(
+                              child: Hero(
+                                tag: "profileImage",
+                                child: CircleAvatar(
+                                  radius: 80,
+                                  //backgroundImage: widget.imagePath == null ? AssetImage('assets/images/profile3.png') : FileImage(File(_image.path)),
+                                  //backgroundImage: widget.imagePath != _image ? AssetImage('assets/images/profile3.png') : FileImage(File(_image.path)),
+                                  backgroundImage: _im.length == 0 ? AssetImage('assets/images/profile3.png') : FileImage(File(_im)),
+                                  backgroundColor: Colors.white,
+                                ),
+                              ),
+                              onTap: () {
+                                _showDialog();
+                              }
+                          ),
                         ),
                         SizedBox(height: 45.0),
                         TextField(

@@ -17,6 +17,10 @@ class _State extends State<FastFood> {
   DateTime _selectedDate = DateTime.now();
   String text = '';
 
+  List yearList = ["2021년", "2020년", "2019년"];
+
+  List monthList = ["12월", "11월", "10월", "09월", "08월", "07월", "06월", "05월", "04월", "03월", "02월", "01월"];
+
   final _colorList1 = [
     Colors.blue,
     Colors.orange,
@@ -36,6 +40,12 @@ class _State extends State<FastFood> {
     setState(() {
       _selectedDateTime = _month;
     });
+  }
+
+  Widget _selectYear() {
+    for(int i = 0; i < yearList.length; i++){
+      Text(yearList[i]);
+    }
   }
 
   //PageController _controller = PageController();
@@ -93,34 +103,143 @@ class _State extends State<FastFood> {
     );
   }
 
+  // Widget _Calendar() {
+  //   return Row(
+  //     children: [
+  //       IconButton(
+  //         icon: Icon(Icons.date_range),
+  //         onPressed: () {
+  //           Future<DateTime> selected = showDatePicker(
+  //               context: context,
+  //               initialDate: DateTime.now(),
+  //               firstDate: DateTime(2015),
+  //               lastDate: DateTime(2025),
+  //               //initialDatePickerMode: DatePickerMode.year,
+  //               builder: (BuildContext context, Widget child) {
+  //                 return Theme(
+  //                     data: ThemeData.light(), // 달력 테마
+  //                     child: child
+  //                 );
+  //               }
+  //           );
+  //           selected.then((dateTime) {
+  //             setState(() {
+  //               _selectedDate = dateTime;
+  //             });
+  //           });
+  //         },
+  //       ),
+  //       calendar(),
+  //     ],
+  //   );
+  // }
+
   Widget _Calendar() {
-    return Row(
-      children: [
-        IconButton(
-          icon: Icon(Icons.date_range),
-          onPressed: () {
-            Future<DateTime> selected = showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2015),
-                lastDate: DateTime(2025),
-                //initialDatePickerMode: DatePickerMode.year,
-                builder: (BuildContext context, Widget child) {
-                  return Theme(
-                      data: ThemeData.light(), // 달력 테마
-                      child: child
-                  );
-                }
-            );
-            selected.then((dateTime) {
-              setState(() {
-                _selectedDate = dateTime;
-              });
-            });
-          },
-        ),
-        calendar(),
-      ],
+    return Container(
+      child: Row(
+        children: [
+          ElevatedButton(
+          child: Text('--년'),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  barrierDismissible: false,  // 바깥 영역 터치시 닫을지 여부
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("날짜 선택"),
+                      content: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Column(
+                                children: [
+                                  Container(
+                                      color: Colors.red,
+                                      child: _selectYear()
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Container(
+                                      color: Colors.blue,
+                                      child: Text('${monthList}')
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                      ),
+                      actions: <Widget>[
+                        ElevatedButton(
+                          child: Text("ok"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        ElevatedButton(
+                          child: Text("cancel"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  }
+              );
+            }
+          ),
+          ElevatedButton(
+              child: Text('--월'),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,  // 바깥 영역 터치시 닫을지 여부
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("날짜 선택"),
+                        content: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Column(
+                                  children: [
+                                    Container(
+                                        color: Colors.red,
+                                        child: _selectYear()
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Container(
+                                        color: Colors.blue,
+                                        child: Text('${monthList}')
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                        ),
+                        actions: <Widget>[
+                          ElevatedButton(
+                            child: Text("ok"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          ElevatedButton(
+                            child: Text("cancel"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    }
+                );
+              }
+          ),
+        ],
+      )
     );
   }
 
