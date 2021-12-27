@@ -333,6 +333,28 @@ class _ProfileHomeState extends State<ProfileHome> {
                           fontSize: 25,
                           color: Colors.white)))),
         ),
+          )),
+      Container(
+        padding: EdgeInsets.all(50),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+          color: Colors.transparent,
+          width: 1.0,
+        ))),
+        child: Center(
+            child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.black)),
+                onPressed: () async {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SignInScreen()));
+                },
+                child: Text("로그인/회원가입",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                        color: Colors.white)))),
       ),
       ListMenu()
       //func(_isLogin)

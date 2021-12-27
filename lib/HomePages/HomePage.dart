@@ -22,7 +22,16 @@ class _HomePageState extends State<HomePage> {
     Color(0xffb5c7ed),
     Color(0xfffcffb0),
   ];
+
+  List<bool> _isfavorite;
   final _colorList2 = [Colors.black54, Colors.black87];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _isfavorite = List.filled(_colorList1.length, false);
+  }
 
   final _pageController = PageController();
   final _currentPageNotifier = ValueNotifier<int>(0);
@@ -246,10 +255,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _itemContainer(int index) {
-    bool _isFavorite = false;
 
     Icon _icon() {
-      if (_isFavorite) {
+      if (_isfavorite[index]) {
         return Icon(
           Icons.favorite,
           color: Colors.redAccent,
@@ -293,13 +301,9 @@ class _HomePageState extends State<HomePage> {
                               icon: _icon(),
                               iconSize: 40,
                               onPressed: () {
-                                _isFavorite = !_isFavorite;
-///////////////////////////////////////////////////////////////////////////////////
-//오류부분 setstate가 작동이 안됨(아마 state가 반영되지 않는 위젯이라 그런 것 아닐까 의심..)
-                                setState(() {});
-                                print(_isFavorite);
+                                setState(() {_isfavorite[index] = !_isfavorite[index];});
+                                print(_isfavorite[index]);
                               },
-///////////////////////////////////////////////////////////////////////////////////
                             ),
                           ),
                         ],
