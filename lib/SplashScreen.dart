@@ -9,12 +9,12 @@ class SplashScreen extends StatelessWidget {
     return WillPopScope(
         onWillPop: () async => false,
         child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: FittedBox(
-              child: Image.asset('assets/images/s.png'),
-              fit: BoxFit.cover,
-            )
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: FittedBox(
+            child: Image.asset('assets/images/s.png'),
+            fit: BoxFit.cover,
+          )
         ));
   }
 }
