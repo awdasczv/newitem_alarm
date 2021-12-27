@@ -5,8 +5,8 @@ import 'package:newitem_alarm/ProfilePages/ProfileHome.dart';
 import 'package:newitem_alarm/SplashScreen.dart';
 import 'package:newitem_alarm/WatchPages/WatchHome.dart';
 import 'package:provider/provider.dart';
-import 'routes.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:newitem_alarm/routes.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,13 +24,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        //routes: route,
         home: AnimatedSplashScreen(
           splash: SplashScreen(),
           nextScreen: MyHomePage(),
           splashTransition:SplashTransition.fadeTransition,
         ),
-        //home: MyHomePage(title: '먹어봤니'),
         debugShowCheckedModeBanner: false,
         routes: route,
       ),

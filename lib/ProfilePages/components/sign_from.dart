@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:newitem_alarm/constants.dart';
 import 'package:newitem_alarm/ProfilePages/components/default_button.dart';
 import 'package:newitem_alarm/ProfilePages/components/form_error.dart';
+import 'package:newitem_alarm/ProfilePages/LoginPage.dart';
 
 
 class SignFrom extends StatefulWidget {
@@ -42,7 +43,17 @@ class SignFrom extends StatefulWidget {
               },
             ),
             SizedBox(height: 10),
-            FormError(errors: errors)
+            FormError(errors: errors),
+            TextButton(
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => LoginPage()),
+                );
+              },
+              child: Text("아이디/비밀번호 찾기 | 회원가입", style: TextStyle(color: Colors.grey),)
+            )
           ],
         ),
       ),

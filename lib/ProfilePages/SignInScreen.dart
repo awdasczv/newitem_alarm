@@ -11,11 +11,20 @@ class SignInScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: Colors.white,
         title: Text(
           "로그인",
+          style: TextStyle(
+          color: Colors.black,
+        ),
         ),
       ),
+
         body: SignFrom(),
+
+
+      //body: SignFrom(),
+
     );
   }
 }

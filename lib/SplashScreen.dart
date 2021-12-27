@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:newitem_alarm/HomePages/HomePage.dart';
-import 'package:newitem_alarm/main.dart';
 
 
 class SplashScreen extends StatelessWidget {
@@ -13,11 +11,11 @@ class SplashScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Center(
         child: Text(
-          "먹어봤니",
+          "먹어봤니?",
               style: TextStyle(
-            color: Colors.black,//Color(0xfff8ffde),
-          fontSize: 28.0,
-          fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 59.0,
+                fontWeight: FontWeight.bold,
         ),
         ),
       )
