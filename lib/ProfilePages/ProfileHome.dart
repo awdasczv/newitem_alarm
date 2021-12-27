@@ -20,7 +20,7 @@ class _ProfileHomeState extends State<ProfileHome> {
   final ImagePicker _picker = ImagePicker();
   PickedFile _image;
 
-  bool _isLogin = true;
+  bool _isLogin = false;
 
   @override
   Widget build(BuildContext context) {
@@ -292,49 +292,48 @@ class _ProfileHomeState extends State<ProfileHome> {
 
   // _isLogin = false
   Widget b() {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
-        Widget>[
-      /*Container(
-          padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-          color: Colors.white70,
-          child: Center(
-            child: Text(
-              "My Page",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                  color: Colors.black),
-              //textAlign: TextAlign.center,
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Card(
+            child: Container(
+              //color: Colors.transparent,
+              padding: EdgeInsets.all(20),
+              child: Center(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                    ),
+                    Text("더 많은 기능을 사용하시려면"),
+                    Text("로그인/회원가입 하십시오."),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                    ),
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Colors.black)
+                        ),
+                        onPressed: () async {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => SignInScreen()));
+                        },
+                        child: Text("로그인/회원가입",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                                color: Colors.white)
+                        )
+                    )
+                  ],
+                )
+              ),
             ),
-          )),*/
-      Card(
-        child: Container(
-          //color: Colors.transparent,
-          padding: EdgeInsets.all(20),
-          /*decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-                    color: Colors.black,
-                    width: 1.0,
-                  )
-              )
-          ),*/
-          child: Center(
-              child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.black)),
-                  onPressed: () async {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignInScreen()));
-                  },
-                  child: Text("로그인/회원가입",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25,
-                          color: Colors.white)))),
-        ),
-          )),
-      Container(
+          ),
+          ListMenu()
+        ]
+      );
+      /*Container(
         padding: EdgeInsets.all(50),
         decoration: BoxDecoration(
             border: Border(
@@ -358,7 +357,7 @@ class _ProfileHomeState extends State<ProfileHome> {
       ),
       ListMenu()
       //func(_isLogin)
-    ]);
+    ]);*/
   }
 
   TextStyle _ts(){
