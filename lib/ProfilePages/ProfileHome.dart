@@ -290,12 +290,11 @@ class _ProfileHomeState extends State<ProfileHome> {
             ),
           )),
       Container(
-        color: Colors.transparent,
         padding: EdgeInsets.all(50),
         decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(
-          color: Colors.black,
+          color: Colors.transparent,
           width: 1.0,
         ))),
         child: Center(
