@@ -139,35 +139,31 @@ class _State extends State<FastFood> {
       child: Row(
         children: [
           ElevatedButton(
-          child: Text('--년'),
+          child: Text('--년 --월'),
             onPressed: () {
               showDialog(
                   context: context,
                   barrierDismissible: false,  // 바깥 영역 터치시 닫을지 여부
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text("날짜 선택"),
+                      title: Column(
+                        children: [
+                          Text("날짜 선택")
+                        ],
+                      ),
                       content: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Column(
-                                children: [
-                                  Container(
-                                      color: Colors.red,
-                                      child: _selectYear()
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Container(
-                                      color: Colors.blue,
-                                      child: Text('${monthList}')
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )
+                           child: Column(
+                             children: [
+                               Container(
+                                 height: 60,
+                                 width: 500,
+                                 color: Colors.red,
+                                 child: Center(
+                                   child: Text("2021년", style: TextStyle(fontSize: 30),),
+                                 ),
+                               )
+                             ],
+                           )
                       ),
                       actions: <Widget>[
                         ElevatedButton(
@@ -187,56 +183,6 @@ class _State extends State<FastFood> {
                   }
               );
             }
-          ),
-          ElevatedButton(
-              child: Text('--월'),
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    barrierDismissible: false,  // 바깥 영역 터치시 닫을지 여부
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text("날짜 선택"),
-                        content: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                Column(
-                                  children: [
-                                    Container(
-                                        color: Colors.red,
-                                        child: _selectYear()
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Container(
-                                        color: Colors.blue,
-                                        child: Text('${monthList}')
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )
-                        ),
-                        actions: <Widget>[
-                          ElevatedButton(
-                            child: Text("ok"),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          ElevatedButton(
-                            child: Text("cancel"),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    }
-                );
-              }
           ),
         ],
       )
