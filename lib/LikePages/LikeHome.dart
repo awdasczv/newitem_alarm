@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:newitem_alarm/LikePages/Like_Body.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 import '../LikePages/likegoods_filter.dart';
@@ -38,12 +39,14 @@ class _LikeHomeState extends State<LikeHome>
     return DefaultTabController(
         length: bar.length,
         child: MaterialApp(
+            debugShowCheckedModeBanner:
+                false, //우측 상단 debug 리본 보이지 않게(디버그 모드 해제)
             //theme: ThemeData(primaryColor: Colors.white), //전체테마 변경
             home: Scaffold(
                 appBar: AppBar(
                   elevation: 0,
                   //shadowColor: Colors.black,
-                  centerTitle: true,
+                  // centerTitle: true, //title 중앙
                   shape: Border(
                       bottom: BorderSide(color: Colors.black26, width: 1)),
                   backgroundColor: Colors.white,
@@ -60,7 +63,7 @@ class _LikeHomeState extends State<LikeHome>
                     indicatorColor: Colors.white,
                     //선 색깔
                     controller: _tabController,
-                    indicatorSize: TabBarIndicatorSize.label,
+                    // indicatorSize: TabBarIndicatorSize.label,
                     indicator: MaterialIndicator(
                       height: 5,
                       topLeftRadius: 0,
@@ -77,17 +80,20 @@ class _LikeHomeState extends State<LikeHome>
                     }).toList(),
                   ),
                 ),
-                body: TabBarView(
-                  //Pageview를 TabBarView로 수정
-                  controller: _tabController,
-                  //allowImplicitScrolling: true,
-                  children: <Widget>[
-                    GoodsPage(), //상품 화면
-                    WatchPage(), //워치 화면
-                  ],
-                ))));
+                body: LikeBody())));
   }
 }
+
+//
+// TabBarView(
+// //Pageview를 TabBarView로 수정
+// controller: _tabController,
+// //allowImplicitScrolling: true,
+// children: <Widget>[
+// GoodsPage(), //상품 화면
+// WatchPage(), //워치 화면
+// ],
+// )
 
 class GoodsPage extends StatefulWidget {
   //상품 화면
@@ -144,87 +150,83 @@ Widget Goods(int index) {
     bottom: false,
     child: Column(
       children: <Widget>[
-        Hero(
-          //상품좋아요Card 눌렀을 때 나오는 상품상세페이지와 연결되도록 tag하기 (후에 할 일)
-          tag: 'goodsLikeCard',
-          child: Card(
-            elevation: 2, //그림자 깊이
-            margin: EdgeInsets.all(8),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: InkWell(
-              onTap: () {},
-              // InkWell은 GestureDetector랑 달리 누르면 잉크 퍼지듯이, 후에 클릭하면 페이지로 이동하도록 수정해야 함.
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Row(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start, //Row일 때, 가로축 기준 위쪽 정렬 //strech
-                  children: [
-                    SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: Image.network(
-                          "https://t1.daumcdn.net/cfile/tistory/9994463B5C2B89F731"),
-                    ),
-                    const Padding(padding: EdgeInsets.only(left: 10)),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start, //Column일 때 세로축 기준 왼쪽 정렬
-                        children: [
-                          Text('상품명$index',
-                              maxLines: 2,
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold)),
-                          Padding(padding: EdgeInsets.only(bottom: 5)),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              RatingBarIndicator(
-                                //수정필요
-                                rating: starScore,
-                                physics: BouncingScrollPhysics(),
-                                //BouncingScrollPhysics() 끝에서 되돌아오는 scroll physics
-                                itemBuilder: (context, _) {
-                                  return Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  );
-                                },
-                                itemPadding:
-                                    EdgeInsets.symmetric(horizontal: 1.0),
-                                itemCount: 5,
-                                itemSize: 25,
-                                direction: Axis.horizontal,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(right: 7),
-                              ),
-                              Text(
-                                '$starScore점',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Padding(padding: EdgeInsets.only(bottom: 5)),
-                          Text(
-                            '$cost원',
+        Card(
+          elevation: 2, //그림자 깊이
+          margin: EdgeInsets.all(8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: InkWell(
+            onTap: () {},
+            // InkWell은 GestureDetector랑 달리 누르면 잉크 퍼지듯이, 후에 클릭하면 페이지로 이동하도록 수정해야 함.
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                crossAxisAlignment:
+                    CrossAxisAlignment.start, //Row일 때, 가로축 기준 위쪽 정렬 //strech
+                children: [
+                  SizedBox(
+                    width: 100,
+                    height: 100,
+                    child: Image.network(
+                        "https://t1.daumcdn.net/cfile/tistory/9994463B5C2B89F731"),
+                  ),
+                  const Padding(padding: EdgeInsets.only(left: 10)),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start, //Column일 때 세로축 기준 왼쪽 정렬
+                      children: [
+                        Text('상품명$index',
+                            maxLines: 2,
                             style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black.withOpacity(0.8)),
-                          ),
-                        ],
-                      ),
+                                fontSize: 22, fontWeight: FontWeight.bold)),
+                        Padding(padding: EdgeInsets.only(bottom: 5)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            RatingBarIndicator(
+                              //수정필요
+                              rating: starScore,
+                              physics: BouncingScrollPhysics(),
+                              //BouncingScrollPhysics() 끝에서 되돌아오는 scroll physics
+                              itemBuilder: (context, _) {
+                                return Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                );
+                              },
+                              itemPadding:
+                                  EdgeInsets.symmetric(horizontal: 1.0),
+                              itemCount: 5,
+                              itemSize: 25,
+                              direction: Axis.horizontal,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 7),
+                            ),
+                            Text(
+                              '$starScore점',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(padding: EdgeInsets.only(bottom: 5)),
+                        Text(
+                          '$cost원',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black.withOpacity(0.8)),
+                        ),
+                      ],
                     ),
-                  ], //Card 위젯에 onTap과 같은 위젯 탭하는 액션 추가하기 위해
-                ), //margin 바깥쪽
-              ),
+                  ),
+                ], //Card 위젯에 onTap과 같은 위젯 탭하는 액션 추가하기 위해
+              ), //margin 바깥쪽
             ),
           ),
         ),

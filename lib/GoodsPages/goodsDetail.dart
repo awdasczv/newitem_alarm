@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/model/goods.dart';
 
-import '../GoodsPages/goodsDetail_Body.dart';
+import 'goodsDetail_Body.dart';
 
 class DetailMain extends StatefulWidget {
   static String routeName = "/goodsDetail";
