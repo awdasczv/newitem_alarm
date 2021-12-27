@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:newitem_alarm/LikePages/GoodsPages/goodsDetail.dart';
-import 'package:page_view_indicators/page_view_indicators.dart';
-import 'package:newitem_alarm/HomePages/SearchPage.dart';
+import 'package:newitem_alarm/GoodsPages/goodsDetail.dart';
 import 'package:newitem_alarm/HomePages/FastFood.dart';
+import 'package:newitem_alarm/HomePages/SearchPage.dart';
+import 'package:page_view_indicators/page_view_indicators.dart';
 
 class HomePage extends StatefulWidget {
   static String routeName = "/home";
@@ -40,21 +40,21 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          children: [
-            _banner(),
-            _category(),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Text(
-                '이주의 신상',
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            _itemList()
-          ],
-        ));
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      children: [
+        _banner(),
+        _category(),
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: Text(
+            '이주의 신상',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+        _itemList()
+      ],
+    ));
   }
 
   Widget _banner() {
@@ -226,7 +226,10 @@ class _HomePageState extends State<HomePage> {
       child: InkWell(
         //splashColor: Colors.green,
         onTap: () async {
-          await Navigator.push(context, MaterialPageRoute(builder: (context) => FastFood()),);
+          await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => FastFood()),
+          );
         },
         child: Column(
           children: [
