@@ -20,7 +20,7 @@ class _ProfileHomeState extends State<ProfileHome> {
   final ImagePicker _picker = ImagePicker();
   PickedFile _image;
 
-  bool _isLogin = false;
+  bool _isLogin = true;
 
   @override
   Widget build(BuildContext context) {
@@ -290,7 +290,6 @@ class _ProfileHomeState extends State<ProfileHome> {
             ),
           )),
       Container(
-        color: Colors.transparent,
         padding: EdgeInsets.all(50),
         decoration: BoxDecoration(
             border: Border(
