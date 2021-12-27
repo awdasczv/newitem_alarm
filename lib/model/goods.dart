@@ -28,21 +28,21 @@ class Goods {
     this.total_review_count,
     this.photoreview_count,
   });
-  // factory Goods.fromJson(dynamic json) => _$GoodsFromJson(json); //후에 API만들고 직렬화할 것.
-  // Map toJson() => _$GoodsToJSon(this);
-  // Goods.fromJson(Map json) {
-  //   imageUrl = json['imageUrl'];
-  //   title = json['title'];
-  //   price = json['price'];
-  //   starScore = json['starScore'];
-  // }
-  // Map toJson() {
-  //   final Map goods_data = new Map();
-  //   goods_data['imageUrl'] = this.imageUrl;
-  //   goods_data['title'] = this.title;
-  //   goods_data['price'] = this.price;
-  //   goods_data['starScore'] = this.starScore;
-  //   return goods_data;
+// factory Goods.fromJson(dynamic json) => _$GoodsFromJson(json); //후에 API만들고 직렬화할 것.
+// Map toJson() => _$GoodsToJSon(this);
+// Goods.fromJson(Map json) {
+//   imageUrl = json['imageUrl'];
+//   title = json['title'];
+//   price = json['price'];
+//   starScore = json['starScore'];
+// }
+// Map toJson() {
+//   final Map goods_data = new Map();
+//   goods_data['imageUrl'] = this.imageUrl;
+//   goods_data['title'] = this.title;
+//   goods_data['price'] = this.price;
+//   goods_data['starScore'] = this.starScore;
+//   return goods_data;
 }
 
 List<Goods> goodsList = [
