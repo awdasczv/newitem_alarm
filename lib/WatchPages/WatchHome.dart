@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/WatchPages/WatchDetail.dart';
+import 'package:newitem_alarm/WatchPages/WatchList.dart';
 import 'package:newitem_alarm/model/YoutubeApiModel.dart';
 import 'package:http/http.dart' as http;
 
@@ -110,7 +111,9 @@ class _WatchHomeState extends State<WatchHome> {
           return _youtubeThumbnail(_data[index]);
         } else
           return IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => WatchList(videoDataList:_data)));
+              },
               iconSize: 50,
               icon: Icon(
                 Icons.double_arrow,
