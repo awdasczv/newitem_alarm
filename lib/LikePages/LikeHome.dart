@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:newitem_alarm/LikePages/Like_Body.dart';
-import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
+import '../LikePages/Like_Body.dart';
 import '../LikePages/likegoods_filter.dart';
 
 class LikeHome extends StatefulWidget {
@@ -60,18 +59,10 @@ class _LikeHomeState extends State<LikeHome>
                     unselectedLabelColor: Colors.grey,
                     labelStyle:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    indicatorColor: Colors.white,
+                    indicatorColor: Colors.black,
                     //선 색깔
                     controller: _tabController,
-                    // indicatorSize: TabBarIndicatorSize.label,
-                    indicator: MaterialIndicator(
-                      height: 5,
-                      topLeftRadius: 0,
-                      topRightRadius: 0,
-                      bottomLeftRadius: 5,
-                      bottomRightRadius: 5,
-                      tabPosition: TabPosition.bottom,
-                    ),
+                    //indicatorSize: TabBarIndicatorSize.label,
                     //tab_indicator_styler에서 가져옴.
                     tabs: bar.map((_bar) {
                       return Tab(
