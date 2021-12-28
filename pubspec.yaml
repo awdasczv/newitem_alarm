@@ -37,6 +37,7 @@ dependencies:
   favorite_button: ^0.0.4
   cloud_firestore: ^3.1.5
   animated_splash_screen: ^1.0.1+2
+  auto_size_text: ^3.0.0 #범위에 맞게 Text 사이즈 자동으로 조정해주는 것.
   share:
   intl:
   cupertino_date_textbox:

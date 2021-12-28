@@ -1,8 +1,25 @@
 import 'package:json_annotation/json_annotation.dart';
 
+var category = {
+  0: '스낵',
+  1: '빵집',
+  2: '음료',
+  3: '카페/디저트',
+  4: '주류',
+  5: '라면',
+  6: '햄버거',
+  7: '피자',
+  8: '치킨',
+  9: '즉석/냉동',
+  10: '아이스크림',
+  11: '과자'
+};
+
 @JsonSerializable(
     checked: true, createFactory: true, fieldRename: FieldRename.snake)
 class Goods {
+  String category;
+  String brand;
   String brandlogo;
   String imageUrl1;
   String imageUrl2;
@@ -16,6 +33,8 @@ class Goods {
   int photoreview_count;
 
   Goods({
+    this.category,
+    this.brand,
     this.brandlogo,
     this.imageUrl1,
     this.imageUrl2,
@@ -47,6 +66,8 @@ class Goods {
 
 List<Goods> goodsList = [
   Goods(
+      category: category[11],
+      brand: '오리온',
       brandlogo:
           "https://blog.kakaocdn.net/dn/nsXAr/btq0g0l5ndp/9xoD9kQ9bpRSSdisnPk9K1/img.jpg",
       imageUrl1:
@@ -66,6 +87,8 @@ List<Goods> goodsList = [
       total_review_count: 11,
       photoreview_count: 5),
   Goods(
+    category: category[11],
+    brand: '오리온',
     brandlogo:
         "https://blog.kakaocdn.net/dn/nsXAr/btq0g0l5ndp/9xoD9kQ9bpRSSdisnPk9K1/img.jpg",
     imageUrl1:
@@ -76,6 +99,8 @@ List<Goods> goodsList = [
     review: 4,
   ),
   Goods(
+      category: category[11],
+      brand: '오리온',
       brandlogo:
           "https://blog.kakaocdn.net/dn/nsXAr/btq0g0l5ndp/9xoD9kQ9bpRSSdisnPk9K1/img.jpg",
       imageUrl1:
