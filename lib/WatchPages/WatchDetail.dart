@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:newitem_alarm/LikePages/GoodsPages/goodsDetail.dart';
+import 'package:newitem_alarm/GoodsPages/goodsDetail.dart';
 import 'package:newitem_alarm/model/YoutubeApiModel.dart';
 import 'package:newitem_alarm/model/goods.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,7 +16,6 @@ class WatchDetail extends StatefulWidget {
 }
 
 class _WatchDetailState extends State<WatchDetail> {
-
   YoutubePlayerController _youtubePlayerController;
   YoutubeMetaData _playerMetaData;
 
@@ -30,7 +29,6 @@ class _WatchDetailState extends State<WatchDetail> {
   bool _wishIsPressed = false;
 
   bool _expandDescription = false;
-
 
   @override
   Widget build(BuildContext context) {
@@ -74,177 +72,232 @@ class _WatchDetailState extends State<WatchDetail> {
             _youtubePlayerController.load(widget.videoData.video_id);
           },
         ),
-
-        builder: (context, player){
+        builder: (context, player) {
           return Scaffold(
-            appBar: _appBar(),
-            body: Column(
-              children: [
-                player,
-                Expanded(child: ListView(
-                  children: [
-                    _watchInfo(widget.videoData),
-                    _divider(),
-                    _row(),
-                    _divider(),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
-                      child: Text('영상속 제품들',style: TextStyle(fontSize: 18),),
+              appBar: _appBar(),
+              body: Column(
+                children: [
+                  player,
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        _watchInfo(widget.videoData),
+                        _divider(),
+                        _row(),
+                        _divider(),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
+                          child: Text(
+                            '영상속 제품들',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        _goods_gridview_in_video()
+                      ],
                     ),
-                    _goods_gridview_in_video()
-                  ],
-                ),)
-              ],
-            )
-
-          );
-        }
-    );
+                  )
+                ],
+              ));
+        });
   }
 
-  Widget _goods_gridview_in_video(){
+  Widget _goods_gridview_in_video() {
     return GridView.builder(
-      shrinkWrap: true,
+        shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
         ),
         physics: NeverScrollableScrollPhysics(),
         itemCount: goodsList.length,
-        itemBuilder: (BuildContext context, int index){
+        itemBuilder: (BuildContext context, int index) {
           return _goods_container_in_video(index);
-        }
-    );
+        });
   }
-  
-  Widget _goods_container_in_video(int index){
-    return Padding(
-      padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
-      child: Card(
-        elevation: 2, //그림자 깊이
-        margin: EdgeInsets.all(2),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: InkWell(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Center(child: Container(
-                  child: Image.network(goodsList[index].imageUrl1),
-                ),)
-              ),
-              Divider(
-                color: Colors.black26,
-              ),
-              Text(" " + goodsList[index].title,maxLines: 1,style: TextStyle(fontSize: 15),),
-              Text(" " + goodsList[index].price.toString() + "원",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
-            ],
-          ),
-          onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => DetailMain()));
-          },//상품 상세페이지로의 navigator
-        )
-      )
-    );
-  }
-  
-  
 
-  Widget _row(){
-    if(!_expandDescription){
+  Widget _goods_container_in_video(int index) {
+    return Padding(
+        padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+        child: Card(
+            elevation: 2, //그림자 깊이
+            margin: EdgeInsets.all(2),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: InkWell(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                      child: Center(
+                    child: Container(
+                      child: Image.network(goodsList[index].imageUrl1),
+                    ),
+                  )),
+                  Divider(
+                    color: Colors.black26,
+                  ),
+                  Text(
+                    " " + goodsList[index].title,
+                    maxLines: 1,
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  Text(" " + goodsList[index].price.toString() + "원",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
+                ],
+              ),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => DetailMain()));
+              }, //상품 상세페이지로의 navigator
+            )));
+  }
+
+  Widget _row() {
+    if (!_expandDescription) {
       return Row(
         children: [
-          SizedBox(width: 10,),
-          IconButton(
-              onPressed: (){setState(() {_likeIsPressed = !_likeIsPressed; print(_likeIsPressed);});},
-              icon: _icon(0,_likeIsPressed)
+          SizedBox(
+            width: 10,
           ),
-          SizedBox(width: 10,),
           IconButton(
-              onPressed: (){setState(() {_dislikeIsPressed = !_dislikeIsPressed;});},
-              icon: _icon(1,_dislikeIsPressed)
+              onPressed: () {
+                setState(() {
+                  _likeIsPressed = !_likeIsPressed;
+                  print(_likeIsPressed);
+                });
+              },
+              icon: _icon(0, _likeIsPressed)),
+          SizedBox(
+            width: 10,
           ),
-          SizedBox(width: 10,),
           IconButton(
-              onPressed: (){setState(() {_wishIsPressed = !_wishIsPressed;});},
-              icon: _icon(2,_wishIsPressed)
+              onPressed: () {
+                setState(() {
+                  _dislikeIsPressed = !_dislikeIsPressed;
+                });
+              },
+              icon: _icon(1, _dislikeIsPressed)),
+          SizedBox(
+            width: 10,
           ),
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  _wishIsPressed = !_wishIsPressed;
+                });
+              },
+              icon: _icon(2, _wishIsPressed)),
           Spacer(),
           Text('상세설명'),
           IconButton(
-              onPressed: (){
+              onPressed: () {
                 setState(() {
                   _expandDescription = !_expandDescription;
                 });
               },
-              icon: Icon(Icons.expand_more, size: 30,)
-          )
+              icon: Icon(
+                Icons.expand_more,
+                size: 30,
+              ))
         ],
       );
-    }
-    else {
+    } else {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              SizedBox(width: 10,),
-              IconButton(
-                  onPressed: (){setState(() {_likeIsPressed = !_likeIsPressed; print(_likeIsPressed);});},
-                  icon: _icon(0,_likeIsPressed)
+              SizedBox(
+                width: 10,
               ),
-              SizedBox(width: 10,),
               IconButton(
-                  onPressed: (){setState(() {_dislikeIsPressed = !_dislikeIsPressed;});},
-                  icon: _icon(1,_dislikeIsPressed)
+                  onPressed: () {
+                    setState(() {
+                      _likeIsPressed = !_likeIsPressed;
+                      print(_likeIsPressed);
+                    });
+                  },
+                  icon: _icon(0, _likeIsPressed)),
+              SizedBox(
+                width: 10,
               ),
-              SizedBox(width: 10,),
               IconButton(
-                  onPressed: (){setState(() {_wishIsPressed = !_wishIsPressed;});},
-                  icon: _icon(2,_wishIsPressed)
+                  onPressed: () {
+                    setState(() {
+                      _dislikeIsPressed = !_dislikeIsPressed;
+                    });
+                  },
+                  icon: _icon(1, _dislikeIsPressed)),
+              SizedBox(
+                width: 10,
               ),
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _wishIsPressed = !_wishIsPressed;
+                    });
+                  },
+                  icon: _icon(2, _wishIsPressed)),
               Spacer(),
               Text('상세설명'),
               IconButton(
-                  onPressed: (){
+                  onPressed: () {
                     setState(() {
                       _expandDescription = !_expandDescription;
                     });
                   },
-                  icon: Icon(Icons.expand_more, size: 30,)
-              )
+                  icon: Icon(
+                    Icons.expand_more,
+                    size: 30,
+                  ))
             ],
           ),
-          Padding(padding: EdgeInsets.fromLTRB(5, 0, 5, 0),child: Text(widget.videoData.video_discription),)
+          Padding(
+            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+            child: Text(widget.videoData.video_discription),
+          )
         ],
       );
     }
   }
 
-  Icon _icon(int index, bool _isPressed){
-    if(index == 0){
-      if(!_isPressed){
-        return Icon(Icons.thumb_up_alt_outlined, size: 30,);
+  Icon _icon(int index, bool _isPressed) {
+    if (index == 0) {
+      if (!_isPressed) {
+        return Icon(
+          Icons.thumb_up_alt_outlined,
+          size: 30,
+        );
+      } else {
+        return Icon(
+          Icons.thumb_up_alt,
+          size: 30,
+        );
       }
-      else {
-        return Icon(Icons.thumb_up_alt, size: 30,);
+    } else if (index == 1) {
+      if (!_isPressed) {
+        return Icon(
+          Icons.thumb_down_alt_outlined,
+          size: 30,
+        );
+      } else {
+        return Icon(
+          Icons.thumb_down_alt,
+          size: 30,
+        );
       }
-    }
-    else if(index == 1){
-      if(!_isPressed){
-        return Icon(Icons.thumb_down_alt_outlined, size: 30,);
-      }
-      else {
-        return Icon(Icons.thumb_down_alt, size: 30,);
-      }
-    }
-    else{
-      if(!_isPressed){
-        return Icon(Icons.favorite_border, size: 30,);
-      }
-      else {
-        return Icon(Icons.favorite, size: 30,);
+    } else {
+      if (!_isPressed) {
+        return Icon(
+          Icons.favorite_border,
+          size: 30,
+        );
+      } else {
+        return Icon(
+          Icons.favorite,
+          size: 30,
+        );
       }
     }
   }
@@ -265,7 +318,7 @@ class _WatchDetailState extends State<WatchDetail> {
         enableCaption: true,
       ),
     )..addListener(listener);
-    _playerMetaData =  const YoutubeMetaData();
+    _playerMetaData = const YoutubeMetaData();
     _playerState = PlayerState.unknown;
   }
 
@@ -282,8 +335,8 @@ class _WatchDetailState extends State<WatchDetail> {
     super.dispose();
   }
 
-  AppBar _appBar(){
-    return  AppBar(
+  AppBar _appBar() {
+    return AppBar(
       backgroundColor: Colors.white,
       iconTheme: IconThemeData(
         color: Colors.black, //change your color here
@@ -292,8 +345,7 @@ class _WatchDetailState extends State<WatchDetail> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back_ios)
-      ),
+          icon: Icon(Icons.arrow_back_ios)),
       title: Text(
         '워치',
         style: TextStyle(
@@ -302,17 +354,24 @@ class _WatchDetailState extends State<WatchDetail> {
       centerTitle: true,
       actions: [
         TextButton(
-            onPressed: (){
-              launch('https://www.youtube.com/watch?v=' + widget.videoData.video_id + '&ab_channel=' + widget.videoData.channel_name, forceWebView: false, forceSafariVC: false);
+            onPressed: () {
+              launch(
+                  'https://www.youtube.com/watch?v=' +
+                      widget.videoData.video_id +
+                      '&ab_channel=' +
+                      widget.videoData.channel_name,
+                  forceWebView: false,
+                  forceSafariVC: false);
             },
-            child: Text('유튜브로 열기')
-        )
+            child: Text('유튜브로 열기'))
       ],
     );
   }
 
   void listener() {
-    if (_isPlayerReady && mounted && !_youtubePlayerController.value.isFullScreen) {
+    if (_isPlayerReady &&
+        mounted &&
+        !_youtubePlayerController.value.isFullScreen) {
       setState(() {
         _playerState = _youtubePlayerController.value.playerState;
         _playerMetaData = _youtubePlayerController.metadata;
@@ -329,57 +388,54 @@ class _WatchDetailState extends State<WatchDetail> {
             CircleAvatar(
               radius: 20,
               backgroundColor: Colors.grey.withOpacity(0.6),
-              backgroundImage: Image.network(
-                  metadata.channel_thumbnails)
-                  .image,
+              backgroundImage: Image.network(metadata.channel_thumbnails).image,
             ),
             SizedBox(
               width: 13,
             ),
             Expanded(
                 child: Column(
+              children: [
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            metadata.video_title,
-                            style: TextStyle(fontSize: 15),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ), //Title 길때 2줄까지
-                      ],
+                    Expanded(
+                      child: Text(
+                        metadata.video_title,
+                        style: TextStyle(fontSize: 15),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ), //Title 길때 2줄까지
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      metadata.channel_name,
+                      style: _style(),
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          metadata.channel_name,
-                          style: _style(),
-                        ),
-                        SizedBox(
-                          width: 3,
-                        ),
-                        Text(
-                          "·",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: Colors.black.withOpacity(0.5)),
-                        ),
-                        SizedBox(
-                          width: 3,
-                        ),
-                        Text(
-                          metadata.video_published_date.substring(0,10),
-                          style: TextStyle(
-                              fontSize: 14, color: Colors.black.withOpacity(0.5)),
-                        ),
-                      ],
-                    )
+                    SizedBox(
+                      width: 3,
+                    ),
+                    Text(
+                      "·",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: Colors.black.withOpacity(0.5)),
+                    ),
+                    SizedBox(
+                      width: 3,
+                    ),
+                    Text(
+                      metadata.video_published_date.substring(0, 10),
+                      style: TextStyle(
+                          fontSize: 14, color: Colors.black.withOpacity(0.5)),
+                    ),
                   ],
                 )
-            )
+              ],
+            ))
           ],
         ));
   }
@@ -388,7 +444,7 @@ class _WatchDetailState extends State<WatchDetail> {
     return TextStyle(fontSize: 12, color: Colors.black.withOpacity(0.5));
   }
 
-  Divider _divider(){
+  Divider _divider() {
     return Divider(
       color: Colors.black26,
       thickness: 2,
