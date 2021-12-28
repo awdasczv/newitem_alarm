@@ -71,20 +71,17 @@ class _LikeHomeState extends State<LikeHome>
                     }).toList(),
                   ),
                 ),
-                body: LikeBody())));
+                body: TabBarView(
+                  //Pageview를 TabBarView로 수정
+                  controller: _tabController,
+                  //allowImplicitScrolling: true,
+                  children: <Widget>[
+                    LikeBody(), //상품 화면
+                    WatchPage(), //워치 화면
+                  ],
+                ))));
   }
 }
-
-//
-// TabBarView(
-// //Pageview를 TabBarView로 수정
-// controller: _tabController,
-// //allowImplicitScrolling: true,
-// children: <Widget>[
-// GoodsPage(), //상품 화면
-// WatchPage(), //워치 화면
-// ],
-// )
 
 class GoodsPage extends StatefulWidget {
   //상품 화면
