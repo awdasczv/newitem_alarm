@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newitem_alarm/GoodsPages/goodsDetail.dart';
 import 'package:newitem_alarm/model/goods.dart';
 
 import '../LikePages/Goods_Card.dart';
@@ -24,8 +25,18 @@ class LikeBody extends StatelessWidget {
                       10, //mainAxis를 따라 각 child 사이 크기 //위로 얼마나 띄어져 있는지
                   crossAxisSpacing: 10 //같은 행에 있는 child 간 사이 크기
                   ),
-              itemBuilder: (context, index) => GoodsCard(
-                    goods: goodsList[index],
+              itemBuilder: (context, index) => GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailMain(
+                                    goods: goodsList[index],
+                                  )));
+                    },
+                    child: GoodsCard(
+                      goods: goodsList[index],
+                    ),
                   )),
         ))
       ],

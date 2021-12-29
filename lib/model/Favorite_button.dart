@@ -129,7 +129,7 @@ class _FavoriteButtonState extends State<FavoriteButton>
             });
           },
           child: Icon(
-            (_isAnimationCompleted
+            (_isFavorite
                 ? Icons.favorite_rounded
                 : Icons.favorite_border_rounded), //기존에 있던 package에서 추가한 부분
             color: _colorAnimation.value,

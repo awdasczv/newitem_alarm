@@ -104,8 +104,12 @@ List<Goods> goodsList = [
         "https://blog.kakaocdn.net/dn/nsXAr/btq0g0l5ndp/9xoD9kQ9bpRSSdisnPk9K1/img.jpg",
     imageUrl1:
         "http://www.orionworld.com/Data/Goods/%EC%98%A4!%EA%B7%B8%EB%9E%98%EB%86%80%EB%9D%BC%EB%94%B8%EA%B8%B0_3D-m[3].png",
+    imageUrl2:
+        'http://img.danawa.com/prod_img/500000/993/443/img/10443993_1.jpg?shrink=330:330&_v=20200129171919',
     title: "오!그래놀라 딸기",
     price: 7000,
+    launchdate: '20210907',
+    starScore: 4.3,
   ),
   Goods(
     category: category[11],
@@ -114,9 +118,12 @@ List<Goods> goodsList = [
         "https://blog.kakaocdn.net/dn/nsXAr/btq0g0l5ndp/9xoD9kQ9bpRSSdisnPk9K1/img.jpg",
     imageUrl1:
         "http://www.orionworld.com/Data/Goods/%EC%8A%A4%EC%9C%99%EC%B9%A9%20%EA%B0%88%EB%A6%AD%EB%94%94%ED%95%91%EC%86%8C%EC%8A%A4%EB%A7%9B-m[2].png",
+    imageUrl2:
+        'https://sep-item.ssgcdn.com/69/39/19/item/1000262193969_i1_350.jpg',
     title: "스윙칩 갈릭디핑소스맛",
     price: 2000,
     starScore: 3.9,
+    launchdate: '20210907',
     total_review_count: 12,
   ),
 ];

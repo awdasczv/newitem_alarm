@@ -3,10 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:newitem_alarm/GoodsPages/goodsDetail.dart';
 import 'package:newitem_alarm/HomePages/FastFood.dart';
 import 'package:newitem_alarm/HomePages/SearchPage.dart';
+import 'package:newitem_alarm/model/Favorite_button.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
 
+import '../model/Favorite_button.dart';
+import '../model/goods.dart';
+
 class HomePage extends StatefulWidget {
+  final Goods goods;
+
+  const HomePage({Key key, @required this.goods}) : super(key: key);
+
   static String routeName = "/home";
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -250,7 +259,7 @@ class _HomePageState extends State<HomePage> {
   Widget _itemList() {
     return ListView.builder(
         shrinkWrap: true,
-        itemCount: _colorList1.length,
+        itemCount: goodsList.length,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
           return _itemContainer(index);
@@ -258,7 +267,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _itemContainer(int index) {
-
     Icon _icon() {
       if (_isfavorite[index]) {
         return Icon(
@@ -276,36 +284,37 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         children: [
           Expanded(
-              child: InkWell(
+              child: GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(
-                      //goodsDetail.dart와 연결되도록  Navigator push함.
-                      context,
-                      DetailMain.routeName,
-                    );
+                    Navigator.push(
+                        //goodsDetail.dart와 연결되도록  Navigator push함.
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailMain(
+                                  goods: goodsList[index],
+                                )));
                   },
                   child: Column(
                     children: [
                       Stack(
                         children: [
                           Container(
-                            height: 230,
-                            color: _colorList1[index],
-                            child: Center(
-                              child: FlutterLogo(
-                                size: 100,
-                              ),
-                            ),
+                            height: 200,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    fit: BoxFit.contain,
+                                    image: NetworkImage(
+                                        goodsList[index].imageUrl1))),
                           ),
                           Positioned(
-                            right: 0.0,
-                            bottom: 0.0,
-                            child: IconButton(
-                              icon: _icon(),
-                              iconSize: 40,
-                              onPressed: () {
-                                setState(() {_isfavorite[index] = !_isfavorite[index];});
-                                print(_isfavorite[index]);
+                            right: 8,
+                            bottom: 8,
+                            child: FavoriteButton(
+                              iconSize: 60,
+                              iconDisabledColor: Colors.black87,
+                              isFavorite: false,
+                              valueChanged: (_isFavorite) {
+                                print('Is Favorite : $_isFavorite');
                               },
                             ),
                           ),
@@ -333,11 +342,11 @@ class _HomePageState extends State<HomePage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  '상품이름 가나다라',
+                                  goodsList[index].title,
                                   style: TextStyle(fontSize: 17),
                                 ),
                                 Text(
-                                  '가격 28000원',
+                                  goodsList[index].price.toString() + "원",
                                   style: TextStyle(fontSize: 17),
                                 )
                               ],
