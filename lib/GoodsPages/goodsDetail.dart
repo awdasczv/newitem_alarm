@@ -1,8 +1,8 @@
-import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/model/goods.dart';
 
+import '../model/Favorite_button.dart';
 import 'goodsDetail_Body.dart';
 
 class DetailMain extends StatefulWidget {
@@ -38,7 +38,7 @@ class _DetailMainState extends State<DetailMain> {
           elevation: 1,
           actions: <Widget>[
             FavoriteButton(
-              iconDisabledColor: Colors.black12,
+              iconDisabledColor: Colors.black87,
               isFavorite: false,
               valueChanged: (_isFavorite) {
                 print('Is Favorite : $_isFavorite');

@@ -26,7 +26,6 @@ class Goods {
   String title;
   int price;
   double starScore;
-  int review;
   String describe;
   String launchdate;
   int total_review_count;
@@ -41,7 +40,6 @@ class Goods {
     this.title,
     this.price,
     this.starScore,
-    this.review,
     this.describe,
     this.launchdate,
     this.total_review_count,
@@ -66,6 +64,20 @@ class Goods {
 
 List<Goods> goodsList = [
   Goods(
+    category: category[5],
+    brand: '삼양',
+    brandlogo: "https://www.samyangfoods.com/asset/images/common/logo.png",
+    imageUrl1:
+        "https://www.samyangfoods.com/upload/product/20211222/20211222103336935629.jpg",
+    imageUrl2:
+        'https://www.samyangfoods.com/upload/product/20211222/20211222103336934627.png',
+    title: "큰컵 뽀끼뽀끼크림라뽀끼 fdfdfdffdfdfdfd",
+    price: 1200,
+    launchdate: '20211221',
+    starScore: 4.2,
+    total_review_count: 12,
+  ),
+  Goods(
       category: category[11],
       brand: '오리온',
       brandlogo:
@@ -77,7 +89,6 @@ List<Goods> goodsList = [
       title: "고래밥 초코범벅",
       price: 1500,
       starScore: 4.3,
-      review: 100,
       describe: """""딸기 그래놀라와 허니 그래놀라의 달콤한 만남! /n달콤한 미쯔블랙과 상큼한 딸기칼슘볼이 듬뿍!/n
   1. 국내생산 그래놀라 90%/n
   2. 상큼한 딸기 그래놀라와 달콤한 허니 그래놀라!/n
@@ -95,18 +106,17 @@ List<Goods> goodsList = [
         "http://www.orionworld.com/Data/Goods/%EC%98%A4!%EA%B7%B8%EB%9E%98%EB%86%80%EB%9D%BC%EB%94%B8%EA%B8%B0_3D-m[3].png",
     title: "오!그래놀라 딸기",
     price: 7000,
-    starScore: 3.0,
-    review: 4,
   ),
   Goods(
-      category: category[11],
-      brand: '오리온',
-      brandlogo:
-          "https://blog.kakaocdn.net/dn/nsXAr/btq0g0l5ndp/9xoD9kQ9bpRSSdisnPk9K1/img.jpg",
-      imageUrl1:
-          "http://www.orionworld.com/Data/Goods/%EC%8A%A4%EC%9C%99%EC%B9%A9%20%EA%B0%88%EB%A6%AD%EB%94%94%ED%95%91%EC%86%8C%EC%8A%A4%EB%A7%9B-m[2].png",
-      title: "스윙칩 갈릭디핑소스맛",
-      price: 2000,
-      starScore: 3.9,
-      review: 10)
+    category: category[11],
+    brand: '오리온',
+    brandlogo:
+        "https://blog.kakaocdn.net/dn/nsXAr/btq0g0l5ndp/9xoD9kQ9bpRSSdisnPk9K1/img.jpg",
+    imageUrl1:
+        "http://www.orionworld.com/Data/Goods/%EC%8A%A4%EC%9C%99%EC%B9%A9%20%EA%B0%88%EB%A6%AD%EB%94%94%ED%95%91%EC%86%8C%EC%8A%A4%EB%A7%9B-m[2].png",
+    title: "스윙칩 갈릭디핑소스맛",
+    price: 2000,
+    starScore: 3.9,
+    total_review_count: 12,
+  ),
 ];

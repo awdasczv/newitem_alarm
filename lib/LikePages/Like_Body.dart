@@ -15,12 +15,15 @@ class LikeBody extends StatelessWidget {
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14),
           child: GridView.builder(
+              shrinkWrap: true, //필요한 공간만 차지
               itemCount: goodsList.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.75,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 0.8),
+                  crossAxisCount: 2, //2행
+                  childAspectRatio: 0.65, //mainAxis에 대한 교차축 비율
+                  mainAxisSpacing:
+                      10, //mainAxis를 따라 각 child 사이 크기 //위로 얼마나 띄어져 있는지
+                  crossAxisSpacing: 10 //같은 행에 있는 child 간 사이 크기
+                  ),
               itemBuilder: (context, index) => GoodsCard(
                     goods: goodsList[index],
                   )),
