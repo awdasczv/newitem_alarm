@@ -123,7 +123,7 @@ class _WatchDetailState extends State<WatchDetail> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            child: InkWell(
+            child: GestureDetector(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -147,8 +147,13 @@ class _WatchDetailState extends State<WatchDetail> {
                 ],
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => DetailMain()));
+                Navigator.push(
+                    //goodsDetail.dart와 연결되도록  Navigator push함.
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DetailMain(
+                              goods: goodsList[index],
+                            )));
               }, //상품 상세페이지로의 navigator
             )));
   }

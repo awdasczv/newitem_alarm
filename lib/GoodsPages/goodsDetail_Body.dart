@@ -49,10 +49,6 @@ class Top extends StatefulWidget {
 
 class _TopState extends State<Top> {
   int _currentimage = 0;
-  List<String> imageList = [
-    goodsList[0].imageUrl1,
-    goodsList[0].imageUrl2,
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +61,10 @@ class _TopState extends State<Top> {
           // alignment: Alignment.center,
           children: [
             CarouselSlider(
-              items: imageList.map((item) {
+              items:
+                  [widget.goods.imageUrl1, widget.goods.imageUrl2].map((item) {
                 return Container(
+                    color: Colors.white,
                     width: MediaQuery.of(context).size.width,
                     child: FittedBox(
                         fit: BoxFit.contain,
@@ -81,7 +79,7 @@ class _TopState extends State<Top> {
                   height: 300,
                   viewportFraction: 1.0,
                   //각 페이지가 보이는 영역 비율
-                  autoPlay: true,
+                  autoPlay: false,
                   //자동으로 page넘김
                   enlargeCenterPage: true,
                   // enlargeStrategy: CenterPageEnlargeStrategy
@@ -99,8 +97,10 @@ class _TopState extends State<Top> {
                 bottom: 29.0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: imageList.map((url) {
-                    int index = imageList.indexOf(url);
+                  children: [widget.goods.imageUrl1, widget.goods.imageUrl2]
+                      .map((url) {
+                    int index = [widget.goods.imageUrl1, widget.goods.imageUrl2]
+                        .indexOf(url);
                     return Container(
                       width: 8.0,
                       height: 8.0,

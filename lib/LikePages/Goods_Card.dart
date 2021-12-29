@@ -5,6 +5,7 @@ import '../model/Favorite_button.dart';
 
 class GoodsCard extends StatelessWidget {
   final Goods goods;
+
   const GoodsCard({Key key, @required this.goods}) : super(key: key);
 
   @override
@@ -36,7 +37,7 @@ class GoodsCard extends StatelessWidget {
                 child: FavoriteButton(
                   iconSize: 40,
                   iconDisabledColor: Colors.black87,
-                  isFavorite: false,
+                  isFavorite: true, //찜목록에 있으니까
                   valueChanged: (_isFavorite) {
                     print('Is Favorite : $_isFavorite');
                   },
