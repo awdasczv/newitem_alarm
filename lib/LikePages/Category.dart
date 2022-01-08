@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-import '../controller/category_controller.dart';
 
 class Category extends StatefulWidget {
   // Animation _favorite;
@@ -35,28 +32,24 @@ class _CategoryState extends State<Category> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: Container(
-          height: 28,
-          child: GetBuilder(
-            init: categoryController(),
-            builder: (val) => ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: category.length,
-                itemBuilder: (context, index) {
-                  return categoryMethod(index);
-                }),
-          )),
+        height: 28,
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: category.length,
+            itemBuilder: (context, index) {
+              return buildCategory(context, index);
+            }),
+      ),
     );
   }
 
-  Widget categoryMethod(int index) {
+  Widget buildCategory(BuildContext context, int index) {
     // double bar_width =
     //     category[index].length.roundToDouble() * 12; //음절 수 * 글자 크기
-    final catgory_cntrl = Get.put(categoryController());
     return GestureDetector(
       onTap: () {
         setState(() {
           currentIndex = index;
-          TabBarView();
         });
       },
       child: Container(

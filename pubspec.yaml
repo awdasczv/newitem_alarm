@@ -42,6 +42,7 @@ dependencies:
   intl:
   cupertino_date_textbox:
   get: #GetX
+  scrollable_positioned_list: ^0.2.3
 
 
 

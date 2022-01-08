@@ -31,7 +31,7 @@ class Goods {
   final String launchdate;
   final int total_review_count;
   final int photoreview_count;
-  bool isFavorite;
+  bool isFavorite; //.obs를 하기 위해서 var 타입으로
 
   Goods({
     this.id,
@@ -100,26 +100,27 @@ List<Goods> goodsList = [
     total_review_count: 12,
   ),
   Goods(
-      id: 1,
-      category: category[11],
-      brand: '오리온',
-      brandlogo:
-          "https://blog.kakaocdn.net/dn/nsXAr/btq0g0l5ndp/9xoD9kQ9bpRSSdisnPk9K1/img.jpg",
-      imageUrl1:
-          "http://www.orionworld.com/Data/Goods/%EA%B3%A0%EB%9E%98%EB%B0%A5_%EC%B4%88%EC%BD%94%EB%B2%94%EB%B2%85_%EC%A0%9C%ED%92%88%EC%9D%B4%EB%AF%B8%EC%A7%80_228x220.jpg",
-      imageUrl2:
-          "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTcnFOFEo53dDGG_bee0KtG0NZZBO5G7eT7Ky1miuUnaLlMlRNk16OAI6hdflMAmhuShR7Pdlkwbdc&usqp=CAc",
-      title: "고래밥 초코범벅",
-      price: 1500,
-      starScore: 4.3,
-      describe: """""딸기 그래놀라와 허니 그래놀라의 달콤한 만남! /n달콤한 미쯔블랙과 상큼한 딸기칼슘볼이 듬뿍!/n
+    id: 1,
+    category: category[11],
+    brand: '오리온',
+    brandlogo:
+        "https://blog.kakaocdn.net/dn/nsXAr/btq0g0l5ndp/9xoD9kQ9bpRSSdisnPk9K1/img.jpg",
+    imageUrl1:
+        "http://www.orionworld.com/Data/Goods/%EA%B3%A0%EB%9E%98%EB%B0%A5_%EC%B4%88%EC%BD%94%EB%B2%94%EB%B2%85_%EC%A0%9C%ED%92%88%EC%9D%B4%EB%AF%B8%EC%A7%80_228x220.jpg",
+    imageUrl2:
+        "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTcnFOFEo53dDGG_bee0KtG0NZZBO5G7eT7Ky1miuUnaLlMlRNk16OAI6hdflMAmhuShR7Pdlkwbdc&usqp=CAc",
+    title: "고래밥 초코범벅",
+    price: 1500,
+    starScore: 4.3,
+    describe: """""딸기 그래놀라와 허니 그래놀라의 달콤한 만남! /n달콤한 미쯔블랙과 상큼한 딸기칼슘볼이 듬뿍!/n
   1. 국내생산 그래놀라 90%/n
   2. 상큼한 딸기 그래놀라와 달콤한 허니 그래놀라!/n
   3. 리얼 딸기와 상큼한 딸기칼슘볼이 듬뿍!/n
   4. 리얼딸기과즙과 비정제 사탕수수당을 넣어 깊은 풍미의 달콤함""",
-      launchdate: '20210907',
-      total_review_count: 11,
-      photoreview_count: 5),
+    launchdate: '20210907',
+    total_review_count: 11,
+    photoreview_count: 5,
+  ),
   Goods(
     id: 2,
     category: category[11],

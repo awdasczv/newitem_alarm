@@ -27,7 +27,7 @@ class goodsController extends GetxController {
 
   //특정 id의 goods를  isFavorite update함함
   void isFavoriteStatus(int id) {
-    goodsList[id].isFavorite = !goodsList[id].isFavorite;
+    goods[id].isFavorite = !goods[id].isFavorite;
     update(); //Provider 패키지에서는 update와 비슷한 걸로, notifyListeners가 있음.
   }
 }
