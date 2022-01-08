@@ -161,17 +161,27 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _category() {
+    List<Map> category = [
+      {'icon': "assets/icons/icecream_icon.png", "text": "스낵"},
+      {'icon': "assets/icons/icecream_icon.png", "text": "빵집"},
+      {'icon': "assets/icons/icecream_icon.png", "text": "음료"},
+      {'icon': "assets/icons/icecream_icon.png", "text": "카페/디저트"},
+      {'icon': "assets/icons/icecream_icon.png", "text": "주류"},
+      {'icon': "assets/icons/icecream_icon.png", "text": "라면"},
+      {'icon': "assets/icons/icecream_icon.png", "text": "햄버거"},
+      {'icon': "assets/icons/icecream_icon.png", "text": "피자"},
+      {'icon': "assets/icons/icecream_icon.png", "text": "치킨"},
+      {'icon': "assets/icons/icecream_icon.png", "text": "즉석/냉동"},
+      {'icon': "assets/icons/icecream_icon.png", "text": "아이스크림"},
+      {'icon': "assets/icons/icecream_icon.png", "text": "과자"}
+    ];
     return SizedBox(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(10),
-            child: Text(
-              '카테고리',
-              style: TextStyle(fontSize: 20),
-            ),
-          ),
+              padding:
+                  EdgeInsets.symmetric(vertical: 5)), //카테고리라고 안써있어도 될 것 같아서 지움.
           Padding(
             padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
             child: Row(

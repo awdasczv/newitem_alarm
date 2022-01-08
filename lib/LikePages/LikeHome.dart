@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import '../LikePages/Like_Body.dart';
+import '../LikePages/Like_Goods_Body.dart';
 import '../LikePages/likegoods_filter.dart';
 
 class LikeHome extends StatefulWidget {
@@ -76,7 +76,7 @@ class _LikeHomeState extends State<LikeHome>
                   controller: _tabController,
                   //allowImplicitScrolling: true,
                   children: <Widget>[
-                    LikeBody(), //상품 화면
+                    Like_Goods_Body(), //상품 화면
                     WatchPage(), //워치 화면
                   ],
                 ))));
