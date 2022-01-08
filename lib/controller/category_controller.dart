@@ -26,6 +26,17 @@ class categoryController extends GetxController {
   String current_category_title;
 
   @override
+  void initState() {
+    this.tabController = TabController(length: categories.length);
+  } //initState() 위젯 생성될 때 호출됨.
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  } //dispose() 위젯 종료될 때(pop) 호출됨.(Controller 객체 제거될 때 변수에 할당된 메모리 제거하기 위해)
+
+  @override
   void onInit() {
     super
         .onInit(); //When controller is created in memory, onInit() method is called immediately
@@ -44,6 +55,7 @@ class categoryController extends GetxController {
 
   void addGooods(Goods goods) {
     allgoodsList.add(goods); //0은 '전체'
+    tabController.animateTo(0);
     switch (goods.category) {
       case '스낵':
         snackList.add(goods);
