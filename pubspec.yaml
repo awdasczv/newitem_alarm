@@ -41,6 +41,7 @@ dependencies:
   share:
   intl:
   cupertino_date_textbox:
+  get: #GetX
 
 
 
@@ -68,6 +69,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/icons/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import '../../model/goods.dart';
+import '../controller/goods_controller.dart';
 import '../model/Favorite_button.dart';
 
 class GoodsCard extends StatelessWidget {
-  final Goods goods;
+  final String title;
+  final String brand;
+  final String imageUrl1;
+  final int price;
+  final double starScore;
+  final int total_review_count;
+  final bool isFavorite;
+  final String category;
 
-  const GoodsCard({Key key, @required this.goods}) : super(key: key);
-
+  GoodsCard(this.title, this.brand, this.imageUrl1, this.price, this.starScore,
+      this.total_review_count, this.isFavorite, this.category);
+  final goods_cntrl = Get.put(goodsController());
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,7 +36,7 @@ class GoodsCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                       image: DecorationImage(
                           fit: BoxFit.contain,
-                          image: NetworkImage(goods.imageUrl1))),
+                          image: NetworkImage(this.imageUrl1))),
                 ),
               ),
               Positioned(
@@ -37,7 +46,7 @@ class GoodsCard extends StatelessWidget {
                 child: FavoriteButton(
                   iconSize: 40,
                   iconDisabledColor: Colors.black87,
-                  isFavorite: true, //찜목록에 있으니까
+                  isFavorite: this.isFavorite, //찜목록에 있으니까
                   valueChanged: (_isFavorite) {
                     print('Is Favorite : $_isFavorite');
                   },
@@ -54,9 +63,9 @@ class GoodsCard extends StatelessWidget {
                   style: TextStyle(color: Colors.black, fontSize: 14),
                   children: <TextSpan>[
                     TextSpan(
-                        text: goods.brand,
+                        text: this.brand,
                         style: TextStyle(fontWeight: FontWeight.bold)),
-                    TextSpan(text: ' ' + goods.title)
+                    TextSpan(text: ' ' + this.title)
                   ])),
           //RichText는 text마다 각각 다른 스타일을 적용하고 싶을 때
           const SizedBox(
@@ -70,20 +79,20 @@ class GoodsCard extends StatelessWidget {
                 color: Colors.amberAccent,
               ),
               Text(
-                goods.starScore.toString(),
+                this.starScore.toString(),
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 2),
                 child: Text(
-                  "(${goods.total_review_count.toString()})",
+                  "(${this.total_review_count.toString()})",
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                 ),
               ),
             ],
           ),
           Text(
-            '${goods.price}원',
+            '${this.price}원',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           )
         ]);

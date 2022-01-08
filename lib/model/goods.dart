@@ -18,20 +18,23 @@ var category = {
 @JsonSerializable(
     checked: true, createFactory: true, fieldRename: FieldRename.snake)
 class Goods {
-  String category;
-  String brand;
-  String brandlogo;
-  String imageUrl1;
-  String imageUrl2;
-  String title;
-  int price;
-  double starScore;
-  String describe;
-  String launchdate;
-  int total_review_count;
-  int photoreview_count;
+  final int id;
+  final String category;
+  final String brand;
+  final String brandlogo;
+  final String imageUrl1;
+  final String imageUrl2;
+  final String title;
+  final int price;
+  final double starScore;
+  final String describe;
+  final String launchdate;
+  final int total_review_count;
+  final int photoreview_count;
+  bool isFavorite;
 
   Goods({
+    this.id,
     this.category,
     this.brand,
     this.brandlogo,
@@ -44,7 +47,9 @@ class Goods {
     this.launchdate,
     this.total_review_count,
     this.photoreview_count,
+    this.isFavorite = false,
   });
+
 // factory Goods.fromJson(dynamic json) => _$GoodsFromJson(json); //후에 API만들고 직렬화할 것.
 // Map toJson() => _$GoodsToJSon(this);
 // Goods.fromJson(Map json) {
@@ -60,10 +65,27 @@ class Goods {
 //   goods_data['price'] = this.price;
 //   goods_data['starScore'] = this.starScore;
 //   return goods_data;
+
+  bool imageUrl2_Check() {
+    //imageUrl2가 null값인지 아닌지 확인
+    if (imageUrl2 != null) {
+      return true;
+    }
+    return false;
+  }
+
+  bool starScore_Check() {
+    //starScore가 null값인지 아닌지 확인
+    if (starScore != null) {
+      return true;
+    }
+    return false;
+  }
 }
 
 List<Goods> goodsList = [
   Goods(
+    id: 0,
     category: category[5],
     brand: '삼양',
     brandlogo: "https://www.samyangfoods.com/asset/images/common/logo.png",
@@ -78,6 +100,7 @@ List<Goods> goodsList = [
     total_review_count: 12,
   ),
   Goods(
+      id: 1,
       category: category[11],
       brand: '오리온',
       brandlogo:
@@ -98,6 +121,7 @@ List<Goods> goodsList = [
       total_review_count: 11,
       photoreview_count: 5),
   Goods(
+    id: 2,
     category: category[11],
     brand: '오리온',
     brandlogo:
@@ -112,6 +136,7 @@ List<Goods> goodsList = [
     starScore: 4.3,
   ),
   Goods(
+    id: 3,
     category: category[11],
     brand: '오리온',
     brandlogo:
