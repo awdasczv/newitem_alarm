@@ -32,13 +32,18 @@ class _State extends State<FastFood> {
   final _pageController = PageController();
   final _currentPageNotifier = ValueNotifier<int>(0);
 
-  void _Month(DateTime _month) {
-    setState(() {
-      _selectedDateTime = _month;
-    });
-  }
+  String year;
+  String month;
 
-  //PageController _controller = PageController();
+
+ @override
+ void initState(){
+   super.initState();
+
+   year = DateTime.now().year.toString();
+   month = DateTime.now().month.toString();
+ }
+
 
   Widget calendar() {
     if (_selectedDate == null) {
@@ -85,7 +90,7 @@ class _State extends State<FastFood> {
             },
             body: Column(
               children: [
-                _Calendar(),
+                _selectDate(),
                 Expanded(child: _itemList()),
               ],
             )
@@ -93,6 +98,88 @@ class _State extends State<FastFood> {
     );
   }
 
+
+
+  OutlinedButton _selectDate(){
+
+    return OutlinedButton(
+      child: Text(year + '년 ' + month + '월'),
+      onPressed: ()async{
+        _selectDateDialog();
+      },
+    );
+  }
+
+  Future<void> _selectDateDialog() async{
+
+    String _selectedYear = "";
+    String _selectedMonth = "";
+
+    var a = await showDialog(
+        context: context,
+        builder: (BuildContext _ctx){
+          return AlertDialog(
+            title: Text('날짜선택'),
+            content: Container(
+              width: double.minPositive,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('연도 선택'),
+                  SizedBox(height: 3,),
+                  Card(
+                    elevation: 2, //그림자 깊이
+                    margin: EdgeInsets.all(2),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _customButton(true,"2019"),
+                        _customButton(true,"2020"),
+                        _customButton(true,"2021")
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        }
+    );
+  }
+
+  Widget _customButton(bool _isclicked, String _text){
+   if(_isclicked){//클릭 된 상태
+     return Container(
+       padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
+       margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
+       decoration: BoxDecoration(
+         border: Border.all(
+           color: Colors.yellow,
+         ),
+         borderRadius:  BorderRadius.circular(10.0)
+       ),
+       child: InkWell(
+         child: Text(_text,style: TextStyle(fontSize: 17),
+         ),
+       )
+     );
+   }
+   else {
+     return Container(
+         padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
+         margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
+         child: InkWell(
+           child: Text(_text,style: TextStyle(fontSize: 17),),
+         )
+     );
+   }
+  }
+
+
+/*
   Widget _Calendar() {
     return Row(
       children: [
@@ -123,7 +210,7 @@ class _State extends State<FastFood> {
       ],
     );
   }
-
+*/
   Widget _itemList() {
     return ListView.builder(
       shrinkWrap: true,
