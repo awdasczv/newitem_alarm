@@ -58,16 +58,6 @@ class _State extends State<FastFood> {
    month = DateTime.now().month.toString();
  }
 
-
-  Widget _selectYear() {
-    for (int i = 0; i < yearList.length; i++) {
-      Text(yearList[i]);
-    }
-  }
-
-  //PageController _controller = PageController();
-
-
   Widget calendar() {
     if (_selectedDate == null) {
       return Text("");
@@ -128,97 +118,12 @@ class _State extends State<FastFood> {
             },
             body: Column(
               children: [
-                _selectDate(),
                 Expanded(child: _itemList()),
               ],
             )));
   }
 
 
-  // Widget _Calendar() {
-  //   return Row(
-  //     children: [
-  //       IconButton(
-  //         icon: Icon(Icons.date_range),
-  //         onPressed: () {
-  //           Future<DateTime> selected = showDatePicker(
-  //               context: context,
-  //               initialDate: DateTime.now(),
-  //               firstDate: DateTime(2015),
-  //               lastDate: DateTime(2025),
-  //               //initialDatePickerMode: DatePickerMode.year,
-  //               builder: (BuildContext context, Widget child) {
-  //                 return Theme(
-  //                     data: ThemeData.light(), // 달력 테마
-  //                     child: child
-  //                 );
-  //               }
-  //           );
-  //           selected.then((dateTime) {
-  //             setState(() {
-  //               _selectedDate = dateTime;
-  //             });
-  //           });
-  //         },
-  //       ),
-  //       calendar(),
-  //     ],
-  //   );
-  // }
-
-
-  Widget _Calendar() {
-    return Container(
-        child: Row(
-      children: [
-        ElevatedButton(
-            child: Text('--년 --월'),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  barrierDismissible: false, // 바깥 영역 터치시 닫을지 여부
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Column(
-                        children: [Text("날짜 선택")],
-                      ),
-                      content: SingleChildScrollView(
-                          child: Column(
-                        children: [
-                          Container(
-                            height: 60,
-                            width: 500,
-                            color: Colors.red,
-                            child: Center(
-                              child: Text(
-                                "2021년",
-                                style: TextStyle(fontSize: 30),
-                              ),
-                            ),
-                          )
-                        ],
-                      )),
-                      actions: <Widget>[
-                        ElevatedButton(
-                          child: Text("ok"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        ElevatedButton(
-                          child: Text("cancel"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  });
-            }),
-      ],
-    ));
-  }
-*/
   Widget _itemList() {
     return ListView.builder(
       shrinkWrap: true,
