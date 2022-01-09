@@ -11,11 +11,11 @@ class CommandMan extends StatefulWidget {
 class _CommandManState extends State<CommandMan> {
 
   List<String> _comment = [
-    "댓글11111111111111111111111111111111111111",
-    "댓글22222222222222222222222222222222222222222222222",
-    "댓글3333333333333333333333333333333333333",
-    "댓글44444444444444444444444444444444444444444444444444444",
-    "댓글5555555555555555555555555555555"
+    "댓글: 나쁘지 않은듯 함",
+    "댓글: 좋아요",
+    "댓글: 이건 아닌듯",
+    "댓글: 완전 공감됨",
+    "댓글:존나 웃겨"
   ];
 
   bool commentEditButton = false;
@@ -30,7 +30,9 @@ class _CommandManState extends State<CommandMan> {
           backgroundColor: Colors.white,
           title: Text("댓글 관리",
             style: TextStyle(fontSize: 20, color: Colors.black)),
+
           centerTitle: true,
+          backgroundColor: Colors.white,
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);

@@ -48,7 +48,7 @@ class _ProfileHomeState extends State<ProfileHome> {
         title: Text(
           'My Page',
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+              fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
         ),
       ),
         body: func(_isLogin)
@@ -154,7 +154,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                     ),
                     Text(
                       " 프로필 수정하기",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Colors.black),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
                     )
                   ],
                 )),
@@ -251,7 +251,6 @@ class _ProfileHomeState extends State<ProfileHome> {
         ]
       );
   }
-
   ListTile _MenuListTile(int index, String name) {
     return ListTile(
         onTap: () {
@@ -266,6 +265,7 @@ class _ProfileHomeState extends State<ProfileHome> {
             SizedBox(width: 10,),
             Text("${name}",
                 style: TextStyle(fontSize: 22), textAlign: TextAlign.left),
+
             Spacer(),
             Icon(Icons.arrow_forward_ios_outlined, color: Color(0xfff1c40f),)
           ],

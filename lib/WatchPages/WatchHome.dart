@@ -55,7 +55,7 @@ class _WatchHomeState extends State<WatchHome> {
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
-            '워치',
+            '먹TV',
             style: TextStyle(
                 fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
           ),

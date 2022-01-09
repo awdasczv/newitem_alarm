@@ -16,15 +16,17 @@ class _MyCommentState extends State<MyComment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("댓글 제목",
-          style: TextStyle(fontSize: 20),),
+      appBar: AppBar(title: Text("댓글 제목",
+        style: TextStyle(
+            fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
+      ),
         centerTitle: true,
+        backgroundColor: Colors.white,
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back_ios)
+            icon: Icon(Icons.arrow_back, color: Colors.black)
         ),
       ),
       body: Column(

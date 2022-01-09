@@ -10,11 +10,11 @@ class ReviewMan extends StatefulWidget {
 class _ReviewManState extends State<ReviewMan> {
 
   List<String> _review = [
-    "리뷰11111111111111111111111111111111111111",
-    "리뷰22222222222222222222222222222222222222222222222",
-    "리뷰3333333333333333333333333333333333333",
-    "리뷰44444444444444444444444444444444444444444444444444444",
-    "리뷰5555555555555555555555555555555"
+    "리뷰입니다 치킨은 맛있어요",
+    "피자는 완전 존맛탱",
+    "빙수는 맛이 없고 비싸네요",
+    "아이스크림 주세요 사랑합니다 아이스크림",
+    "햄버거 배달이 너무 늦어요"
   ];
 
   bool _reviewEditButton = false;
@@ -63,6 +63,7 @@ class _ReviewManState extends State<ReviewMan> {
                                   if (a[i] == true) {
                                     _review[i] = "";
                                   }
+
                                 }
                                 _review.removeWhere((_review) => _review == "");
                               }
