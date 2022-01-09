@@ -1,12 +1,12 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/HomePages/HomePage.dart';
 import 'package:newitem_alarm/LikePages/LikeHome.dart';
 import 'package:newitem_alarm/ProfilePages/ProfileHome.dart';
 import 'package:newitem_alarm/SplashScreen.dart';
 import 'package:newitem_alarm/WatchPages/WatchHome.dart';
-import 'package:provider/provider.dart';
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:newitem_alarm/routes.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         home: AnimatedSplashScreen(
           splash: SplashScreen(),
           nextScreen: MyHomePage(),
-          splashTransition:SplashTransition.fadeTransition,
+          splashTransition: SplashTransition.fadeTransition,
         ),
         debugShowCheckedModeBanner: false,
         routes: route,
@@ -62,6 +62,10 @@ class _MyHomePageState extends State<MyHomePage> {
         children: _bottomNavigatorBarList,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        iconSize: 28,
+        unselectedItemColor: Colors.black38,
+        fixedColor: Color(0xfff1c40f),
+        backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         onTap: (int index) {
           setState(() {

@@ -26,12 +26,13 @@ class _ProfileHomeState extends State<ProfileHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        //backgroundColor: Color(0xfff1c40f),
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
-          '프로필',
+          'My Page',
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
+              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
         ),
       ),
         body: func(_isLogin)
@@ -67,18 +68,30 @@ class _ProfileHomeState extends State<ProfileHome> {
               SizedBox(
                 height: 15,
               ),
+              Padding(
+                padding: EdgeInsets.all(14),
+              ),
               //프로필 사진
-              Container(
-                color: Colors.transparent,
-                padding:
-                    EdgeInsets.only(left: 20, right: 30, top: 20, bottom: 20),
-                child: CircleAvatar(
-                  radius: 60,
-                  backgroundColor: Colors.white54,
-                  backgroundImage: _imagePath.length == 0
-                      ? AssetImage('assets/images/profile3.png')
-                      : FileImage(File(_imagePath)),
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      border: Border.all(),
+                      shape: BoxShape.circle
+                  ),
+                  // padding:
+                  //     EdgeInsets.only(left: 20, right: 30, top: 20, bottom: 20),
+                  child: CircleAvatar(
+                    radius: 60,
+                    backgroundColor: Colors.white,
+                    backgroundImage: _imagePath.length == 0
+                        ? AssetImage('assets/images/profile3.png')
+                        : FileImage(File(_imagePath)),
+                  ),
                 ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8),
               ),
 
               //프로필 이름
@@ -86,7 +99,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(_name,
-                      style: TextStyle(fontSize: 30,),
+                      style: TextStyle(fontSize: 20,),
                       textAlign: TextAlign.center),
                   SizedBox(
                     height: 15,
@@ -102,29 +115,34 @@ class _ProfileHomeState extends State<ProfileHome> {
   // 프로필 수정
   Widget ProfileImage() {
     return GestureDetector(
-        child: Container(
-          height: 70,
-          child: Card(
+        child: Center(
+          child: Container(
+            height: 58,
+            width: 400,
+            child: Card(
+                //color: Color(0xfff1c40f),
+                color: Colors.white,
 
-            // decoration: BoxDecoration(
-            //   border: Border.all(width: 1),
-            //   color: Colors.transparent,
-            // ),
+                // decoration: BoxDecoration(
+                //   border: Border.all(width: 1),
+                //   color: Colors.transparent,
+                // ),
 
-            //padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    " 프로필 수정하기",
-                    style: TextStyle(fontSize: 25, color: Colors.black),
-                  )
-                ],
-              )),
+                //padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.edit,
+                      color: Colors.black,
+                    ),
+                    Text(
+                      " 프로필 수정하기",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Colors.black),
+                    )
+                  ],
+                )),
+          ),
         ),
         onTap: () async {
           var a = await Navigator.push(
@@ -161,7 +179,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                   },
                   title: Row(
                     children: [
-                      Icon(Icons.rate_review_outlined,size: 30,),
+                      Icon(Icons.rate_review_outlined,size: 25,),
                       SizedBox(width: 10,),
                       Text("리뷰 관리",
                           style: _ts(), textAlign: TextAlign.left),
@@ -181,7 +199,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                   },
                   title: Row(
                     children: [
-                      Icon(Icons.comment,size: 30,),
+                      Icon(Icons.comment,size: 25,),
                       SizedBox(width: 10,),
                       Text("댓글 관리",
                           style: _ts(), textAlign: TextAlign.left),
@@ -202,7 +220,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                   },
                   title: Row(
                     children: [
-                      Icon(Icons.circle_notifications_outlined,size: 30,),
+                      Icon(Icons.circle_notifications_outlined,size: 25,),
                       SizedBox(width: 10,),
                       Text("알림설정",
                           style: _ts(), textAlign: TextAlign.left),
@@ -222,7 +240,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                   },
                   title: Row(
                     children: [
-                      Icon(Icons.campaign,size: 30,),
+                      Icon(Icons.campaign,size: 25,),
                       SizedBox(width: 10,),
                       Text("공지사항",
                           style: _ts(), textAlign: TextAlign.left),
@@ -242,7 +260,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                   },
                   title: Row(
                     children: [
-                      Icon(Icons.description_outlined,size: 30,),
+                      Icon(Icons.description_outlined,size: 25,),
                       SizedBox(width: 10,),
                       Text("이용약관",
                           style: _ts(), textAlign: TextAlign.left),
@@ -274,22 +292,48 @@ class _ProfileHomeState extends State<ProfileHome> {
 
   // _isLogin = false
   Widget b() {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
-        Widget>[
-      Container(
-          padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-          color: Colors.white70,
-          child: Center(
-            child: Text(
-              "My Page",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                  color: Colors.black),
-              //textAlign: TextAlign.center,
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Card(
+            child: Container(
+              //color: Colors.transparent,
+              padding: EdgeInsets.all(20),
+              child: Center(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                    ),
+                    Text("더 많은 기능을 사용하시려면"),
+                    Text("로그인/회원가입 하십시오."),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                    ),
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Colors.black)
+                        ),
+                        onPressed: () async {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => SignInScreen()));
+                        },
+                        child: Text("로그인/회원가입",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                                color: Colors.white)
+                        )
+                    )
+                  ],
+                )
+              ),
             ),
-          )),
-      Container(
+          ),
+          ListMenu()
+        ]
+      );
+      /*Container(
         padding: EdgeInsets.all(50),
         decoration: BoxDecoration(
             border: Border(
@@ -313,12 +357,12 @@ class _ProfileHomeState extends State<ProfileHome> {
       ),
       ListMenu()
       //func(_isLogin)
-    ]);
+    ]);*/
   }
 
   TextStyle _ts(){
     return TextStyle(
-      fontSize: 23
+      fontSize: 20
     );
   }
 }
