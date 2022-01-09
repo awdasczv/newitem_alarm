@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         fixedColor: Colors.black,
-        backgroundColor: Colors.yellow,
+        backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         onTap: (int index) {
           setState(() {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:newitem_alarm/LikePages/GoodsPages/goodsDetail.dart';
+import 'package:newitem_alarm/GoodsPages/goodsDetail.dart';
 import 'package:newitem_alarm/model/YoutubeApiModel.dart';
 import 'package:newitem_alarm/model/goods.dart';
 import 'package:url_launcher/url_launcher.dart';
