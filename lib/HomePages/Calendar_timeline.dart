@@ -10,12 +10,11 @@ class _CalendarState extends State<Calendar> {
   final ItemScrollController yearController = ItemScrollController();
   final ItemScrollController monthController = ItemScrollController();
 
+  List month_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   int selected_year_index = 1;
-  int selected_month_index;
   int current_year = DateTime.now().year.toInt();
   int current_month = DateTime.now().month.toInt();
-
-  List month_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  int selected_month_index = DateTime.now().month.toInt() - 1;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +30,8 @@ class _CalendarState extends State<Calendar> {
     return SizedBox(
       height: 30,
       child: ScrollablePositionedList.builder(
-          padding: EdgeInsets.symmetric(
-              horizontal: 100), //이렇게 중앙에 두는 게 맞는 것인지.. 왜 Center를 쓸 때 안되는 것인지..
+          padding: EdgeInsets.symmetric(horizontal: 80),
+          //이렇게 중앙에 두는 게 맞는 것인지.. 왜 Center를 쓸 때 안되는 것인지..
           initialScrollIndex: selected_year_index,
           scrollDirection: Axis.horizontal,
           itemScrollController: yearController,
@@ -40,15 +39,22 @@ class _CalendarState extends State<Calendar> {
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  isSelectedYear(
-                    isSelected: selected_year_index == index,
-                    year: year_list[index],
-                  )
-                ],
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selected_year_index = index;
+                  });
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    isSelectedYear(
+                      isSelected: selected_year_index == index,
+                      year: year_list[index],
+                    )
+                  ],
+                ),
               ),
             );
           }),
@@ -56,7 +62,6 @@ class _CalendarState extends State<Calendar> {
   }
 
   Widget buildMonth() {
-    selected_month_index = month_list[current_month] - 2;
     return SizedBox(
       height: 70,
       child: ScrollablePositionedList.builder(
@@ -66,15 +71,22 @@ class _CalendarState extends State<Calendar> {
           initialScrollIndex: selected_month_index,
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                isSelectedMonth(
-                  isSelected: selected_month_index == index,
-                  month: month_list[index],
-                )
-              ],
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  selected_month_index = index;
+                });
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  isSelectedMonth(
+                    isSelected: selected_month_index == index,
+                    month: month_list[index],
+                  )
+                ],
+              ),
             );
           }),
     );
@@ -89,14 +101,12 @@ class isSelectedYear extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        '${year}년'.toUpperCase(),
-        style: TextStyle(
-            fontSize: this.isSelected ? 24 : 16,
-            color: this.isSelected ? Colors.black : Colors.black38,
-            fontWeight: this.isSelected ? FontWeight.bold : FontWeight.normal),
-      ),
+    return Text(
+      '${year}년'.toUpperCase(),
+      style: TextStyle(
+          fontSize: this.isSelected ? 24 : 16,
+          color: this.isSelected ? Colors.black : Colors.black38,
+          fontWeight: this.isSelected ? FontWeight.bold : FontWeight.normal),
     );
   }
 }
@@ -111,12 +121,9 @@ class isSelectedMonth extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         decoration: isSelected
-            ? BoxDecoration(
-                color: Color(0xfff1c40f),
-                borderRadius: BorderRadius.circular(10))
+            ? BoxDecoration(color: Color(0xfff1c40f), shape: BoxShape.circle)
             : BoxDecoration(color: Colors.transparent),
-        height: 55,
-        width: 50,
+        width: 53,
         child: Align(
           alignment: Alignment.center,
           child: Text(
