@@ -264,7 +264,7 @@ class _ProfileHomeState extends State<ProfileHome> {
             _menuIcon[index],
             SizedBox(width: 10,),
             Text("${name}",
-                style: TextStyle(fontSize: 20), textAlign: TextAlign.left),
+                style: TextStyle(fontSize: 25), textAlign: TextAlign.left),
             Spacer(),
             Icon(Icons.arrow_forward_ios_outlined)
           ],
