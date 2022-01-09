@@ -8,14 +8,7 @@ class AlarmMan extends StatefulWidget {
 }
 
 class _AlarmManState extends State<AlarmMan> {
-
-  List<String> _alarm = [
-    "알림1",
-    "알림2",
-    "알림3",
-    "알림4",
-    "알림5"
-  ];
+  List<String> _alarm = ["알림1", "알림2", "알림3", "알림4", "알림5"];
 
   List<bool> _alarmSwitch = [];
   bool _allAlarmSwitch = true;
@@ -29,17 +22,25 @@ class _AlarmManState extends State<AlarmMan> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("알림 설정",
-            style: TextStyle(fontSize: 20),
+          title: Text(
+            "알림설정",
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
           ),
           centerTitle: true,
+          backgroundColor: Colors.white,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.arrow_back, color: Colors.black)),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
               padding: EdgeInsets.all(10),
-            ) ,
+            ),
             /*Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -60,12 +61,10 @@ class _AlarmManState extends State<AlarmMan> {
             ),*/
             Container(
                 child: Expanded(
-                  child: _AlarmList(),
-                )
-            )
+              child: _AlarmList(),
+            ))
           ],
-        )
-    );
+        ));
   }
 
   //스위치 체크
@@ -83,18 +82,16 @@ class _AlarmManState extends State<AlarmMan> {
               /*if (!value) {
                 _allAlarmSwitch = false;
               }*/
-
             });
           },
         );
       },
-
       separatorBuilder: (BuildContext context, int index) => const Divider(),
     );
   }
 
-  // 전체 선택 스위치 체크
-  /*Widget _AllSwitchCheck() {
+// 전체 선택 스위치 체크
+/*Widget _AllSwitchCheck() {
     setState(() {
       if(_allAlarmSwitch == true) {
         _alarmSwitch = List<bool>.filled(_alarm.length, true);

@@ -25,13 +25,16 @@ class _EditReviewState extends State<EditReview> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text("전체 목록 편집",
-            style: TextStyle(fontSize: 20),),
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
+          ),
           centerTitle: true,
+          backgroundColor: Colors.white,
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: Icon(Icons.arrow_back_ios)
+              icon: Icon(Icons.arrow_back, color: Colors.black)
           ),
         ),
         body: Column(
@@ -57,7 +60,7 @@ class _EditReviewState extends State<EditReview> {
                       ),
                       Text(
                         "전체 선택",
-                        style: TextStyle(fontSize: 28),
+                        style: TextStyle(fontSize: 20),
                       ),
                     ],
                   )
