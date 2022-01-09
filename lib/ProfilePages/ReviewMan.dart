@@ -38,47 +38,50 @@ class _ReviewManState extends State<ReviewMan> {
               icon: Icon(Icons.arrow_back, color: Colors.black)
           ),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text("내가 쓴 리뷰", style: TextStyle(fontSize: 20),),
-                    Padding(
-                        padding: EdgeInsets.only(left: 155),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white10,
-                            onPrimary: Colors.black,
-                          ),
-                          onPressed: () async {
-                            var a = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditReview(review: _review)),
-                            );
-                            if (a != null) {
-                              for(int i = 0; i < _review.length; i++) {
-                                if (a[i] == true) {
-                                  _review[i] = "";
+        body: Card(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("내가 쓴 리뷰", style: TextStyle(fontSize: 20),),
+                      Padding(
+                          padding: EdgeInsets.only(left: 155),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Color(0xfff1c40f),
+                              onPrimary: Colors.black,
+                            ),
+                            onPressed: () async {
+                              var a = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditReview(review: _review)),
+                              );
+                              if (a != null) {
+                                for(int i = 0; i < _review.length; i++) {
+                                  if (a[i] == true) {
+                                    _review[i] = "";
+                                  }
+
                                 }
+                                _review.removeWhere((_review) => _review == "");
                               }
-                              _review.removeWhere((_review) => _review == "");
-                            }
-                            setState(() {
-                              _reviewEditButton = true;
-                            });
-                          },
-                          child: Text(" 편집"),
-                        )
-                    )
-                  ],
-                )
-            ),
-            Expanded(
-              child: _ReviewListView(),
-            ),
-          ],
+                              setState(() {
+                                _reviewEditButton = true;
+                              });
+                            },
+                            child: Text(" 편집"),
+                          )
+                      )
+                    ],
+                  )
+              ),
+              Expanded(
+                child: _ReviewListView(),
+              ),
+            ],
+          ),
         )
     );
   }

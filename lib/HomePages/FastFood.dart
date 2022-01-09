@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/HomePages/Calendar_timeline.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
+import 'package:newitem_alarm/GoodsPages/goodsDetail.dart';
+import 'package:newitem_alarm/model/goods.dart';
 
+import '../LikePages/Category.dart';
+import '../LikePages/Goods_Card.dart';
+import '../model/goods.dart';
 import './Calendar_timeline.dart';
 
 class FastFood extends StatefulWidget {
@@ -118,12 +123,43 @@ class _State extends State<FastFood> {
             },
             body: Column(
               children: [
+                Category(),
+                Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                      child: GridView.builder(
+                          shrinkWrap: true, //필요한 공간만 차지
+                          itemCount: goodsList.length,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              //2행
+                              childAspectRatio: 0.65,
+                              //mainAxis에 대한 교차축 비율
+                              mainAxisSpacing: 10,
+                              //mainAxis를 따라 각 child 사이 크기 //위로 얼마나 띄어져 있는지
+                              crossAxisSpacing: 10 //같은 행에 있는 child 간 사이 크기
+                          ),
+                          itemBuilder: (context, index) => GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DetailMain(
+                                          goods: goodsList[index],
+                                        )));
+                              },
+                              child: GoodsCard(
+                                goods: goodsList[index],
+                              ))),
+                    ))
 
                 //_selectDate(),
 
                 Expanded(child: _itemList()),
               ],
-            )));
+            )
+        )
+    );
   }
 
 
@@ -160,7 +196,12 @@ class _State extends State<FastFood> {
   // }
 
 
+/*
+  Widget _Calendar() {
+
+
   /*Widget _Calendar() {
+
     return Container(
         child: Row(
       children: [
@@ -212,6 +253,7 @@ class _State extends State<FastFood> {
     ));
   }
 */
+  /*
 
   Widget _itemList() {
     return ListView.builder(
@@ -231,41 +273,11 @@ class _State extends State<FastFood> {
   Widget _Swipe(int index) {
     return Column(
       children: [
-        Stack(children: [
-          Container(
-            height: 300,
-            child: PageView.builder(
-              controller: _pageController,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  color: _colorList2[_currentPageNotifier.value % 2],
-                  child: Center(
-                    child: FlutterLogo(
-                      textColor: _colorList1[index % _colorList1.length],
-                      size: 100,
-                      style: FlutterLogoStyle.stacked,
-                    ),
-                  ),
-                );
-              },
-              onPageChanged: (int index) {
-                _currentPageNotifier.value = index % _colorList1.length;
-              },
-            ),
-          ),
-          Positioned(
-            left: 0.0,
-            right: 0.0,
-            bottom: 0.0,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CirclePageIndicator(
-                itemCount: _colorList1.length,
-                currentPageNotifier: _currentPageNotifier,
-              ),
-            ),
-          ),
-        ]),
+        GridView.builder(
+          itemCount: ,
+        )
+      ],
+    );
         Container(
             height: 70,
             color: Colors.white,
@@ -301,6 +313,80 @@ class _State extends State<FastFood> {
       ],
     );
   }
+*/
+  // Widget _Swipe(int index) {
+  //   return Column(
+  //     children: [
+  //       Stack(children: [
+  //         Container(
+  //           height: 300,
+  //           child: PageView.builder(
+  //             controller: _pageController,
+  //             itemBuilder: (BuildContext context, int index) {
+  //               return Container(
+  //                 color: _colorList2[_currentPageNotifier.value % 2],
+  //                 child: Center(
+  //                   child: FlutterLogo(
+  //                     textColor: _colorList1[index % _colorList1.length],
+  //                     size: 100,
+  //                     style: FlutterLogoStyle.stacked,
+  //                   ),
+  //                 ),
+  //               );
+  //             },
+  //             onPageChanged: (int index) {
+  //               _currentPageNotifier.value = index % _colorList1.length;
+  //             },
+  //           ),
+  //         ),
+  //         Positioned(
+  //           left: 0.0,
+  //           right: 0.0,
+  //           bottom: 0.0,
+  //           child: Padding(
+  //             padding: const EdgeInsets.all(8.0),
+  //             child: CirclePageIndicator(
+  //               itemCount: _colorList1.length,
+  //               currentPageNotifier: _currentPageNotifier,
+  //             ),
+  //           ),
+  //         ),
+  //       ]),
+  //       Container(
+  //           height: 70,
+  //           color: Colors.white,
+  //           child: Row(
+  //             mainAxisAlignment: MainAxisAlignment.start,
+  //             children: [
+  //               Padding(
+  //                   padding: EdgeInsets.all(10),
+  //                   child: Container(
+  //                       height: 50,
+  //                       decoration: BoxDecoration(
+  //                         shape: BoxShape.circle,
+  //                         color: Colors.teal,
+  //                       ),
+  //                       child: Center(
+  //                         child: Text("Logo"),
+  //                       ))),
+  //               Column(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 children: [
+  //                   Text(
+  //                     "상품이름 가나다라",
+  //                     style: TextStyle(fontSize: 17),
+  //                   ),
+  //                   Text(
+  //                     "가격 2800원",
+  //                     style: TextStyle(fontSize: 17),
+  //                   )
+  //                 ],
+  //               )
+  //             ],
+  //           ))
+  //     ],
+  //   );
+  // }
 // Widget _Calendar() {
 //   final String formattedDate = DateFormat.yMMM().format(_selectedDateTime);
 //   final selectedText = Text('$formattedDate');
