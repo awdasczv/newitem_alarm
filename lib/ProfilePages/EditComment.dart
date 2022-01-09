@@ -69,16 +69,16 @@ class _EditCommentState extends State<EditComment> {
                 child: _CommentEditList(),
               ),
               GestureDetector(
-                  child: Container(
-                      padding: EdgeInsets.fromLTRB(140, 20, 140, 20),
-                      color: Colors.blue,
-                      child: FittedBox(
-                        //fit: BoxFit.contain,
-                        child: Container(
-                          child: Text("선택한 항목 삭제", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 100, color: Colors.black,)),
-                        ),
-                      )
-                    //child: Text("선택한 항목 삭제", style: TextStyle(fontSize: 20, color: Colors.white),),
+                  child: Card(
+                    child: Container(
+                        padding: EdgeInsets.fromLTRB(140, 20, 140, 20),
+                        color: Color(0xfff1c40f),
+                        child: FittedBox(
+                          //fit: BoxFit.contain,
+                          child: Text("선택한 항목 삭제", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35, color: Colors.black,)),
+                        )
+                      //child: Text("선택한 항목 삭제", style: TextStyle(fontSize: 20, color: Colors.white),),
+                    ),
                   ),
                   onTap: () {
                     _CommentDeleteDialog();
@@ -94,26 +94,28 @@ class _EditCommentState extends State<EditComment> {
       itemCount: widget.comment.length,
       itemBuilder: (context, index) {
         final item = widget.comment[index];
-        return CheckboxListTile(
-          title: Text(item),
-          controlAffinity: ListTileControlAffinity.leading,
-          value: _commentCheckBox[index],
-          onChanged: (value) {
-            setState(() {
+        return Card(
+            child: CheckboxListTile(
+              title: Text(item),
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _commentCheckBox[index],
+              onChanged: (value) {
+                setState(() {
 
-              _commentCheckBox[index] = value;
-              List<bool> _temp = _commentCheckBox.where((element) => element == false).toList();
+                  _commentCheckBox[index] = value;
+                  List<bool> _temp = _commentCheckBox.where((element) => element == false).toList();
 
-              if(!value) {
-                commentAllCheck = false;
-              }
-              if(_temp.length == 0) {
-                commentAllCheck = true;
+                  if(!value) {
+                    commentAllCheck = false;
+                  }
+                  if(_temp.length == 0) {
+                    commentAllCheck = true;
 
-              }
+                  }
 
-            });
-          },
+                });
+              },
+            ),
         );
       },
     );

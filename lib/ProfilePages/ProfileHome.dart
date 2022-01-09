@@ -31,11 +31,11 @@ class _ProfileHomeState extends State<ProfileHome> {
   ];
 
   final _menuIcon = [
-    Icon(Icons.rate_review_outlined,size: 25,),
-    Icon(Icons.comment,size: 25,),
-    Icon(Icons.circle_notifications_outlined,size: 25,),
-    Icon(Icons.campaign,size: 25,),
-    Icon(Icons.description_outlined,size: 25,),
+    Icon(Icons.rate_review_outlined,size: 25,color: Color(0xfff1c40f)),
+    Icon(Icons.comment,size: 25,color: Color(0xfff1c40f)),
+    Icon(Icons.circle_notifications_outlined,size: 25,color: Color(0xfff1c40f)),
+    Icon(Icons.campaign,size: 25,color: Color(0xfff1c40f)),
+    Icon(Icons.description_outlined,size: 25,color: Color(0xfff1c40f)),
   ];
 
   @override
@@ -247,7 +247,7 @@ class _ProfileHomeState extends State<ProfileHome> {
               ),
             ),
           ),
-          ListMenu()
+          ListMenu(),
         ]
       );
   }
@@ -265,9 +265,9 @@ class _ProfileHomeState extends State<ProfileHome> {
             _menuIcon[index],
             SizedBox(width: 10,),
             Text("${name}",
-                style: TextStyle(fontSize: 20), textAlign: TextAlign.left),
+                style: TextStyle(fontSize: 22), textAlign: TextAlign.left),
             Spacer(),
-            Icon(Icons.arrow_forward_ios_outlined)
+            Icon(Icons.arrow_forward_ios_outlined, color: Color(0xfff1c40f),)
           ],
         )
     );
