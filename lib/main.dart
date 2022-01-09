@@ -75,8 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: _currentPageIndex,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: '찜목록'),
-          BottomNavigationBarItem(icon: Icon(Icons.movie), label: '워치'),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: '찜'),
+          BottomNavigationBarItem(icon: Icon(Icons.movie), label: '먹TV'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: '프로필')
         ],
       ),
