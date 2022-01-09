@@ -49,21 +49,21 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      children: [
-        _banner(),
-        _category(),
-        Padding(
-          padding: EdgeInsets.all(10),
-          child: Text(
-            '이주의 신상',
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
-        _itemList()
-      ],
-    ));
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          children: [
+            _banner(),
+            _category(),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                '이주의 신상',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            _itemList()
+          ],
+        ));
   }
 
   Widget _banner() {
@@ -162,18 +162,18 @@ class _HomePageState extends State<HomePage> {
 
   Widget _category() {
     List<Map> category = [
-      {'icon': "assets/icons/icecream_icon.png", "text": "스낵"},
-      {'icon': "assets/icons/icecream_icon.png", "text": "빵집"},
-      {'icon': "assets/icons/icecream_icon.png", "text": "음료"},
-      {'icon': "assets/icons/icecream_icon.png", "text": "카페/디저트"},
-      {'icon': "assets/icons/icecream_icon.png", "text": "주류"},
-      {'icon': "assets/icons/icecream_icon.png", "text": "라면"},
-      {'icon': "assets/icons/icecream_icon.png", "text": "햄버거"},
-      {'icon': "assets/icons/icecream_icon.png", "text": "피자"},
-      {'icon': "assets/icons/icecream_icon.png", "text": "치킨"},
-      {'icon': "assets/icons/icecream_icon.png", "text": "즉석/냉동"},
-      {'icon': "assets/icons/icecream_icon.png", "text": "아이스크림"},
-      {'icon': "assets/icons/icecream_icon.png", "text": "과자"}
+      {'icon': "assets/icons/chocolate.png", "text": "젤리/초콜릿"},
+      {'icon': "assets/icons/bread.png", "text": "빵집"},
+      {'icon': "assets/icons/softdrink.png", "text": "음료"},
+      {'icon': "assets/icons/cafe.png", "text": "카페/디저트"},
+      {'icon': "assets/icons/alchol.png", "text": "주류"},
+      {'icon': "assets/icons/ramen.png", "text": "라면"},
+      {'icon': "assets/icons/burger.png", "text": "햄버거"},
+      {'icon': "assets/icons/pizza.png", "text": "피자"},
+      {'icon': "assets/icons/fried-chicken.png", "text": "치킨"},
+      {'icon': "assets/icons/microwave.png", "text": "즉석/냉동"},
+      {'icon': "assets/icons/ice-cream.png", "text": "아이스크림"},
+      {'icon': "assets/icons/crisps.png", "text": "과자"}
     ];
     return SizedBox(
       child: Column(
@@ -187,11 +187,10 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _customButton(Icons.lunch_dining, '패스트푸드1'),
-                _customButton(Icons.lunch_dining, '패스트푸드2'),
-                _customButton(Icons.lunch_dining, '패스트푸드3'),
-                _customButton(Icons.lunch_dining, '패스트푸드4'),
-                _customButton(Icons.lunch_dining, '패스트푸드5'),
+                _customButton(category[0]['icon'], category[0]['text']),
+                _customButton(category[1]['icon'], category[1]['text']),
+                _customButton(category[2]['icon'], category[2]['text']),
+                _customButton(category[3]['icon'], category[3]['text']),
               ],
             ),
           ),
@@ -200,11 +199,10 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _customButton(Icons.lunch_dining, '패스트푸드6'),
-                _customButton(Icons.lunch_dining, '패스트푸드7'),
-                _customButton(Icons.lunch_dining, '패스트푸드8'),
-                _customButton(Icons.lunch_dining, '패스트푸드9'),
-                _customButton(Icons.lunch_dining, '패스트푸드10'),
+                _customButton(category[4]['icon'], category[4]['text']),
+                _customButton(category[5]['icon'], category[5]['text']),
+                _customButton(category[6]['icon'], category[6]['text']),
+                _customButton(category[7]['icon'], category[7]['text']),
               ],
             ),
           ),
@@ -213,24 +211,10 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _customButton(Icons.lunch_dining, '패스트푸드11'),
-                _customButton(Icons.lunch_dining, '패스트푸드12'),
-                _customButton(Icons.lunch_dining, '패스트푸드13'),
-                _customButton(Icons.lunch_dining, '패스트푸드14'),
-                _customButton(Icons.lunch_dining, '패스트푸드15'),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _customButton(Icons.lunch_dining, '패스트푸드16'),
-                _customButton(Icons.lunch_dining, '패스트푸드17'),
-                _customButton(Icons.lunch_dining, '패스트푸드18'),
-                _customButton(Icons.lunch_dining, '패스트푸드19'),
-                _customButton(Icons.lunch_dining, '패스트푸드20'),
+                _customButton(category[8]['icon'], category[8]['text']),
+                _customButton(category[9]['icon'], category[9]['text']),
+                _customButton(category[10]['icon'], category[10]['text']),
+                _customButton(category[11]['icon'], category[11]['text']),
               ],
             ),
           ),
@@ -239,7 +223,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _customButton(IconData icons, String label) {
+  Widget _customButton(String icons, String label) {
     return Container(
       width: 60,
       child: InkWell(
@@ -252,13 +236,18 @@ class _HomePageState extends State<HomePage> {
         },
         child: Column(
           children: [
-            Icon(
-              icons,
-              size: 40,
+            Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(icons)
+                )
+              )
             ),
             Text(
               label,
-              style: TextStyle(fontSize: 10),
+              style: TextStyle(fontSize: 11),
             ),
           ],
         ),

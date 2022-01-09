@@ -58,16 +58,6 @@ class _State extends State<FastFood> {
    month = DateTime.now().month.toString();
  }
 
-
-  Widget _selectYear() {
-    for (int i = 0; i < yearList.length; i++) {
-      Text(yearList[i]);
-    }
-  }
-
-  //PageController _controller = PageController();
-
-
   Widget calendar() {
     if (_selectedDate == null) {
       return Text("");
@@ -128,11 +118,14 @@ class _State extends State<FastFood> {
             },
             body: Column(
               children: [
+
                 //_selectDate(),
+
                 Expanded(child: _itemList()),
               ],
             )));
   }
+
 
 
   // Widget _Calendar() {
@@ -219,6 +212,7 @@ class _State extends State<FastFood> {
     ));
   }
 */
+
   Widget _itemList() {
     return ListView.builder(
       shrinkWrap: true,
