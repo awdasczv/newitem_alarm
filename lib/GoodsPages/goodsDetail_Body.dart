@@ -49,10 +49,6 @@ class Top extends StatefulWidget {
 
 class _TopState extends State<Top> {
   int _currentimage = 0;
-  List<String> imageList = [
-    goodsList[0].imageUrl1,
-    goodsList[0].imageUrl2,
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -65,11 +61,13 @@ class _TopState extends State<Top> {
           // alignment: Alignment.center,
           children: [
             CarouselSlider(
-              items: imageList.map((item) {
+              items:
+                  [widget.goods.imageUrl1, widget.goods.imageUrl2].map((item) {
                 return Container(
+                    color: Colors.white,
                     width: MediaQuery.of(context).size.width,
                     child: FittedBox(
-                        fit: BoxFit.fill,
+                        fit: BoxFit.contain,
                         child: ClipRect(
                           child: Align(
                             alignment: Alignment.center,
@@ -81,7 +79,7 @@ class _TopState extends State<Top> {
                   height: 300,
                   viewportFraction: 1.0,
                   //각 페이지가 보이는 영역 비율
-                  autoPlay: true,
+                  autoPlay: false,
                   //자동으로 page넘김
                   enlargeCenterPage: true,
                   // enlargeStrategy: CenterPageEnlargeStrategy
@@ -99,8 +97,10 @@ class _TopState extends State<Top> {
                 bottom: 29.0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: imageList.map((url) {
-                    int index = imageList.indexOf(url);
+                  children: [widget.goods.imageUrl1, widget.goods.imageUrl2]
+                      .map((url) {
+                    int index = [widget.goods.imageUrl1, widget.goods.imageUrl2]
+                        .indexOf(url);
                     return Container(
                       width: 8.0,
                       height: 8.0,
@@ -114,7 +114,7 @@ class _TopState extends State<Top> {
                   }).toList(),
                 )),
             Positioned.fill(
-                bottom: -MediaQuery.of(context).size.height * .24, //기기 세로사이즈 받기
+                bottom: -MediaQuery.of(context).size.height * .3, //기기 세로사이즈 받기
                 // top: MediaQuery.of(context).size.height * .50,
                 child: Align(
                     alignment: Alignment.bottomCenter,
@@ -128,7 +128,7 @@ class _TopState extends State<Top> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          height: 200,
+                          height: 220,
                           width: MediaQuery.of(context).size.width * .94,
                           //기기 가로사이즈 // MediaQuery.of(context).size.width
                           child: Align(
@@ -165,12 +165,16 @@ class _TopState extends State<Top> {
                                                   ),
                                                 )),
                                             const SizedBox(width: 10),
-                                            Text(
-                                              widget.goods.title,
-                                              maxLines: 2,
-                                              style: TextStyle(
-                                                fontSize: 25,
-                                                fontWeight: FontWeight.bold,
+                                            Expanded(
+                                              child: Text(
+                                                widget.goods.title,
+                                                maxLines: 2,
+                                                softWrap: true,
+                                                overflow: TextOverflow.visible,
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -181,7 +185,7 @@ class _TopState extends State<Top> {
                                         Text(
                                           widget.goods.price.toString() + "원",
                                           style: TextStyle(
-                                            fontSize: 25,
+                                            fontSize: 22,
                                             fontWeight: FontWeight.w500,
                                           ),
                                         ),
@@ -254,7 +258,7 @@ class _TopState extends State<Top> {
                     )))
           ],
         ),
-        SizedBox(height: MediaQuery.of(context).size.height * .245),
+        SizedBox(height: MediaQuery.of(context).size.height * .32),
         Card(
           elevation: 5,
           color: Colors.white,
