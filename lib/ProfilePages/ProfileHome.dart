@@ -32,7 +32,7 @@ class _ProfileHomeState extends State<ProfileHome> {
         title: Text(
           'My Page',
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+              fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
         ),
       ),
         body: func(_isLogin)
@@ -138,7 +138,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                     ),
                     Text(
                       " 프로필 수정하기",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Colors.black),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
                     )
                   ],
                 )),
@@ -362,7 +362,7 @@ class _ProfileHomeState extends State<ProfileHome> {
 
   TextStyle _ts(){
     return TextStyle(
-      fontSize: 20
+      fontSize: 22
     );
   }
 }
