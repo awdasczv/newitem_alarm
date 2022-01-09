@@ -22,6 +22,22 @@ class _ProfileHomeState extends State<ProfileHome> {
 
   bool _isLogin = false;
 
+  final _menuList = [
+    ReviewMan(),
+    CommandMan(),
+    AlarmMan(),
+    Notice(),
+    Manual()
+  ];
+
+  final _menuIcon = [
+    Icon(Icons.rate_review_outlined,size: 25,),
+    Icon(Icons.comment,size: 25,),
+    Icon(Icons.circle_notifications_outlined,size: 25,),
+    Icon(Icons.campaign,size: 25,),
+    Icon(Icons.description_outlined,size: 25,),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +48,7 @@ class _ProfileHomeState extends State<ProfileHome> {
         title: Text(
           'My Page',
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+              fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
         ),
       ),
         body: func(_isLogin)
@@ -138,7 +154,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                     ),
                     Text(
                       " 프로필 수정하기",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Colors.black),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
                     )
                   ],
                 )),
@@ -170,125 +186,26 @@ class _ProfileHomeState extends State<ProfileHome> {
             //padding: EdgeInsets.all(8),
             children: [
               //리뷰 관리 페이지 이동
-              ListTile(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ReviewMan()),
-                    );
-                  },
-                  title: Row(
-                    children: [
-                      Icon(Icons.rate_review_outlined,size: 25,),
-                      SizedBox(width: 10,),
-                      Text("리뷰 관리",
-                          style: _ts(), textAlign: TextAlign.left),
-                      Spacer(),
-                      Icon(Icons.arrow_forward_ios_outlined)
-                    ],
-                  )
-              ),
+              _MenuListTile(0, "리뷰 관리"),
 
               //댓글 관리 페이지 이동
-              ListTile(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CommandMan()),
-                    );
-                  },
-                  title: Row(
-                    children: [
-                      Icon(Icons.comment,size: 25,),
-                      SizedBox(width: 10,),
-                      Text("댓글 관리",
-                          style: _ts(), textAlign: TextAlign.left),
-                      Spacer(),
-                      Icon(Icons.arrow_forward_ios_outlined)
-                    ],
-                  )
-              ),
-
+              _MenuListTile(1, "댓글 관리"),
 
               //알림 설정 페이지 이동
-              ListTile(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AlarmMan()),
-                    );
-                  },
-                  title: Row(
-                    children: [
-                      Icon(Icons.circle_notifications_outlined,size: 25,),
-                      SizedBox(width: 10,),
-                      Text("알림설정",
-                          style: _ts(), textAlign: TextAlign.left),
-                      Spacer(),
-                      Icon(Icons.arrow_forward_ios_outlined)
-                    ],
-                  )
-              ),
+              _MenuListTile(2, "알림설정"),
 
               //공지사항 페이지 이동
-              ListTile(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Notice()),
-                    );
-                  },
-                  title: Row(
-                    children: [
-                      Icon(Icons.campaign,size: 25,),
-                      SizedBox(width: 10,),
-                      Text("공지사항",
-                          style: _ts(), textAlign: TextAlign.left),
-                      Spacer(),
-                      Icon(Icons.arrow_forward_ios_outlined)
-                    ],
-                  )
-              ),
+              _MenuListTile(3, "공지사항"),
 
               //이용약관 페이지 이동
-              ListTile(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Manual()),
-                    );
-                  },
-                  title: Row(
-                    children: [
-                      Icon(Icons.description_outlined,size: 25,),
-                      SizedBox(width: 10,),
-                      Text("이용약관",
-                          style: _ts(), textAlign: TextAlign.left),
-                      Spacer(),
-                      Icon(Icons.arrow_forward_ios_outlined)
-                    ],
-                  )),
+              _MenuListTile(4, "이용약관"),
+
             ],
           ),
         ),
 
     );
   }
-
-  // 로그인/회원가입
-  /*Widget a() {
-    return Center(
-        child: ElevatedButton(
-            onPressed: () async {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignInScreen()));
-            },
-            child: Text("로그인/회원가입",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: Colors.white))));
-  }*/
 
   // _isLogin = false
   Widget b() {
@@ -312,7 +229,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                     ),
                     ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Colors.black)
+                            backgroundColor: MaterialStateProperty.all(Color(0xfff1c40f))
                         ),
                         onPressed: () async {
                           Navigator.push(context,
@@ -333,36 +250,25 @@ class _ProfileHomeState extends State<ProfileHome> {
           ListMenu()
         ]
       );
-      /*Container(
-        padding: EdgeInsets.all(50),
-        decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-          color: Colors.transparent,
-          width: 1.0,
-        ))),
-        child: Center(
-            child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.black)),
-                onPressed: () async {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignInScreen()));
-                },
-                child: Text("로그인/회원가입",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                        color: Colors.white)))),
-      ),
-      ListMenu()
-      //func(_isLogin)
-    ]);*/
   }
-
-  TextStyle _ts(){
-    return TextStyle(
-      fontSize: 20
+  ListTile _MenuListTile(int index, String name) {
+    return ListTile(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => _menuList[index]),
+          );
+        },
+        title: Row(
+          children: [
+            _menuIcon[index],
+            SizedBox(width: 10,),
+            Text("${name}",
+                style: TextStyle(fontSize: 25), textAlign: TextAlign.left),
+            Spacer(),
+            Icon(Icons.arrow_forward_ios_outlined)
+          ],
+        )
     );
   }
 }
