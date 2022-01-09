@@ -46,11 +46,18 @@ class _State extends State<FastFood> {
   final _pageController = PageController();
   final _currentPageNotifier = ValueNotifier<int>(0);
 
-  void _Month(DateTime _month) {
-    setState(() {
-      _selectedDateTime = _month;
-    });
-  }
+  String year;
+  String month;
+
+
+ @override
+ void initState(){
+   super.initState();
+
+   year = DateTime.now().year.toString();
+   month = DateTime.now().month.toString();
+ }
+
 
   Widget _selectYear() {
     for (int i = 0; i < yearList.length; i++) {
@@ -59,6 +66,7 @@ class _State extends State<FastFood> {
   }
 
   //PageController _controller = PageController();
+
 
   Widget calendar() {
     if (_selectedDate == null) {
@@ -120,11 +128,12 @@ class _State extends State<FastFood> {
             },
             body: Column(
               children: [
-                _Calendar(),
+                _selectDate(),
                 Expanded(child: _itemList()),
               ],
             )));
   }
+
 
   // Widget _Calendar() {
   //   return Row(
@@ -156,6 +165,7 @@ class _State extends State<FastFood> {
   //     ],
   //   );
   // }
+
 
   Widget _Calendar() {
     return Container(
@@ -208,7 +218,7 @@ class _State extends State<FastFood> {
       ],
     ));
   }
-
+*/
   Widget _itemList() {
     return ListView.builder(
       shrinkWrap: true,
