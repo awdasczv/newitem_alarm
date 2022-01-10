@@ -17,7 +17,7 @@ class _LikeHomeState extends State<LikeHome>
   //SingleTickProviderStateMixin Tab bar controller 애니메이션 처리를 위해(즉, vsync 사용을 위해)
   TabController _tabController; //TabView
 
-  final bar = ['상품', '워치'];
+  final bar = ['상품', '먹TV'];
 
   //탭바 제목
 
@@ -49,11 +49,12 @@ class _LikeHomeState extends State<LikeHome>
                   shape: Border(
                       bottom: BorderSide(color: Colors.black26, width: 1)),
                   backgroundColor: Colors.white,
-                  title: const Text("찜목록",
+                  title: const Text("찜",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 25,
                           color: Colors.black)),
+                  centerTitle: true,
                   bottom: TabBar(
                     labelColor: Colors.black,
                     unselectedLabelColor: Colors.grey,

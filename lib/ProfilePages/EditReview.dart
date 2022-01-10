@@ -25,13 +25,16 @@ class _EditReviewState extends State<EditReview> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text("전체 목록 편집",
-            style: TextStyle(fontSize: 20),),
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
+          ),
           centerTitle: true,
+          backgroundColor: Colors.white,
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: Icon(Icons.arrow_back_ios)
+              icon: Icon(Icons.arrow_back, color: Colors.black)
           ),
         ),
         body: Column(
@@ -43,6 +46,7 @@ class _EditReviewState extends State<EditReview> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Checkbox(
+                        activeColor: Color(0xfff1c40f),
                         value: reviewAllCheck,
                         onChanged: (value) {
                           setState(() {
@@ -57,7 +61,7 @@ class _EditReviewState extends State<EditReview> {
                       ),
                       Text(
                         "전체 선택",
-                        style: TextStyle(fontSize: 28),
+                        style: TextStyle(fontSize: 20),
                       ),
                     ],
                   )
@@ -66,13 +70,16 @@ class _EditReviewState extends State<EditReview> {
                 child: _ReviewEditList(),
               ),
               GestureDetector(
-                  child: Container(
-                      padding: EdgeInsets.fromLTRB(140, 0, 140, 0),
-                      color: Colors.blue,
-                      child: FittedBox(
-                          child: Text("선택한 항목 삭제",maxLines: 80, style: TextStyle(fontSize: 20, color: Colors.black,))
-                      )
-                    //child: Text("선택한 항목 삭제", style: TextStyle(fontSize: 20, color: Colors.white),),
+                  child: Card(
+                    child: Container(
+                        padding: EdgeInsets.fromLTRB(140, 20, 140, 20),
+                        color: Color(0xfff1c40f),
+                        child: FittedBox(
+                          //fit: BoxFit.contain,
+                          child: Text("선택한 항목 삭제", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35, color: Colors.black,)),
+                        )
+                      //child: Text("선택한 항목 삭제", style: TextStyle(fontSize: 20, color: Colors.white),),
+                    ),
                   ),
                   onTap: () {
                     _ReviewDeleteDialog();
@@ -88,23 +95,26 @@ class _EditReviewState extends State<EditReview> {
       itemCount: widget.review.length,
       itemBuilder: (context, index) {
         final item = widget.review[index];
-        return CheckboxListTile(
-          title: Text(item),
-          controlAffinity: ListTileControlAffinity.leading,
-          value: _reviewCheckBox[index],
-          onChanged: (value) {
-            setState(() {
-              _reviewCheckBox[index] = value;
-              List<bool> _temp = _reviewCheckBox.where((element) => element == false).toList();
+        return Card(
+          child: CheckboxListTile(
+            activeColor: Color(0xfff1c40f),
+            title: Text(item),
+            controlAffinity: ListTileControlAffinity.leading,
+            value: _reviewCheckBox[index],
+            onChanged: (value) {
+              setState(() {
+                _reviewCheckBox[index] = value;
+                List<bool> _temp = _reviewCheckBox.where((element) => element == false).toList();
 
-              if(!value) {
-                reviewAllCheck = false;
-              }
-              if(_temp.length == 0) {
-                reviewAllCheck = true;
-              }
-            });
-          },
+                if(!value) {
+                  reviewAllCheck = false;
+                }
+                if(_temp.length == 0) {
+                  reviewAllCheck = true;
+                }
+              });
+            },
+          ),
         );
       },
     );

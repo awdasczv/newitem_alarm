@@ -11,11 +11,11 @@ class CommandMan extends StatefulWidget {
 class _CommandManState extends State<CommandMan> {
 
   List<String> _comment = [
-    "댓글11111111111111111111111111111111111111",
-    "댓글22222222222222222222222222222222222222222222222",
-    "댓글3333333333333333333333333333333333333",
-    "댓글44444444444444444444444444444444444444444444444444444",
-    "댓글5555555555555555555555555555555"
+    "댓글: 나쁘지 않은듯 함",
+    "댓글: 좋아요",
+    "댓글: 이건 아닌듯",
+    "댓글: 완전 공감됨",
+    "댓글:존나 웃겨"
   ];
 
   bool commentEditButton = false;
@@ -27,30 +27,32 @@ class _CommandManState extends State<CommandMan> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          backgroundColor: Colors.white,
           title: Text("댓글 관리",
-            style: TextStyle(fontSize: 20),),
+            style: TextStyle(fontSize: 20, color: Colors.black)),
+
           centerTitle: true,
+          backgroundColor: Colors.white,
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: Icon(Icons.arrow_back_ios)
+              icon: Icon(Icons.arrow_back_ios, color: Colors.black)
           ),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text("내가 쓴 댓글", style: TextStyle(fontSize: 28),),
-                    Padding(
-                        padding: EdgeInsets.only(left: 155),
-                        child: ElevatedButton(
+        body: Card(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("내가 쓴 댓글", style: TextStyle(fontSize: 20),),
+                        ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.white10,
+                            primary: Color(0xfff1c40f),
                             onPrimary: Colors.black,
                           ),
                           onPressed: () async {
@@ -69,15 +71,15 @@ class _CommandManState extends State<CommandMan> {
                             });
                           },
                           child: Text(" 편집"),
-                        )
+                        ),
+                      ],
                     )
-                  ],
-                )
-            ),
-            Expanded(
-              child: _CommentListView(),
-            ),
-          ],
+                ),
+                Expanded(
+                  child: _CommentListView(),
+                ),
+              ],
+            )
         )
     );
   }

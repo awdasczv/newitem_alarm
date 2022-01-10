@@ -6,9 +6,17 @@ class Manual extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("이용약관",
-          style: TextStyle(fontSize: 20),
-        ),
+        style: TextStyle(
+            fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
+      ),
         centerTitle: true,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back, color: Colors.black)
+        ),
       ),
     );
   }

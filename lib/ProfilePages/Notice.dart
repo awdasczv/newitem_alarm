@@ -10,22 +10,27 @@ class Notice extends StatelessWidget {
         slivers: <Widget>[
           // 앱바 추가
           SliverAppBar(
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.white,
             centerTitle: true,
             title : Container(
               child: Text("공지사항",
               style: TextStyle(
-                  fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),
+                  fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
             ),
             ),
 
             // floating 설정. SliverAppBar는 스크롤 다운되면 화면 위로 사라짐.
             // true: 스크롤 업 하면 앱바가 바로 나타남. false: 리스트 최 상단에서 스크롤 업 할 때에만 앱바가 나타남
-
+            leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.arrow_back, color: Colors.black)
+            ),
             floating: true,
             snap: true,
             // 최대 높이
-            expandedHeight: 70,
+            expandedHeight: 50,
           ),
           // 리스트 추가
           SliverList(
