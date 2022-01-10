@@ -30,7 +30,6 @@ class YoutubeAPI{
   factory YoutubeAPI.fromJson(Map<String, dynamic> channelJson, Map<String, dynamic> videoJson){
     //두개의 json request가 필요
     //channelJson은 체널정보(체널 썸네일 같은거)를, videoJson은 특정 영상정보(영상 썸네일이나 설명 같은거)를 받아옴
-
     return YoutubeAPI(
         channel_id: channelJson['id'],
         video_id: videoJson['id'],

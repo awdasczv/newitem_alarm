@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  path_provider: ^2.0.2
   provider: ^6.0.1
   url_launcher: ^6.0.15
   page_view_indicators: ^2.0.0
