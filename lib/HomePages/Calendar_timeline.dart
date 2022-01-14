@@ -65,7 +65,7 @@ class _CalendarState extends State<Calendar> {
     return SizedBox(
       height: 70,
       child: ScrollablePositionedList.builder(
-          padding: EdgeInsets.only(left: 10, right: 10, top: 2, bottom: 2),
+          padding: EdgeInsets.only(left: 15, right: 15, top: 2, bottom: 2),
           itemCount: month_list.length,
           itemScrollController: monthController,
           initialScrollIndex: selected_month_index,

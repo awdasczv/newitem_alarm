@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/model/goods.dart';
 
+import './goodsDeatai_Bottom.dart';
+import './goodsDetail_Body.dart';
 import '../model/Favorite_button.dart';
-import 'goodsDetail_Body.dart';
 
 class DetailMain extends StatefulWidget {
   static String routeName = "/goodsDetail";
@@ -19,11 +20,17 @@ class _DetailMainState extends State<DetailMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[200],
-        appBar: buildAppBar(context),
-        body: ListView(
-          children: [Top(goods: widget.goods)],
-        ));
+      backgroundColor: Colors.grey[200],
+      appBar: buildAppBar(context),
+      body: ListView(
+        children: [
+          Top(
+            goods: widget.goods,
+          ),
+          Bottom()
+        ],
+      ),
+    );
   }
 
   // Top(goods: widget.goods)
