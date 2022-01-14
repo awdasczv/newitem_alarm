@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:newitem_alarm/HomePages/Calendar_timeline.dart';
-import 'package:page_view_indicators/page_view_indicators.dart';
 import 'package:newitem_alarm/GoodsPages/goodsDetail.dart';
+import 'package:newitem_alarm/HomePages/Calendar_timeline.dart';
 import 'package:newitem_alarm/model/goods.dart';
 
+import './Calendar_timeline.dart';
 import '../LikePages/Category.dart';
 import '../LikePages/Goods_Card.dart';
 import '../model/goods.dart';
-import './Calendar_timeline.dart';
 
 class FastFood extends StatefulWidget {
   @override
@@ -54,14 +53,13 @@ class _State extends State<FastFood> {
   String year;
   String month;
 
+  @override
+  void initState() {
+    super.initState();
 
- @override
- void initState(){
-   super.initState();
-
-   year = DateTime.now().year.toString();
-   month = DateTime.now().month.toString();
- }
+    year = DateTime.now().year.toString();
+    month = DateTime.now().month.toString();
+  }
 
   Widget calendar() {
     if (_selectedDate == null) {
@@ -126,43 +124,37 @@ class _State extends State<FastFood> {
                 Category(),
                 Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      child: GridView.builder(
-                          shrinkWrap: true, //필요한 공간만 차지
-                          itemCount: goodsList.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              //2행
-                              childAspectRatio: 0.65,
-                              //mainAxis에 대한 교차축 비율
-                              mainAxisSpacing: 10,
-                              //mainAxis를 따라 각 child 사이 크기 //위로 얼마나 띄어져 있는지
-                              crossAxisSpacing: 10 //같은 행에 있는 child 간 사이 크기
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  child: GridView.builder(
+                      shrinkWrap: true, //필요한 공간만 차지
+                      itemCount: goodsList.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          //2행
+                          childAspectRatio: 0.65,
+                          //mainAxis에 대한 교차축 비율
+                          mainAxisSpacing: 10,
+                          //mainAxis를 따라 각 child 사이 크기 //위로 얼마나 띄어져 있는지
+                          crossAxisSpacing: 10 //같은 행에 있는 child 간 사이 크기
                           ),
-                          itemBuilder: (context, index) => GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => DetailMain(
+                      itemBuilder: (context, index) => GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DetailMain(
                                           goods: goodsList[index],
                                         )));
-                              },
-                              child: GoodsCard(
-                                goods: goodsList[index],
-                              ))),
-                    ))
+                          },
+                          child: GoodsCard(
+                            goods: goodsList[index],
+                          ))),
+                ))
 
                 //_selectDate(),
-
-                Expanded(child: _itemList()),
               ],
-            )
-        )
-    );
+            )));
   }
-
-
 
   // Widget _Calendar() {
   //   return Row(
@@ -195,125 +187,119 @@ class _State extends State<FastFood> {
   //   );
   // }
 
+  // Widget _Calendar() {
+  //
+  //   return Container(
+  //       child: Row(
+  //     children: [
+  //       ElevatedButton(
+  //           child: Text('--년 --월'),
+  //           onPressed: () {
+  //             showDialog(
+  //                 context: context,
+  //                 barrierDismissible: false, // 바깥 영역 터치시 닫을지 여부
+  //                 builder: (BuildContext context) {
+  //                   return AlertDialog(
+  //                     title: Column(
+  //                       children: [Text("날짜 선택")],
+  //                     ),
+  //                     content: SingleChildScrollView(
+  //                         child: Column(
+  //                       children: [
+  //                         Container(
+  //                           height: 60,
+  //                           width: 500,
+  //                           color: Colors.red,
+  //                           child: Center(
+  //                             child: Text(
+  //                               "2021년",
+  //                               style: TextStyle(fontSize: 30),
+  //                             ),
+  //                           ),
+  //                         )
+  //                       ],
+  //                     )),
+  //                     actions: <Widget>[
+  //                       ElevatedButton(
+  //                         child: Text("ok"),
+  //                         onPressed: () {
+  //                           Navigator.of(context).pop();
+  //                         },
+  //                       ),
+  //                       ElevatedButton(
+  //                         child: Text("cancel"),
+  //                         onPressed: () {
+  //                           Navigator.of(context).pop();
+  //                         },
+  //                       ),
+  //                     ],
+  //                   );
+  //                 });
+  //           }),
+  //     ],
+  //   ));
+  // }
 
-/*
-  Widget _Calendar() {
+  //
+  // Widget _itemList() {
+  //   return ListView.builder(
+  //     shrinkWrap: true,
+  //     itemCount: _colorList1.length,
+  //     physics: NeverScrollableScrollPhysics(),
+  //     itemBuilder: (BuildContext context, int index) {
+  //       return Column(
+  //         children: [
+  //           _Swipe(index),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
+  //
+  // Widget _Swipe(int index) {
+  //   return Column(
+  //     children: [
+  //       GridView.builder(
+  //         itemCount: ,
+  //       )
+  //     ],
+  //   );
+  //       Container(
+  //           height: 70,
+  //           color: Colors.white,
+  //           child: Row(
+  //             mainAxisAlignment: MainAxisAlignment.start,
+  //             children: [
+  //               Padding(
+  //                   padding: EdgeInsets.all(10),
+  //                   child: Container(
+  //                       height: 50,
+  //                       decoration: BoxDecoration(
+  //                         shape: BoxShape.circle,
+  //                         color: Colors.teal,
+  //                       ),
+  //                       child: Center(
+  //                         child: Text("Logo"),
+  //                       ))),
+  //               Column(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 children: [
+  //                   Text(
+  //                     "상품이름 가나다라",
+  //                     style: TextStyle(fontSize: 17),
+  //                   ),
+  //                   Text(
+  //                     "가격 2800원",
+  //                     style: TextStyle(fontSize: 17),
+  //                   )
+  //                 ],
+  //               )
+  //             ],
+  //           ))
+  //     ],
+  //   );
+  // }
 
-
-  /*Widget _Calendar() {
-
-    return Container(
-        child: Row(
-      children: [
-        ElevatedButton(
-            child: Text('--년 --월'),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  barrierDismissible: false, // 바깥 영역 터치시 닫을지 여부
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Column(
-                        children: [Text("날짜 선택")],
-                      ),
-                      content: SingleChildScrollView(
-                          child: Column(
-                        children: [
-                          Container(
-                            height: 60,
-                            width: 500,
-                            color: Colors.red,
-                            child: Center(
-                              child: Text(
-                                "2021년",
-                                style: TextStyle(fontSize: 30),
-                              ),
-                            ),
-                          )
-                        ],
-                      )),
-                      actions: <Widget>[
-                        ElevatedButton(
-                          child: Text("ok"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        ElevatedButton(
-                          child: Text("cancel"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  });
-            }),
-      ],
-    ));
-  }
-*/
-  /*
-
-  Widget _itemList() {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: _colorList1.length,
-      physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        return Column(
-          children: [
-            _Swipe(index),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _Swipe(int index) {
-    return Column(
-      children: [
-        GridView.builder(
-          itemCount: ,
-        )
-      ],
-    );
-        Container(
-            height: 70,
-            color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.teal,
-                        ),
-                        child: Center(
-                          child: Text("Logo"),
-                        ))),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "상품이름 가나다라",
-                      style: TextStyle(fontSize: 17),
-                    ),
-                    Text(
-                      "가격 2800원",
-                      style: TextStyle(fontSize: 17),
-                    )
-                  ],
-                )
-              ],
-            ))
-      ],
-    );
-  }
-*/
   // Widget _Swipe(int index) {
   //   return Column(
   //     children: [
