@@ -13,24 +13,8 @@ class Body extends StatefulWidget {
   _BodyState createState() => _BodyState();
 }
 
-class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
+class _BodyState extends State<Body> {
   int _currentPage = 0;
-  TabController _tabController; //TabView
-  final bar = ['상품설명', '리뷰', '상세정보'];
-
-  @override
-  void initState() {
-    //Pageview 자동 스크롤
-    super.initState();
-    this._tabController = TabController(length: bar.length, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
   @override //main
   Widget build(BuildContext context) {
     return Container(

@@ -49,21 +49,24 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          children: [
-            _banner(),
-            _category(),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Text(
-                '이주의 신상',
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            _itemList()
-          ],
-        ));
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      children: [
+        _banner(),
+        _category(),
+        Divider(
+          thickness: 3,
+        ),
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: Text(
+            '이주의 신상',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+        _itemList()
+      ],
+    ));
   }
 
   Widget _banner() {
@@ -127,32 +130,6 @@ class _HomePageState extends State<HomePage> {
                     iconSize: 30,
                     color: Colors.white,
                   )
-                  /*
-                  GestureDetector(
-                child: Container(
-                  color: Colors.orangeAccent,
-                  padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.edit, color: Colors.white,),
-                      Text(" 프로필 수정하기", style: TextStyle(fontSize: 25, color: Colors.white), )
-                    ],
-                  )
-                ),
-                  onTap: () async{
-                    var a = await
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ChangeProfile(imagePath: _imagePath)),
-                    );
-                    setState(() {
-                      _imagePath = a[0];
-                      _name = a[1];
-                    });
-                  }
-              ),
-                  */
                 ],
               ),
             ))
@@ -237,17 +214,17 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(icons)
-                )
-              )
-            ),
+                height: 50,
+                width: 50,
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xfff1c40f),
+                    image:
+                        DecorationImage(image: AssetImage(icons), scale: 16))),
             Text(
               label,
-              style: TextStyle(fontSize: 11),
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
             ),
           ],
         ),
