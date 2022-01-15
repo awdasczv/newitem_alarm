@@ -152,6 +152,10 @@ class _State extends State<FastFood> {
                 ))
 
                 //_selectDate(),
+
+
+                //Expanded(child: _itemList()),
+
               ],
             )));
   }
@@ -239,6 +243,81 @@ class _State extends State<FastFood> {
   //     ],
   //   ));
   // }
+
+/*
+  Widget _Calendar() {
+
+
+  /*Widget _Calendar() {
+
+    return Container(
+        child: Row(
+      children: [
+        ElevatedButton(
+            child: Text('--년 --월'),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  barrierDismissible: false, // 바깥 영역 터치시 닫을지 여부
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Column(
+                        children: [Text("날짜 선택")],
+                      ),
+                      content: SingleChildScrollView(
+                          child: Column(
+                        children: [
+                          Container(
+                            height: 60,
+                            width: 500,
+                            color: Colors.red,
+                            child: Center(
+                              child: Text(
+                                "2021년",
+                                style: TextStyle(fontSize: 30),
+                              ),
+                            ),
+                          )
+                        ],
+                      )),
+                      actions: <Widget>[
+                        ElevatedButton(
+                          child: Text("ok"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        ElevatedButton(
+                          child: Text("cancel"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  });
+            }),
+      ],
+    ));
+  }
+*/
+*/
+  /*
+
+  Widget _itemList() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: _colorList1.length,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        return Column(
+          children: [
+            _Swipe(index),
+          ],
+        );
+      },
+    );
+  }
 
   //
   // Widget _itemList() {
