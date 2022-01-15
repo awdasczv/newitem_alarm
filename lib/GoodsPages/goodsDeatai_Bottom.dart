@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Bottom extends StatefulWidget {
@@ -7,7 +8,6 @@ class Bottom extends StatefulWidget {
 
 class _BottomState extends State<Bottom> with SingleTickerProviderStateMixin {
   TabController _tabController;
-  TextEditingController _textEditingController = TextEditingController();
   int currentIndex = 0;
   final bar = ['댓글', '리뷰', '먹TV'];
 
@@ -21,7 +21,6 @@ class _BottomState extends State<Bottom> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     _tabController.dispose();
-    _textEditingController.dispose();
     super.dispose();
   }
 
@@ -104,6 +103,22 @@ class Review extends StatefulWidget {
 }
 
 class _ReviewState extends State<Review> {
+  Stream<int> addStreamValue() {
+    return Stream<int>.periodic(
+      Duration(seconds: 1),
+    );
+  }
+
+  TextEditingController _textEditingController = TextEditingController();
+  FocusNode _focusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -113,6 +128,25 @@ class _ReviewState extends State<Review> {
             color: Colors.white,
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
+            // child: StreamBuilder(
+            //   stream: FirebaseFirestore.instance
+            //       .collection('comment/eHr0YsBa9yBV5DINpBCc')
+            //       .snapshots(),
+            //   builder: (BuildContext context,
+            //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            //     final docs = snapshot.data.docs;
+            //     return ListView.builder(
+            //         itemCount: docs.length,
+            //         itemBuilder: (context, index) {
+            //           return Padding(
+            //             padding: const EdgeInsets.all(8.0),
+            //             child: Container(
+            //               child: Text(docs[index]['comment']),
+            //             ),
+            //           );
+            //         });
+            //   },
+            // ),
           ),
           Positioned(
               bottom: 0,
@@ -126,8 +160,13 @@ class _ReviewState extends State<Review> {
                         width: MediaQuery.of(context).size.width - 65,
                         child: TextFormField(
                           // maxLines: 5,
+                          controller: _textEditingController,
+                          focusNode: _focusNode,
+                          textCapitalization: TextCapitalization.sentences,
                           decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(5),
+                              hintText: '댓글을 적어주세요.',
+                              alignLabelWithHint: true,
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey),
                                   borderRadius: BorderRadius.circular(30))),
@@ -136,7 +175,14 @@ class _ReviewState extends State<Review> {
                         radius: 20,
                         child: IconButton(
                           icon: Icon(Icons.send_rounded),
-                          onPressed: () {},
+                          onPressed: () {
+                            final f = FirebaseFirestore.instance;
+                            f
+                                .collection('comment')
+                                .doc('abc')
+                                .set({'comment': 'bcde'});
+                            print('테스트');
+                          },
                         ))
                   ],
                 ),
