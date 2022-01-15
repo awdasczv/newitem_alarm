@@ -58,43 +58,27 @@ class _BottomState extends State<Bottom> with SingleTickerProviderStateMixin {
               ),
             ),
           ),
+          //IndexedStack will show a single child from a list of children based on index
+          // while Visibility will maintain to show or hide view.
           IndexedStack(
             children: <Widget>[
               Visibility(
-                child: Container(
-                  height: 200,
-                  color: Colors.yellow,
-                  child: Center(
-                    child: Text('Content left'),
-                  ),
-                ),
-                maintainState: true,
+                child: Comment(),
+                maintainState: true, //invisible할 때도 child 유지
                 visible: currentIndex == 0,
               ),
               Visibility(
-                child: Container(
-                  height: 1000,
-                  color: Colors.red,
-                  child: Center(
-                    child: Text('Content center'),
-                  ),
-                ),
+                child: Review(),
                 maintainState: true,
                 visible: currentIndex == 1,
               ),
               Visibility(
-                child: Container(
-                  height: 1000,
-                  color: Colors.red,
-                  child: Center(
-                    child: Text('Content right'),
-                  ),
-                ),
+                child: MukTV(),
                 maintainState: true,
                 visible: currentIndex == 2,
               ),
             ],
-            index: currentIndex,
+            index: currentIndex, //index는 The index of the child to show.
           )
         ],
       ),
@@ -122,7 +106,44 @@ class Review extends StatefulWidget {
 class _ReviewState extends State<Review> {
   @override
   Widget build(BuildContext context) {
-    return Text('sds');
+    return Container(
+      child: Stack(
+        children: [
+          Container(
+            color: Colors.white,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+          ),
+          Positioned(
+              bottom: 0,
+              child: Container(
+                height: 50,
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        width: MediaQuery.of(context).size.width - 65,
+                        child: TextFormField(
+                          // maxLines: 5,
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(5),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(30))),
+                        )),
+                    CircleAvatar(
+                        radius: 20,
+                        child: IconButton(
+                          icon: Icon(Icons.send_rounded),
+                          onPressed: () {},
+                        ))
+                  ],
+                ),
+              ))
+        ],
+      ),
+    );
   }
 }
 
