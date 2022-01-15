@@ -43,7 +43,8 @@ dependencies:
   cupertino_date_textbox:
   get: #GetX
   scrollable_positioned_list: ^0.2.3
-#  cloud_firestore:
+  cloud_firestore:
+  firebase_core:
 #  firebase_database:
 #  shared_preferences:
 #  firebase_messaging:
