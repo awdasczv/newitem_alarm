@@ -8,6 +8,6 @@ class Comment extends StatefulWidget {
 class _CommentState extends State<Comment> {
   @override
   Widget build(BuildContext context) {
-    return Text('dsd');
+    return Text('여기서 하시면 됨');
   }
 }
