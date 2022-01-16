@@ -1,11 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:newitem_alarm/constants.dart';
 import 'package:newitem_alarm/ProfilePages/components/default_button.dart';
 import 'package:newitem_alarm/ProfilePages/components/form_error.dart';
-import 'package:newitem_alarm/ProfilePages/LoginPage.dart';
-
 
 class SignFrom extends StatefulWidget {
+  const SignFrom({Key key}) : super(key: key);
+
   @override
   _SignFromState createState() => _SignFromState();
 }
@@ -17,6 +19,23 @@ class SignFrom extends StatefulWidget {
   String password = "";
   String kIdNull ="아이디를 입력해주세요";
   String kPasswordNull = "비밀번호를 입력해주세요";
+
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth = await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
 
   @override
   Widget build(BuildContext context){
@@ -35,25 +54,19 @@ class SignFrom extends StatefulWidget {
               press: () {
                 if (_formkey.currentState.validate() && errors.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('유효성 검사 확인'),
-                      ),
+                    SnackBar(
+                      content: Text('유효성 검사 확인'),
+                    ),
                   );
                 }
               },
             ),
             SizedBox(height: 10),
             FormError(errors: errors),
-            TextButton(
-              onPressed: () async {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => LoginPage()),
-                );
-              },
-              child: Text("아이디/비밀번호 찾기 | 회원가입", style: TextStyle(color: Colors.grey),)
-            )
+            ElevatedButton(
+                onPressed: signInWithGoogle,
+                child: Text("회원가입")
+            ),
           ],
         ),
       ),
@@ -128,6 +141,7 @@ OutlineInputBorder outlineInputBorder(Color color) {
       ),
     );
   }
-  }
+
+}
 
 
