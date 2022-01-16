@@ -11,7 +11,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
 
-  List<String> searchHistory = ["불고기", "닭갈비", "삼겹살", "갈비곰탕", "생새우살","검색어1","매우기이이이이이이인검색어","검색어2","검색어3","검색어4"];
+  List<String> searchHistory = [];
   Future<List<String>> _sh;
   final TextEditingController _tc = TextEditingController();
 
@@ -22,6 +22,13 @@ class _SearchPageState extends State<SearchPage> {
     // TODO: implement initState
     super.initState();
     _sh = _readSearchHistory();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+
+    super.dispose();
   }
 
   @override
@@ -116,6 +123,25 @@ class _SearchPageState extends State<SearchPage> {
                  return CircularProgressIndicator();
                },
              )
+           ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
+              child: Text('추천검색어',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold)),
+            ),
+           Padding(
+             padding:  EdgeInsets.fromLTRB(10, 5, 10, 10),
+             child:  Wrap(
+               spacing: 6.0,
+               runSpacing: 6.0,
+               children: [
+                 Chip(label: Text('추천검색어1'),backgroundColor: Color(0xfff1c40f),),
+                 Chip(label: Text('짧은거'),backgroundColor: Color(0xfff1c40f),),
+                 Chip(label: Text('짧'),backgroundColor: Color(0xfff1c40f),),
+                 Chip(label: Text('기이이인검색어1'),backgroundColor: Color(0xfff1c40f),),
+                 Chip(label: Text('디따기이이이이이이이인 검색어'),backgroundColor: Color(0xfff1c40f),),
+                 Chip(label: Text('배고프다'),backgroundColor: Color(0xfff1c40f),),
+               ],
+             ),
            )
           ],
         ),
@@ -126,16 +152,23 @@ class _SearchPageState extends State<SearchPage> {
   void searchButton() async{
     searchHistory.add(_tc.text.toString());
     await _writeSearchHistory(searchHistory);
+
+    setState(() {
+      _sh =  _readSearchHistory();
+    });
   }
 
   Chip _chip(int index){
      return Chip(
        label: Text(searchHistory[index]),
        deleteIcon: Icon(Icons.clear,size: 20,),
-       onDeleted: (){
+       backgroundColor: Color(0xfff1c40f),
+       onDeleted: () async{
+
          setState(() {
            searchHistory.removeAt(index);
          });
+         await _writeSearchHistory(searchHistory);
        },
      );
   }
@@ -163,6 +196,8 @@ class _SearchPageState extends State<SearchPage> {
 
       _res = _str.split('\n');
 
+      _res.remove('');
+
       return _res;
     }
     catch(e){
@@ -171,13 +206,17 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<void> _writeSearchHistory(List<String> searchHistory) async{
-    if(searchHistory.isEmpty){
-      print("There is no data to write(Search History is empty)");
-    }
+
     final _path = await _localPath;
     final _file = File('$_path.searchHistory.txt');
 
     String _buff = "";
+
+    if(searchHistory.length < 1){
+      _file.writeAsString('');
+      return;
+    }
+
     for(int i = 0 ; i < searchHistory.length - 1 ; i++){
       _buff = _buff + searchHistory[i] + "\n";
     }

@@ -27,9 +27,6 @@ class _CommandManState extends State<CommandMan> {
           title: Text("댓글 관리",
               style: TextStyle(fontSize: 20, color: Colors.black)),
           centerTitle: true,
-
-          //backgroundColor: Colors.white,
-
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
