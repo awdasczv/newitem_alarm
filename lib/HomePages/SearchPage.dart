@@ -108,7 +108,7 @@ class _SearchPageState extends State<SearchPage> {
                        itemCount: snapshot.data.length,
                        scrollDirection: Axis.horizontal,
                        itemBuilder: (BuildContext context, int index){
-                         return _chip(index);
+                         return _recent_search_terms_chips(index);
                        },
                        separatorBuilder: (BuildContext context, int index){
                          return SizedBox(width: 10,);
@@ -134,18 +134,30 @@ class _SearchPageState extends State<SearchPage> {
                spacing: 6.0,
                runSpacing: 6.0,
                children: [
-                 Chip(label: Text('추천검색어1'),backgroundColor: Color(0xfff1c40f),),
-                 Chip(label: Text('짧은거'),backgroundColor: Color(0xfff1c40f),),
-                 Chip(label: Text('짧'),backgroundColor: Color(0xfff1c40f),),
-                 Chip(label: Text('기이이인검색어1'),backgroundColor: Color(0xfff1c40f),),
-                 Chip(label: Text('디따기이이이이이이이인 검색어'),backgroundColor: Color(0xfff1c40f),),
-                 Chip(label: Text('배고프다'),backgroundColor: Color(0xfff1c40f),),
+                 _recommend_search_terms_chips('추천검색어1'),
+                 _recommend_search_terms_chips('짧은거'),
+                 _recommend_search_terms_chips('짧'),
+                 _recommend_search_terms_chips('기이이인검색어1'),
+                 _recommend_search_terms_chips('디따기이이이이이이이인 검색어'),
+                 _recommend_search_terms_chips('배고프다'),
                ],
              ),
            )
           ],
         ),
       )
+    );
+  }
+
+  Widget _recommend_search_terms_chips(String _str){
+    return GestureDetector(
+      onTap: (){
+        _tc.text = _str;
+      },
+      child: Chip(
+        label: Text(_str),
+        backgroundColor: Color(0xfff1c40f),
+      ),
     );
   }
 
@@ -158,18 +170,23 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  Chip _chip(int index){
-     return Chip(
-       label: Text(searchHistory[index]),
-       deleteIcon: Icon(Icons.clear,size: 20,),
-       backgroundColor: Color(0xfff1c40f),
-       onDeleted: () async{
-
-         setState(() {
-           searchHistory.removeAt(index);
-         });
-         await _writeSearchHistory(searchHistory);
+  Widget _recent_search_terms_chips(int index){
+     return GestureDetector(
+       onTap: (){
+         _tc.text = searchHistory[index];
        },
+       child: Chip(
+         label: Text(searchHistory[index]),
+         deleteIcon: Icon(Icons.clear,size: 20,),
+         backgroundColor: Color(0xfff1c40f),
+         onDeleted: () async{
+
+           setState(() {
+             searchHistory.removeAt(index);
+           });
+           await _writeSearchHistory(searchHistory);
+         },
+       ),
      );
   }
 
