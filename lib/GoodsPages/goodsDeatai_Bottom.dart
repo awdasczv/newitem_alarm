@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import './Comment.dart';
 import '../model/comment_model.dart';
 
 class Bottom extends StatefulWidget {
@@ -84,18 +85,6 @@ class _BottomState extends State<Bottom> with SingleTickerProviderStateMixin {
         ],
       ),
     );
-  }
-}
-
-class Comment extends StatefulWidget {
-  @override
-  _CommentState createState() => _CommentState();
-}
-
-class _CommentState extends State<Comment> {
-  @override
-  Widget build(BuildContext context) {
-    return Text('dsd');
   }
 }
 
