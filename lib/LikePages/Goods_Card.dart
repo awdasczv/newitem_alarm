@@ -5,7 +5,9 @@ import '../model/goods.dart';
 
 class GoodsCard extends StatelessWidget {
   final Goods goods;
+
   GoodsCard({Key key, this.goods}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,14 +50,21 @@ class GoodsCard extends StatelessWidget {
             height: 1,
           ),
           RichText(
-              maxLines: 2,
+              maxLines: 1,
               text: TextSpan(
-                  style: TextStyle(color: Colors.black, fontSize: 14),
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
                   children: <TextSpan>[
                     TextSpan(
                         text: goods.brand,
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    TextSpan(text: ' ' + goods.title)
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        )),
+                    TextSpan(
+                        text: ' ' + goods.title,
+                        style: TextStyle(overflow: TextOverflow.ellipsis))
                   ])),
           //RichText는 text마다 각각 다른 스타일을 적용하고 싶을 때
           const SizedBox(

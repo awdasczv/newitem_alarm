@@ -247,7 +247,7 @@ class _ProfileHomeState extends State<ProfileHome> {
               ),
             ),
           ),
-          ListMenu(),
+          _NoListMenu(),
         ]
       );
   }
@@ -270,6 +270,87 @@ class _ProfileHomeState extends State<ProfileHome> {
             Icon(Icons.arrow_forward_ios_outlined, color: Color(0xfff1c40f),)
           ],
         )
+    );
+  }
+
+  // 비로그인 메뉴 리스트
+  ListTile _NoMenuListTile(int index, String name) {
+    return ListTile(
+        onTap: () {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("dd"),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: [
+                      Center(
+                          child: Text("로그인이 필요합니다.")
+                      )
+                    ],
+                  )
+                ),
+                actions: <Widget>[
+                  Center(
+                    child: ElevatedButton(
+                        child: Text("확인"),
+                        onPressed:() {
+                          Navigator.of(context).pop();
+                        }
+                    )
+                  )
+                ]
+              );
+
+            }
+          );
+        },
+        title: Row(
+          children: [
+            _menuIcon[index],
+            SizedBox(width: 10,),
+            Text("${name}",
+                style: TextStyle(fontSize: 22), textAlign: TextAlign.left),
+
+            Spacer(),
+            Icon(Icons.arrow_forward_ios_outlined, color: Color(0xfff1c40f),)
+          ],
+        )
+    );
+  }
+
+  Widget _NoListMenu() {
+    return Expanded(
+      child: Card(
+        elevation: 5,
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8)
+        ),
+        child: ListView(
+          //padding: EdgeInsets.all(8),
+          children: [
+            //리뷰 관리 페이지 이동
+            _NoMenuListTile(0, "리뷰 관리"),
+
+            //댓글 관리 페이지 이동
+            _NoMenuListTile(1, "댓글 관리"),
+
+            //알림 설정 페이지 이동
+            _MenuListTile(2, "알림설정"),
+
+            //공지사항 페이지 이동
+            _MenuListTile(3, "공지사항"),
+
+            //이용약관 페이지 이동
+            _MenuListTile(4, "이용약관"),
+
+          ],
+        ),
+      ),
+
     );
   }
 }
