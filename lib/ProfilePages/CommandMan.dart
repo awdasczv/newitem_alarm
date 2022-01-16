@@ -32,7 +32,6 @@ class _CommandManState extends State<CommandMan> {
             style: TextStyle(fontSize: 20, color: Colors.black)),
 
           centerTitle: true,
-          backgroundColor: Colors.white,
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
