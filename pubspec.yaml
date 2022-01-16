@@ -21,7 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  path_provider: ^2.0.2
+  path_provider: ^2.0.8
   provider: ^6.0.1
   url_launcher: ^6.0.15
   page_view_indicators: ^2.0.0
@@ -43,7 +43,8 @@ dependencies:
   cupertino_date_textbox:
   get: #GetX
   scrollable_positioned_list: ^0.2.3
-#  cloud_firestore:
+  cloud_firestore:
+  firebase_core:
 #  firebase_database:
 #  shared_preferences:
 #  firebase_messaging:
