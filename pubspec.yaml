@@ -43,12 +43,9 @@ dependencies:
   cupertino_date_textbox:
   get: #GetX
   scrollable_positioned_list: ^0.2.3
-  cloud_firestore:
+  cloud_firestore: ^3.1.6
   firebase_core: ^1.11.0
-<<<<<<< Updated upstream
   google_sign_in: ^5.2.3
-=======
->>>>>>> Stashed changes
   firebase_auth: ^3.3.5
 #  firebase_database:
 #  shared_preferences:
