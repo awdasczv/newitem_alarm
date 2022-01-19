@@ -45,7 +45,10 @@ dependencies:
   scrollable_positioned_list: ^0.2.3
   cloud_firestore:
   firebase_core: ^1.11.0
+<<<<<<< Updated upstream
   google_sign_in: ^5.2.3
+=======
+>>>>>>> Stashed changes
   firebase_auth: ^3.3.5
 #  firebase_database:
 #  shared_preferences:
