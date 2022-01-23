@@ -14,6 +14,24 @@ class CommentModel {
     this.dateTime,
     this.comment,
   });
+
+  factory CommentModel.fromJson(Map<String, dynamic> json) {
+    return CommentModel(
+      userProfileUrl: json['userProfileUrl'] as String,
+      userName: json['userName'] as String,
+      dateTime: json['dateTime'] as String,
+      comment: json['comment'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'userProfileUrl': userProfileUrl,
+      'userName': userName,
+      'dateTime': dateTime,
+      'comment': comment,
+    };
+  }
 }
 
 List<CommentModel> commentData = [
