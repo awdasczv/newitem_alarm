@@ -1,6 +1,7 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:newitem_alarm/GoodsPages/Comment_Provider.dart';
 import 'package:newitem_alarm/HomePages/HomePage.dart';
 import 'package:newitem_alarm/LikePages/LikeHome.dart';
 import 'package:newitem_alarm/ProfilePages/ProfileHome.dart';
@@ -8,6 +9,9 @@ import 'package:newitem_alarm/SplashScreen.dart';
 import 'package:newitem_alarm/WatchPages/WatchHome.dart';
 import 'package:newitem_alarm/routes.dart';
 import 'package:provider/provider.dart';
+
+import 'GoodsPages/Comment_Provider.dart';
+import 'model/comment_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +25,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => TestProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (context) => TestProvider()),
+        ChangeNotifierProvider(create: (_) => CommentProvider(CommentModel))
+
+      ],
       child: MaterialApp(
         title: '먹어봤니',
         theme: ThemeData(
