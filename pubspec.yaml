@@ -58,6 +58,8 @@ dependencies:
 #  url_launcher_android:
 
 
+
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -67,7 +69,6 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^2.1.7
   json_serializable: ^4.1.4 #6.0.0이상부터는 Dark SDK >=2.14.0이어야 함.
-  flutter_launcher_icons: ^0.9.2
   #빌드할 때만 사용되기 때문에 dev_dependencies에
 
 
