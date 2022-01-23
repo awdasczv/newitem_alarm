@@ -10,35 +10,42 @@ class SignInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      /*backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
         title: Text(
-          "로그인",
+          "로그인페이지",
           style: TextStyle(
           color: Colors.black,
         ),
         ),
       ),
-
+*/
         body: StreamBuilder(
-            stream: FirebaseAuth.instance.authStateChanges(),
+          stream: FirebaseAuth.instance.authStateChanges(),
           builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-              if(!snapshot.hasData) {
-                return SignFrom();
-              }else{
-                return Center(
-                  child: Column(
-                    children: [
-                      Text("${snapshot.data.displayName}님 환영합니다."),
-                    ],
-                  ),
-                );
-              }
+            if(!snapshot.hasData) {
+              return SignFrom();
+            }else{
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("${snapshot.data.displayName}님 환영합니다."),
+                    ElevatedButton(
+                      child: Text("로그아웃"),
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut;
+                      },
+                    ),
+                  ],
+                ),
+              );
+            }
           },
         )
-        //SignFrom(),
+      //SignFrom(),
 
 
       //body: SignFrom(),

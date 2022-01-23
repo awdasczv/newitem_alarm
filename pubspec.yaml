@@ -84,6 +84,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/google_button.png
     - assets/icons/
 
   # To add assets to your application, add an assets section, like this:
