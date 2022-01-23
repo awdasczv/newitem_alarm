@@ -1,28 +1,39 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/HomePages/HomePage.dart';
 import 'package:newitem_alarm/LikePages/LikeHome.dart';
 import 'package:newitem_alarm/ProfilePages/ProfileHome.dart';
+import 'package:newitem_alarm/SplashScreen.dart';
 import 'package:newitem_alarm/WatchPages/WatchHome.dart';
+import 'package:newitem_alarm/routes.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  static String routeName = "/MyApp";
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => TestProvider())
-      ],
-      child:  MaterialApp(
+      providers: [ChangeNotifierProvider(create: (context) => TestProvider())],
+      child: MaterialApp(
         title: '먹어봤니',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: MyHomePage(title: '먹어봤니'),
+        home: AnimatedSplashScreen(
+          splash: SplashScreen(),
+          nextScreen: MyHomePage(),
+          splashTransition: SplashTransition.fadeTransition,
+        ),
+        debugShowCheckedModeBanner: false,
+        routes: route,
       ),
     );
   }
@@ -38,21 +49,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  final List<Widget> _bottomNavigatorBarList = [HomePage(), LikeHome(), WatchHome(), ProfileHome()];
+  final List<Widget> _bottomNavigatorBarList = [
+    HomePage(),
+    LikeHome(),
+    WatchHome(),
+    ProfileHome()
+  ];
   int _currentPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: IndexedStack(
         index: _currentPageIndex,
         children: _bottomNavigatorBarList,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        iconSize: 28,
+        unselectedItemColor: Colors.black38,
+        fixedColor: Color(0xfff1c40f),
+        backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
-        onTap: (int index){
+        onTap: (int index) {
           setState(() {
             _currentPageIndex = index;
           });
@@ -60,9 +78,9 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: _currentPageIndex,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label:  '찜목록'),
-          BottomNavigationBarItem(icon: Icon(Icons.movie), label: '워치'),
-          BottomNavigationBarItem(icon: Icon(Icons.person),label: '프로필')
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: '찜'),
+          BottomNavigationBarItem(icon: Icon(Icons.movie), label: '먹TV'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: '프로필')
         ],
       ),
     );
