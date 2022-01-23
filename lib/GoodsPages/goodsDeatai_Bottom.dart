@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:newitem_alarm/model/goods.dart';
 
 import './Comment.dart';
 import '../model/comment_model.dart';
 
 class Bottom extends StatefulWidget {
+  final Goods goods;
+
+  const Bottom({Key key, this.goods}) : super(key: key);
+
   @override
   _BottomState createState() => _BottomState();
 }
@@ -65,7 +70,7 @@ class _BottomState extends State<Bottom> with SingleTickerProviderStateMixin {
           IndexedStack(
             children: <Widget>[
               Visibility(
-                child: Comment(),
+                child: Comment(goods: widget.goods,),
                 maintainState: true, //invisible할 때도 child 유지
                 visible: currentIndex == 0,
               ),
