@@ -384,7 +384,7 @@ class _TopState extends State<Top> {
                           child: Text(
                             '리뷰 작성하러 가기',
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.blueAccent),
                           ),

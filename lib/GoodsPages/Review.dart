@@ -12,9 +12,6 @@ class Review extends StatefulWidget {
 }
 
 class _ReviewState extends State<Review> {
-  String comment = '';
-  final formKey =
-      GlobalKey(); //폼 내부의 TextFormField 값을 저장하고, validation을 진행하는데 사용됨.
   TextEditingController _textEditingController = TextEditingController();
   StreamSubscription _streamSubscription;
   FocusNode _focusNode = FocusNode();
@@ -37,6 +34,21 @@ class _ReviewState extends State<Review> {
     super.dispose();
   }
 
+  @override
+  void _handleSubmitted(String text) {
+    _textEditingController.clear();
+    var commentInfo = CommentModel(
+        userName: '테스트',
+        userProfileUrl:
+            'http://kaihuastudio.com/common/img/default_profile.png',
+        dateTime: DateTime.now().microsecondsSinceEpoch.toString(),
+        comment: text);
+    setState(() {
+      commentData.insert(0, commentInfo);
+    });
+    _focusNode.requestFocus();
+  }
+
   Widget _buildcommentList() {
     final p = Provider.of<CommentProvider>(context);
     return ListView.builder(
@@ -49,12 +61,13 @@ class _ReviewState extends State<Review> {
   }
 
   Widget _buildcommentItem({@required CommentModel commentmodel}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: CircleAvatar(
               backgroundImage: NetworkImage(commentmodel.userProfileUrl),
               radius: 20,
@@ -64,9 +77,28 @@ class _ReviewState extends State<Review> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: Row(
+                    children: [
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        commentmodel.userName,
+                        style: TextStyle(fontSize: 13),
+                      ),
+                      Text(' · '),
+                      Text(
+                        commentmodel.dateTime,
+                        style: TextStyle(fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ),
                 Container(
                     padding: EdgeInsets.all(15),
-                    width: MediaQuery.of(context).size.width * .75,
+                    width: MediaQuery.of(context).size.width * .8,
                     decoration: BoxDecoration(
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(10)),
@@ -78,16 +110,8 @@ class _ReviewState extends State<Review> {
                   height: 5,
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * .6,
                   child: Row(
                     children: [
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        commentmodel.dateTime,
-                        style: TextStyle(fontSize: 13),
-                      ),
                       const SizedBox(
                         width: 10,
                       ),
@@ -95,12 +119,15 @@ class _ReviewState extends State<Review> {
                         children: [
                           Icon(
                             Icons.thumb_up_alt_outlined,
-                            size: 20,
+                            size: 15,
                           ),
                           const SizedBox(
                             width: 4,
                           ),
-                          Text('좋아요')
+                          Text(
+                            '좋아요',
+                            style: TextStyle(fontSize: 13),
+                          )
                         ],
                       ),
                       const SizedBox(
@@ -110,12 +137,15 @@ class _ReviewState extends State<Review> {
                         children: [
                           Icon(
                             Icons.mode_comment_outlined,
-                            size: 20,
+                            size: 15,
                           ),
                           const SizedBox(
                             width: 4,
                           ),
-                          Text('답글')
+                          Text(
+                            '답글',
+                            style: TextStyle(fontSize: 13),
+                          )
                         ],
                       )
                     ],
@@ -137,93 +167,87 @@ class _ReviewState extends State<Review> {
           color: Colors.white,
           height: MediaQuery.of(context).size.height * .8,
           width: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              Expanded(child: _buildcommentList()),
-              Spacer(),
-              SafeArea(
-                child: Container(
-                  constraints: BoxConstraints(
-                      maxHeight: MediaQuery.of(context).size.height *
-                          .5), //고정값을 줄 수 있음
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                    BoxShadow(
-                        offset: Offset(0, 4),
-                        blurRadius: 32,
-                        color: Color(0xfff1c40f).withOpacity(.09))
-                  ]),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xfffbeeb7),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            width: MediaQuery.of(context).size.width - 70,
-                            child: Form(
-                              key: this.formKey,
-                              child: TextFormField(
-                                maxLines: null,
-                                keyboardType: TextInputType.multiline,
-                                controller: _textEditingController,
-                                focusNode: _focusNode,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(
-                                      left: 15, right: 10, top: 10, bottom: 10),
-                                  hintText: '  댓글을 적어주세요.',
-                                  hintStyle: TextStyle(color: Colors.grey),
-                                  alignLabelWithHint: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.transparent),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.transparent),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    comment = value;
-                                  });
-                                },
-                              ),
-                            )),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        CircleAvatar(
-                            backgroundColor: Color(0xfff1c40f),
-                            radius: 20,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.arrow_forward_rounded,
-                                size: 25,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                String text = _textEditingController.text;
-                                _textEditingController.text = '';
-                                p.send(text);
-                              },
-                            ))
-                      ],
-                    ),
-                  ),
+          child: Stack(children: [
+            Column(
+              children: [
+                Expanded(child: _buildcommentList()),
+                buildInput(context, p)
+              ],
+            ),
+          ])),
+    );
+  }
+
+  Container buildInput(BuildContext context, CommentProvider p) {
+    return Container(
+      constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * .5), //고정값을 줄 수 있음
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        BoxShadow(
+            offset: Offset(0, 4),
+            blurRadius: 32,
+            color: Color(0xfff1c40f).withOpacity(.09))
+      ]),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        child: Row(
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                  color: Color(0xfffbeeb7),
+                  borderRadius: BorderRadius.circular(30),
                 ),
-              )
-            ],
-          )),
+                margin: const EdgeInsets.only(left: 10, right: 10),
+                width: MediaQuery.of(context).size.width - 70,
+                child: Flexible(
+                  child: TextField(
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline,
+                    controller: _textEditingController,
+                    focusNode: _focusNode,
+                    textCapitalization: TextCapitalization.sentences,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(
+                          left: 15, right: 10, top: 10, bottom: 10),
+                      hintText: '  댓글을 적어주세요.',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      alignLabelWithHint: true,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.transparent),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.transparent),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    onSubmitted: _handleSubmitted,
+                    // onChanged: (value) {
+                    //   setState(() {
+                    //   });
+                    // },
+                  ),
+                )),
+            CircleAvatar(
+                backgroundColor: Color(0xfff1c40f),
+                radius: 20,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_forward_rounded,
+                    size: 25,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    _handleSubmitted(_textEditingController.text);
+                    _textEditingController.text = '';
+                    String text = _textEditingController.text;
+                    p.send(text);
+                  },
+                ))
+          ],
+        ),
+      ),
     );
   }
 }
