@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import './Comment_Provider.dart';
 import '../model/comment_model.dart';
 
 class Review extends StatefulWidget {
@@ -15,14 +15,30 @@ class _ReviewState extends State<Review> {
   TextEditingController _textEditingController = TextEditingController();
   StreamSubscription _streamSubscription;
   FocusNode _focusNode = FocusNode();
+  bool _isComposing = false;
+  List commentData = <CommentModel>[];
+  final auth = FirebaseAuth.instance;
+
+  @override
+  userName() {
+    final user = auth.currentUser;
+    if (user != null) {
+      final user_name = user.displayName.toString();
+      return user_name;
+    }
+  }
+
+  @override
+  userProfile() {
+    final user = auth.currentUser;
+    if (user != null) {
+      final user_profile = user.displayName.toString();
+      return user_profile;
+    }
+  }
 
   @override
   void initState() {
-    final p = Provider.of<CommentProvider>(context, listen: false);
-    Future.microtask(() => p.load());
-    _streamSubscription = p.getSnapshot().listen((event) {
-      p.addComment(CommentModel.fromJson(event.docs[0].data()));
-    });
     super.initState();
   }
 
@@ -37,26 +53,41 @@ class _ReviewState extends State<Review> {
   @override
   void _handleSubmitted(String text) {
     _textEditingController.clear();
-    var commentInfo = CommentModel(
-        userName: '테스트',
-        userProfileUrl:
-            'http://kaihuastudio.com/common/img/default_profile.png',
-        dateTime: DateTime.now().microsecondsSinceEpoch.toString(),
-        comment: text);
     setState(() {
-      commentData.insert(0, commentInfo);
+      _isComposing = false;
+      FirebaseFirestore.instance.collection('comment').add({
+        'text': text,
+        'dateTime': Timestamp.now(),
+        'userName': userName(),
+        'userProfileUrl': userProfile(),
+      });
     });
     _focusNode.requestFocus();
+    FocusScope.of(context).unfocus();
   }
 
   Widget _buildcommentList() {
-    final p = Provider.of<CommentProvider>(context);
-    return ListView.builder(
-        reverse: true,
-        itemBuilder: (context, index) {
-          if (index < commentData.length) {
-            return _buildcommentItem(commentmodel: commentData[index]);
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('comment')
+            .orderBy('dateTime', descending: false)
+            .snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
+          final commentDocs = snapshot.data.docs; //snapshot.date!.docs 안됨..
+          var value =
+              commentDocs.map((e) => CommentModel.fromJson(e.data())).toList();
+          commentData.addAll(value);
+          return ListView.builder(itemBuilder: (context, index) {
+            if (index < commentDocs.length) {
+              return _buildcommentItem(commentmodel: commentData[index]);
+            }
+          });
         });
   }
 
@@ -69,7 +100,9 @@ class _ReviewState extends State<Review> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: CircleAvatar(
-              backgroundImage: NetworkImage(commentmodel.userProfileUrl),
+              backgroundImage: commentmodel.userProfileUrl == null
+                  ? AssetImage('assets/images/default_profile.png')
+                  : NetworkImage(commentmodel.userProfileUrl),
               radius: 20,
             ),
           ),
@@ -90,7 +123,7 @@ class _ReviewState extends State<Review> {
                       ),
                       Text(' · '),
                       Text(
-                        commentmodel.dateTime,
+                        commentmodel.dateTime.toString(),
                         style: TextStyle(fontSize: 13),
                       ),
                     ],
@@ -103,7 +136,7 @@ class _ReviewState extends State<Review> {
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(10)),
                     child: Text(
-                      commentmodel.comment,
+                      commentmodel.text,
                       style: TextStyle(fontSize: 15),
                     )),
                 const SizedBox(
@@ -161,7 +194,6 @@ class _ReviewState extends State<Review> {
 
   @override
   Widget build(BuildContext context) {
-    final p = Provider.of<CommentProvider>(context);
     return SafeArea(
       child: Container(
           color: Colors.white,
@@ -171,18 +203,18 @@ class _ReviewState extends State<Review> {
             Column(
               children: [
                 Expanded(child: _buildcommentList()),
-                buildInput(context, p)
+                const Divider(
+                  height: 1,
+                ),
+                buildInput(context)
               ],
             ),
           ])),
     );
   }
 
-  Container buildInput(BuildContext context, CommentProvider p) {
+  Container buildInput(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * .5), //고정값을 줄 수 있음
-      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(color: Colors.white, boxShadow: [
         BoxShadow(
             offset: Offset(0, 4),
@@ -200,7 +232,7 @@ class _ReviewState extends State<Review> {
                 ),
                 margin: const EdgeInsets.only(left: 10, right: 10),
                 width: MediaQuery.of(context).size.width - 70,
-                child: Flexible(
+                child: Expanded(
                   child: TextField(
                     maxLines: null,
                     keyboardType: TextInputType.multiline,
@@ -210,7 +242,7 @@ class _ReviewState extends State<Review> {
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(
                           left: 15, right: 10, top: 10, bottom: 10),
-                      hintText: '  댓글을 적어주세요.',
+                      hintText: ' 댓글을 적어주세요.',
                       hintStyle: TextStyle(color: Colors.grey),
                       alignLabelWithHint: true,
                       focusedBorder: OutlineInputBorder(
@@ -222,11 +254,12 @@ class _ReviewState extends State<Review> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    onSubmitted: _handleSubmitted,
-                    // onChanged: (value) {
-                    //   setState(() {
-                    //   });
-                    // },
+                    onSubmitted: _isComposing ? _handleSubmitted : null,
+                    onChanged: (text) {
+                      setState(() {
+                        _isComposing = text.trim().isNotEmpty;
+                      });
+                    },
                   ),
                 )),
             CircleAvatar(
@@ -238,12 +271,12 @@ class _ReviewState extends State<Review> {
                     size: 25,
                     color: Colors.white,
                   ),
-                  onPressed: () {
-                    _handleSubmitted(_textEditingController.text);
-                    _textEditingController.text = '';
-                    String text = _textEditingController.text;
-                    p.send(text);
-                  },
+                  onPressed: _isComposing
+                      ? () {
+                          _handleSubmitted(_textEditingController.text);
+                          //method 뒤에 ()가 있다는 것은 method가 실행되며, method 값이 리턴된다는 의미, ()가 없다면, 위치를 참조
+                        }
+                      : null,
                 ))
           ],
         ),
