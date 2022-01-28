@@ -80,116 +80,111 @@ class _ReviewState extends State<Review> {
             );
           }
           final commentDocs = snapshot.data.docs; //snapshot.date!.docs 안됨..
-          var value =
-              commentDocs.map((e) => CommentModel.fromJson(e.data())).toList();
-          commentData.addAll(value);
           return ListView.builder(itemBuilder: (context, index) {
             if (index < commentDocs.length) {
-              return _buildcommentItem(commentmodel: commentData[index]);
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: CircleAvatar(
+                        backgroundImage: commentDocs[index]['userProfileUrl'] ==
+                                null
+                            ? AssetImage('assets/images/default_profile.png')
+                            : NetworkImage(
+                                commentDocs[index]['userProfileUrl']),
+                        radius: 20,
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Row(
+                              children: [
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  commentDocs[index]['userName'],
+                                  style: TextStyle(fontSize: 13),
+                                ),
+                                Text(' · '),
+                                Text(
+                                  commentDocs[index]['dateTime'].toString(),
+                                  style: TextStyle(fontSize: 13),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                              padding: EdgeInsets.all(15),
+                              width: MediaQuery.of(context).size.width * .8,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Text(
+                                commentDocs[index]['text'],
+                                style: TextStyle(fontSize: 15),
+                              )),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          SizedBox(
+                            child: Row(
+                              children: [
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.thumb_up_alt_outlined,
+                                      size: 15,
+                                    ),
+                                    const SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                                      '좋아요',
+                                      style: TextStyle(fontSize: 13),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.mode_comment_outlined,
+                                      size: 15,
+                                    ),
+                                    const SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                                      '답글',
+                                      style: TextStyle(fontSize: 13),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }
           });
         });
-  }
-
-  Widget _buildcommentItem({@required CommentModel commentmodel}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: CircleAvatar(
-              backgroundImage: commentmodel.userProfileUrl == null
-                  ? AssetImage('assets/images/default_profile.png')
-                  : NetworkImage(commentmodel.userProfileUrl),
-              radius: 20,
-            ),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Row(
-                    children: [
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        commentmodel.userName,
-                        style: TextStyle(fontSize: 13),
-                      ),
-                      Text(' · '),
-                      Text(
-                        commentmodel.dateTime.toString(),
-                        style: TextStyle(fontSize: 13),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                    padding: EdgeInsets.all(15),
-                    width: MediaQuery.of(context).size.width * .8,
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Text(
-                      commentmodel.text,
-                      style: TextStyle(fontSize: 15),
-                    )),
-                const SizedBox(
-                  height: 5,
-                ),
-                SizedBox(
-                  child: Row(
-                    children: [
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.thumb_up_alt_outlined,
-                            size: 15,
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Text(
-                            '좋아요',
-                            style: TextStyle(fontSize: 13),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.mode_comment_outlined,
-                            size: 15,
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Text(
-                            '답글',
-                            style: TextStyle(fontSize: 13),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
