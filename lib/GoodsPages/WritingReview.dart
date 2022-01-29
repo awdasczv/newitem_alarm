@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,16 @@ class _WritingReviewState extends State<WritingReview> {
   final _tc = TextEditingController();
   final _nickNameTc = TextEditingController();
 
+  File _image;
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  User _user;
+  FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  String _profileImageURL = "";
+
+  void _prepareService() async {
+    _user = _firebaseAuth.currentUser;
+  }
+
   ReviewData _reviewData;
   XFile _uploadImage;
   XFile _tempUploadImage;
@@ -40,6 +51,8 @@ class _WritingReviewState extends State<WritingReview> {
       reviewImageUrl: '',
       mainText: ''
     );
+    _prepareService();
+
     super.initState();
   }
 
@@ -166,6 +179,22 @@ class _WritingReviewState extends State<WritingReview> {
                             _temp_success_get_image = true;
                           });
                         }
+                        // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거
+                        Reference ref = _firebaseStorage.ref().child("profile/${_user.uid}");
+
+                        // 파일 업로드
+                        UploadTask  storageUploadTask = ref.putFile(_tempUploadImage);
+
+                        // 파일 업로드 완료까지 대기
+                        await storageUploadTask.onComplete;
+
+                        // 업로드한 사진의 URL 획득
+                        String downloadURL = await storageReference.getDownloadURL();
+
+                        // 업로드된 사진의 URL을 페이지에 반영
+                        setState(() {
+                          _profileImageURL = downloadURL;
+                        });
                       },
                     ),
                     _temp_success_get_image == true ?
