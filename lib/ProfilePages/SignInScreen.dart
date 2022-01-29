@@ -9,9 +9,8 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      /*backgroundColor: Colors.white,
+        /*backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -23,14 +22,25 @@ class SignInScreen extends StatelessWidget {
         ),
       ),
 */
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-            if(!snapshot.hasData) {
+            if (!snapshot.hasData) {
               return SignFrom();
+  /*
             }else{
               return ProfileHome();
-              /*Center(
+              Center(*/
+            } else {
+              return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -52,13 +62,10 @@ class SignInScreen extends StatelessWidget {
             }
           },
         )
-      //SignFrom(),
+        //SignFrom(),
 
+        //body: SignFrom(),
 
-      //body: SignFrom(),
-
-    );
+        );
   }
 }
-
-

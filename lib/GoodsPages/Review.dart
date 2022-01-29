@@ -1,10 +1,9 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import './Comment_Provider.dart';
-import '../model/comment_model.dart';
+import 'package:intl/intl.dart';
 
 class Review extends StatefulWidget {
   @override
@@ -12,20 +11,33 @@ class Review extends StatefulWidget {
 }
 
 class _ReviewState extends State<Review> {
-  String comment = '';
-  final formKey =
-      GlobalKey(); //폼 내부의 TextFormField 값을 저장하고, validation을 진행하는데 사용됨.
   TextEditingController _textEditingController = TextEditingController();
   StreamSubscription _streamSubscription;
   FocusNode _focusNode = FocusNode();
+  bool _isComposing = false;
+  bool _isReply = false;
+  final auth = FirebaseAuth.instance;
+
+  @override
+  userName() {
+    final user = auth.currentUser;
+    if (user != null) {
+      final user_name = user.displayName.toString();
+      return user_name;
+    }
+  }
+
+  @override
+  userProfile() {
+    final user = auth.currentUser;
+    if (user != null) {
+      final user_profile = user.displayName.toString();
+      return user_profile;
+    }
+  }
 
   @override
   void initState() {
-    final p = Provider.of<CommentProvider>(context, listen: false);
-    Future.microtask(() => p.load());
-    _streamSubscription = p.getSnapshot().listen((event) {
-      p.addComment(CommentModel.fromJson(event.docs[0].data()));
-    });
     super.initState();
   }
 
@@ -37,26 +49,64 @@ class _ReviewState extends State<Review> {
     super.dispose();
   }
 
+  @override
+  void _handleSubmitted(String text) {
+    _textEditingController.clear();
+    setState(() {
+      _isComposing = false;
+      FirebaseFirestore.instance.collection('comment').add({
+        'text': text,
+        'dateTime': Timestamp.now(),
+        'userName': userName(),
+        'userProfileUrl': userProfile(),
+      });
+    });
+    _focusNode.requestFocus();
+    FocusScope.of(context).unfocus();
+  }
+
   Widget _buildcommentList() {
-    final p = Provider.of<CommentProvider>(context);
-    return ListView.builder(
-        reverse: true,
-        itemBuilder: (context, index) {
-          if (index < commentData.length) {
-            return _buildcommentItem(commentmodel: commentData[index]);
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('comment')
+            .orderBy('dateTime', descending: false)
+            .snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: Column(
+                children: [
+                  Text('로딩 중....'),
+                  CircularProgressIndicator(),
+                ],
+              ),
+            );
           }
+          final commentDocs = snapshot.data.docs; //snapshot.date!.docs 안됨..
+          return ListView.builder(itemBuilder: (context, index) {
+            if (index < commentDocs.length) {
+              return _buildListItem(commentDocs, index, context);
+            }
+          });
         });
   }
 
-  Widget _buildcommentItem({@required CommentModel commentmodel}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+  Container _buildListItem(
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> commentDocs,
+      int index,
+      BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: CircleAvatar(
-              backgroundImage: NetworkImage(commentmodel.userProfileUrl),
+              backgroundImage: commentDocs[index]['userProfileUrl'] == null
+                  ? AssetImage('assets/images/default_profile.png')
+                  : NetworkImage(commentDocs[index]['userProfileUrl']),
               radius: 20,
             ),
           ),
@@ -64,59 +114,58 @@ class _ReviewState extends State<Review> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                    padding: EdgeInsets.all(15),
-                    width: MediaQuery.of(context).size.width * .75,
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Text(
-                      commentmodel.comment,
-                      style: TextStyle(fontSize: 15),
-                    )),
-                const SizedBox(
-                  height: 5,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * .6,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
                   child: Row(
                     children: [
-                      const SizedBox(
-                        width: 10,
-                      ),
                       Text(
-                        commentmodel.dateTime,
-                        style: TextStyle(fontSize: 13),
+                        commentDocs[index]['userName'] == null
+                            ? '비회원'
+                            : commentDocs[index]['userName'],
+                        style: TextStyle(fontSize: 13, color: Colors.grey[700]),
+                      ),
+                      Text(' · '),
+                      Text(
+                        DateFormat('MM/dd kk:mm')
+                            .format(commentDocs[index]['dateTime'].toDate())
+                            .toString(),
+                        style: TextStyle(fontSize: 13, color: Colors.grey[700]),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                    padding: EdgeInsets.only(top: 5, bottom: 5),
+                    width: MediaQuery.of(context).size.width * .8,
+                    child: Text(
+                      commentDocs[index]['text'],
+                      style: TextStyle(fontSize: 15),
+                    )),
+                SizedBox(
+                  child: Row(
+                    children: [
+                      InkResponse(
+                        child: Icon(
+                          Icons.thumb_up_alt_outlined,
+                          size: 17,
+                        ),
+                        highlightColor: Colors.grey,
+                        onTap: () {
+                          ScaffoldMessenger.of(context).setState(() {
+                            _isReply = true;
+                            buildInput(context, ' 답글을 적어 주세요.');
+                          });
+                        },
                       ),
                       const SizedBox(
                         width: 10,
                       ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.thumb_up_alt_outlined,
-                            size: 20,
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Text('좋아요')
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.mode_comment_outlined,
-                            size: 20,
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Text('답글')
-                        ],
+                      InkWell(
+                        child: Icon(
+                          Icons.mode_comment_outlined,
+                          size: 17,
+                        ),
+                        onTap: () {},
                       )
                     ],
                   ),
@@ -131,99 +180,93 @@ class _ReviewState extends State<Review> {
 
   @override
   Widget build(BuildContext context) {
-    final p = Provider.of<CommentProvider>(context);
     return SafeArea(
       child: Container(
           color: Colors.white,
           height: MediaQuery.of(context).size.height * .8,
           width: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              Expanded(child: _buildcommentList()),
-              Spacer(),
-              SafeArea(
-                child: Container(
-                  constraints: BoxConstraints(
-                      maxHeight: MediaQuery.of(context).size.height *
-                          .5), //고정값을 줄 수 있음
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                    BoxShadow(
-                        offset: Offset(0, 4),
-                        blurRadius: 32,
-                        color: Color(0xfff1c40f).withOpacity(.09))
-                  ]),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xfffbeeb7),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            width: MediaQuery.of(context).size.width - 70,
-                            child: Form(
-                              key: this.formKey,
-                              child: TextFormField(
-                                maxLines: null,
-                                keyboardType: TextInputType.multiline,
-                                controller: _textEditingController,
-                                focusNode: _focusNode,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(
-                                      left: 15, right: 10, top: 10, bottom: 10),
-                                  hintText: '  댓글을 적어주세요.',
-                                  hintStyle: TextStyle(color: Colors.grey),
-                                  alignLabelWithHint: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.transparent),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.transparent),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    comment = value;
-                                  });
-                                },
-                              ),
-                            )),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        CircleAvatar(
-                            backgroundColor: Color(0xfff1c40f),
-                            radius: 20,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.arrow_forward_rounded,
-                                size: 25,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                String text = _textEditingController.text;
-                                _textEditingController.text = '';
-                                p.send(text);
-                              },
-                            ))
-                      ],
-                    ),
-                  ),
+          child: Stack(children: [
+            Column(
+              children: [
+                Expanded(child: _buildcommentList()),
+                const Divider(
+                  height: 1,
                 ),
-              )
-            ],
-          )),
+                buildInput(context, ' 댓글을 적어주세요.')
+              ],
+            ),
+          ])),
+    );
+  }
+
+  Container buildInput(BuildContext context, @required String hintText) {
+    return Container(
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        BoxShadow(
+            offset: Offset(0, 4),
+            blurRadius: 32,
+            color: Color(0xfff1c40f).withOpacity(.09))
+      ]),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        child: Row(
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                  color: Color(0xfffbeeb7),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                margin: const EdgeInsets.only(left: 10, right: 10),
+                width: MediaQuery.of(context).size.width - 70,
+                child: Expanded(
+                  child: TextField(
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline,
+                    controller: _textEditingController,
+                    focusNode: _focusNode,
+                    textCapitalization: TextCapitalization.sentences,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(
+                          left: 15, right: 10, top: 10, bottom: 10),
+                      hintText: hintText,
+                      hintStyle: TextStyle(color: Colors.grey),
+                      alignLabelWithHint: true,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.transparent),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.transparent),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    onSubmitted: _isComposing ? _handleSubmitted : null,
+                    onChanged: (text) {
+                      setState(() {
+                        _isComposing = text.trim().isNotEmpty;
+                      });
+                    },
+                  ),
+                )),
+            CircleAvatar(
+                backgroundColor: Color(0xfff1c40f),
+                radius: 20,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_forward_rounded,
+                    size: 25,
+                    color: Colors.white,
+                  ),
+                  onPressed: _isComposing
+                      ? () {
+                          _handleSubmitted(_textEditingController.text);
+                          //method 뒤에 ()가 있다는 것은 method가 실행되며, method 값이 리턴된다는 의미, ()가 없다면, 위치를 참조
+                        }
+                      : null,
+                ))
+          ],
+        ),
+      ),
     );
   }
 }
