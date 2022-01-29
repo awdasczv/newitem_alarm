@@ -232,8 +232,13 @@ class _ProfileHomeState extends State<ProfileHome> {
                             backgroundColor: MaterialStateProperty.all(Color(0xfff1c40f))
                         ),
                         onPressed: () async {
-                          Navigator.push(context,
+                          var a = await Navigator.push(context,
                               MaterialPageRoute(builder: (context) => SignInScreen()));
+                          if(a==true){
+                            setState(() {
+                              _isLogin = true;
+                            });
+                          }
                         },
                         child: Text("로그인/회원가입",
                             style: TextStyle(

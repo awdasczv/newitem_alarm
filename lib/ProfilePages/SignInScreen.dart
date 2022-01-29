@@ -27,14 +27,15 @@ class SignInScreen extends StatelessWidget {
           builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
               if(!snapshot.hasData) {
                 return SignFrom();
-              }else{
+              }
+              else if(snapshot.hasError){
                 return Center(
-                  child: Column(
-                    children: [
-                      Text("${snapshot.data.displayName}님 환영합니다."),
-                    ],
-                  ),
+                  child: Text('로그인 실패'),
                 );
+              }
+              else {
+                Navigator.pop(context,true);
+                return null;
               }
           },
         )
