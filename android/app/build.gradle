@@ -29,6 +29,7 @@ apply plugin: 'com.google.gms.google-services'
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-storage'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version" //왜 ''는 안되고, ""는 될까
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
     implementation 'com.android.support:multidex:2.0.1'
