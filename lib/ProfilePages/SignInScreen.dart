@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/ProfilePages/components/sign_from.dart';
+import 'package:newitem_alarm/ProfilePages/ProfileHome.dart';
 import 'package:newitem_alarm/src/app.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -8,22 +9,21 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      backgroundColor: Colors.white,
+        /*backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
         title: Text(
-          "로그인",
+          "로그인페이지",
           style: TextStyle(
           color: Colors.black,
         ),
         ),
       ),
-
+*/
         body: StreamBuilder(
-            stream: FirebaseAuth.instance.authStateChanges(),
+          stream: FirebaseAuth.instance.authStateChanges(),
           builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
               if(!snapshot.hasData) {
                 return SignFrom();
@@ -35,17 +35,18 @@ class SignInScreen extends StatelessWidget {
               }
               else {
                 Navigator.pop(context,true);
-                return null;
+                return  Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f)),
+                  ),
+                );
               }
           },
         )
         //SignFrom(),
 
+        //body: SignFrom(),
 
-      //body: SignFrom(),
-
-    );
+        );
   }
 }
-
-

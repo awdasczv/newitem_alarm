@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => TestProvider()),
         ChangeNotifierProvider(create: (_) => CommentProvider(CommentModel))
+
       ],
       child: MaterialApp(
         title: '먹어봤니',

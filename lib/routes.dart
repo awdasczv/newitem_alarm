@@ -14,6 +14,6 @@ final Map<String, WidgetBuilder> route = {
   LikeHome.routeName: (context) => LikeHome(),
   MyApp.routeName: (context) => MyApp(),
   WatchHome.routeName: (context) => WatchHome(),
-  SignInScreen.routeName: (context) => SignInScreen(),
+  //SignInScreen.routeName: (context) => SignInScreen(),
   SplashScreen.routeName: (context) => SplashScreen(),
 };
