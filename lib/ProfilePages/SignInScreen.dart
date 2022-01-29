@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/ProfilePages/components/sign_from.dart';
+import 'package:newitem_alarm/ProfilePages/ProfileHome.dart';
 import 'package:newitem_alarm/src/app.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -28,20 +29,26 @@ class SignInScreen extends StatelessWidget {
             if(!snapshot.hasData) {
               return SignFrom();
             }else{
-              return Center(
+              return ProfileHome();
+              /*Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("${snapshot.data.displayName}님 환영합니다."),
                     ElevatedButton(
-                      child: Text("로그아웃"),
-                      onPressed: () {
-                        FirebaseAuth.instance.signOut;
+                      child: Text("프로필 페이지로 이동"),
+                      onPressed: () async {
+                        await Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => ProfileHome()));
                       },
+                    ),
+                    ElevatedButton(
+                      child: Text("로그아웃"),
+                      onPressed: FirebaseAuth.instance.signOut,
                     ),
                   ],
                 ),
-              );
+              );*/
             }
           },
         )

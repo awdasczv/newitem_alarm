@@ -42,10 +42,8 @@ class _SignFromState extends State<SignFrom> {
       ),
 
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: EdgeInsets.all(30),
-          ),
           GoogleButtonStyle(),
           /*ElevatedButton(
                 onPressed: signInWithGoogle,
@@ -57,46 +55,50 @@ class _SignFromState extends State<SignFrom> {
   }
 
   Widget GoogleButtonStyle() {
-    return Center(
-        child: GestureDetector(
-          child: Container(
-              width: 200,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(5),
-                //border: Border.all(color: Colors.black12, width: 3),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    offset: Offset(0.0, 1.0),
-                    blurRadius: 3.0,
-                  )
-                ]
-              ),
-              child: Row(
-                //mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(3),
-                  ),
-                  Container(
-                    //backgroundImage: AssetImage('assets/images/google_button.png'),
-                    padding: EdgeInsets.all(5),
-                    child: Image.asset('assets/images/google_button.png'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(9),
-                  ),
-                  Container(
-                    child: Text("Google 로그인"),
-                  ),
-                ],
-              )
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Center(
+          child: GestureDetector(
+            child: Image.asset('assets/images/google_button.png'),
+            onTap: signInWithGoogle,
           ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(10),
+        ),
+        Center(
+          child: GestureDetector(
+            child: Image.asset('assets/images/naver_button.png'),
+            onTap: signInWithGoogle,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(10),
+        ),
+        Center(
+          child: GestureDetector(
+            child: Image.asset('assets/images/google_button.png'),
+            onTap: signInWithGoogle,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(10),
+        ),
+        Center(
+          child: GestureDetector(
+            child: Image.asset('assets/images/google_button.png'),
+            onTap: signInWithGoogle,
+          ),
+        )
+      ],
+    );
+    /*Center(
+        child: GestureDetector(
+          child: Image.asset('assets/images/google_button.png'),
           onTap: signInWithGoogle,
         )
-    );
+    );*/
   }
 
 }
