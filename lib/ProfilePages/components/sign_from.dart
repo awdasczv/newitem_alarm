@@ -39,6 +39,12 @@ class _SignFromState extends State<SignFrom> {
         centerTitle: true,
         backgroundColor: Colors.white,
         title: Text("로그인",style: TextStyle(color: Colors.black,)),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.black,),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
 
       body: Column(
