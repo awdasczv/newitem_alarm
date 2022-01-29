@@ -41,28 +41,4 @@ class CommentProvider extends ChangeNotifier {
     final f = FirebaseFirestore.instance;
     await f.collection('comment').doc(now).set(CommentModel().toJson());
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('comment')
-            .limit(1)
-            .orderBy('dateTime', descending: false)
-            .snapshots(),
-        builder: (context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          final commentDocs = snapshot.data.docs;
-          return ListView.builder(
-              itemCount: commentDocs.length,
-              itemBuilder: (context, index) {
-                return Text(commentDocs[index]['text']);
-              });
-        });
-  }
 }

@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../model/comment_model.dart';
+import 'package:intl/intl.dart';
 
 class Review extends StatefulWidget {
   @override
@@ -16,7 +15,7 @@ class _ReviewState extends State<Review> {
   StreamSubscription _streamSubscription;
   FocusNode _focusNode = FocusNode();
   bool _isComposing = false;
-  List commentData = <CommentModel>[];
+  bool _isReply = false;
   final auth = FirebaseAuth.instance;
 
   @override
@@ -76,115 +75,107 @@ class _ReviewState extends State<Review> {
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: Column(
+                children: [
+                  Text('로딩 중....'),
+                  CircularProgressIndicator(),
+                ],
+              ),
             );
           }
           final commentDocs = snapshot.data.docs; //snapshot.date!.docs 안됨..
           return ListView.builder(itemBuilder: (context, index) {
             if (index < commentDocs.length) {
-              return Container(
-                margin: const EdgeInsets.symmetric(vertical: 8),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: CircleAvatar(
-                        backgroundImage: commentDocs[index]['userProfileUrl'] ==
-                                null
-                            ? AssetImage('assets/images/default_profile.png')
-                            : NetworkImage(
-                                commentDocs[index]['userProfileUrl']),
-                        radius: 20,
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5),
-                            child: Row(
-                              children: [
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  commentDocs[index]['userName'],
-                                  style: TextStyle(fontSize: 13),
-                                ),
-                                Text(' · '),
-                                Text(
-                                  commentDocs[index]['dateTime'].toString(),
-                                  style: TextStyle(fontSize: 13),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                              padding: EdgeInsets.all(15),
-                              width: MediaQuery.of(context).size.width * .8,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Text(
-                                commentDocs[index]['text'],
-                                style: TextStyle(fontSize: 15),
-                              )),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          SizedBox(
-                            child: Row(
-                              children: [
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.thumb_up_alt_outlined,
-                                      size: 15,
-                                    ),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    Text(
-                                      '좋아요',
-                                      style: TextStyle(fontSize: 13),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.mode_comment_outlined,
-                                      size: 15,
-                                    ),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    Text(
-                                      '답글',
-                                      style: TextStyle(fontSize: 13),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
+              return _buildListItem(commentDocs, index, context);
             }
           });
         });
+  }
+
+  Container _buildListItem(
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> commentDocs,
+      int index,
+      BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: CircleAvatar(
+              backgroundImage: commentDocs[index]['userProfileUrl'] == null
+                  ? AssetImage('assets/images/default_profile.png')
+                  : NetworkImage(commentDocs[index]['userProfileUrl']),
+              radius: 20,
+            ),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: Row(
+                    children: [
+                      Text(
+                        commentDocs[index]['userName'] == null
+                            ? '비회원'
+                            : commentDocs[index]['userName'],
+                        style: TextStyle(fontSize: 13, color: Colors.grey[700]),
+                      ),
+                      Text(' · '),
+                      Text(
+                        DateFormat('MM/dd kk:mm')
+                            .format(commentDocs[index]['dateTime'].toDate())
+                            .toString(),
+                        style: TextStyle(fontSize: 13, color: Colors.grey[700]),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                    padding: EdgeInsets.only(top: 5, bottom: 5),
+                    width: MediaQuery.of(context).size.width * .8,
+                    child: Text(
+                      commentDocs[index]['text'],
+                      style: TextStyle(fontSize: 15),
+                    )),
+                SizedBox(
+                  child: Row(
+                    children: [
+                      InkResponse(
+                        child: Icon(
+                          Icons.thumb_up_alt_outlined,
+                          size: 17,
+                        ),
+                        highlightColor: Colors.grey,
+                        onTap: () {
+                          ScaffoldMessenger.of(context).setState(() {
+                            _isReply = true;
+                            buildInput(context, ' 답글을 적어 주세요.');
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      InkWell(
+                        child: Icon(
+                          Icons.mode_comment_outlined,
+                          size: 17,
+                        ),
+                        onTap: () {},
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -201,14 +192,14 @@ class _ReviewState extends State<Review> {
                 const Divider(
                   height: 1,
                 ),
-                buildInput(context)
+                buildInput(context, ' 댓글을 적어주세요.')
               ],
             ),
           ])),
     );
   }
 
-  Container buildInput(BuildContext context) {
+  Container buildInput(BuildContext context, @required String hintText) {
     return Container(
       decoration: BoxDecoration(color: Colors.white, boxShadow: [
         BoxShadow(
@@ -237,7 +228,7 @@ class _ReviewState extends State<Review> {
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(
                           left: 15, right: 10, top: 10, bottom: 10),
-                      hintText: ' 댓글을 적어주세요.',
+                      hintText: hintText,
                       hintStyle: TextStyle(color: Colors.grey),
                       alignLabelWithHint: true,
                       focusedBorder: OutlineInputBorder(
