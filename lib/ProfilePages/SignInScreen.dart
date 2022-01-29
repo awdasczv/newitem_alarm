@@ -25,33 +25,22 @@ class SignInScreen extends StatelessWidget {
         body: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-            if (!snapshot.hasData) {
-              return SignFrom();
-  /*
-            }else{
-              return ProfileHome();
-              Center(*/
-            } else {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("${snapshot.data.displayName}님 환영합니다."),
-                    ElevatedButton(
-                      child: Text("프로필 페이지로 이동"),
-                      onPressed: () async {
-                        await Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ProfileHome()));
-                      },
-                    ),
-                    ElevatedButton(
-                      child: Text("로그아웃"),
-                      onPressed: FirebaseAuth.instance.signOut,
-                    ),
-                  ],
-                ),
-              );
-            }
+              if(!snapshot.hasData) {
+                return SignFrom();
+              }
+              else if(snapshot.hasError){
+                return Center(
+                  child: Text('로그인 실패'),
+                );
+              }
+              else {
+                Navigator.pop(context,true);
+                return  Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f)),
+                  ),
+                );
+              }
           },
         )
         //SignFrom(),
