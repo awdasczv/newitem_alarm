@@ -20,37 +20,20 @@ class SignInScreen extends StatelessWidget {
         ),
       ),
 */
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
         body: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-            if (!snapshot.hasData) {
-              return SignFrom();
-            } else {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("${snapshot.data.displayName}님 환영합니다."),
-                    ElevatedButton(
-                      child: Text("로그아웃"),
-                      onPressed: () {
-                        FirebaseAuth.instance.signOut;
-                      },
-                    ),
-                  ],
-                ),
-              );
-            }
-          },
-        )
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+        if (!snapshot.hasData) {
+          return SignFrom();
+        } else {
+          final signOut = FirebaseAuth.instance.signOut();
+          Navigator.pop(context, true);
+          return Center(
+              child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f))));
+        }
+      },
+    )
         //SignFrom(),
 
         //body: SignFrom(),

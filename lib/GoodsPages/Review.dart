@@ -75,12 +75,8 @@ class _ReviewState extends State<Review> {
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: Column(
-                children: [
-                  Text('로딩 중....'),
-                  CircularProgressIndicator(),
-                ],
-              ),
+              child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f))),
             );
           }
           final commentDocs = snapshot.data.docs; //snapshot.date!.docs 안됨..
@@ -126,7 +122,7 @@ class _ReviewState extends State<Review> {
                       ),
                       Text(' · '),
                       Text(
-                        DateFormat('MM/dd kk:mm')
+                        DateFormat('MM/dd HH:mm')
                             .format(commentDocs[index]['dateTime'].toDate())
                             .toString(),
                         style: TextStyle(fontSize: 13, color: Colors.grey[700]),
@@ -141,34 +137,35 @@ class _ReviewState extends State<Review> {
                       commentDocs[index]['text'],
                       style: TextStyle(fontSize: 15),
                     )),
-                SizedBox(
-                  child: Row(
-                    children: [
-                      InkResponse(
-                        child: Icon(
-                          Icons.thumb_up_alt_outlined,
-                          size: 17,
-                        ),
-                        highlightColor: Colors.grey,
-                        onTap: () {
-                          ScaffoldMessenger.of(context).setState(() {
-                            _isReply = true;
-                            buildInput(context, ' 답글을 적어 주세요.');
-                          });
-                        },
+                Row(
+                  children: [
+                    InkResponse(
+                      child: Icon(
+                        Icons.thumb_up_alt_outlined,
+                        size: 17,
                       ),
-                      const SizedBox(
-                        width: 10,
+                      highlightColor: Colors.blue,
+                      onTap: () {
+                        setState(() {});
+                      },
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    InkResponse(
+                      child: Icon(
+                        Icons.mode_comment_outlined,
+                        size: 17,
                       ),
-                      InkWell(
-                        child: Icon(
-                          Icons.mode_comment_outlined,
-                          size: 17,
-                        ),
-                        onTap: () {},
-                      )
-                    ],
-                  ),
+                      highlightColor: Colors.blue,
+                      splashColor: Colors.blue,
+                      onTap: () {
+                        setState(() {
+                          print('클릭');
+                        });
+                      },
+                    )
+                  ],
                 )
               ],
             ),
@@ -192,14 +189,14 @@ class _ReviewState extends State<Review> {
                 const Divider(
                   height: 1,
                 ),
-                buildInput(context, ' 댓글을 적어주세요.')
+                buildInput(' 댓글을 적어주세요.')
               ],
             ),
           ])),
     );
   }
 
-  Container buildInput(BuildContext context, @required String hintText) {
+  Container buildInput(@required String hintText) {
     return Container(
       decoration: BoxDecoration(color: Colors.white, boxShadow: [
         BoxShadow(

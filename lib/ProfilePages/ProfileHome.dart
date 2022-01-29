@@ -1,12 +1,13 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:newitem_alarm/ProfilePages/ReviewMan.dart';
-import 'package:newitem_alarm/ProfilePages/CommandMan.dart';
-import 'package:newitem_alarm/ProfilePages/AlarmMan.dart';
-import 'package:newitem_alarm/ProfilePages/Notice.dart';
-import 'package:newitem_alarm/ProfilePages/Manual.dart';
-import 'package:newitem_alarm/ProfilePages/ChangeProfile.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:newitem_alarm/ProfilePages/AlarmMan.dart';
+import 'package:newitem_alarm/ProfilePages/ChangeProfile.dart';
+import 'package:newitem_alarm/ProfilePages/CommandMan.dart';
+import 'package:newitem_alarm/ProfilePages/Manual.dart';
+import 'package:newitem_alarm/ProfilePages/Notice.dart';
+import 'package:newitem_alarm/ProfilePages/ReviewMan.dart';
 import 'package:newitem_alarm/ProfilePages/SignInScreen.dart';
 
 class ProfileHome extends StatefulWidget {
@@ -19,49 +20,41 @@ class _ProfileHomeState extends State<ProfileHome> {
   String _imagePath = "";
   final ImagePicker _picker = ImagePicker();
   PickedFile _image;
+  bool isLogin = false;
 
-  bool _isLogin = false;
-
-  final _menuList = [
-    ReviewMan(),
-    CommandMan(),
-    AlarmMan(),
-    Notice(),
-    Manual()
-  ];
+  final _menuList = [ReviewMan(), CommandMan(), AlarmMan(), Notice(), Manual()];
 
   final _menuIcon = [
-    Icon(Icons.rate_review_outlined,size: 25,color: Color(0xfff1c40f)),
-    Icon(Icons.comment,size: 25,color: Color(0xfff1c40f)),
-    Icon(Icons.circle_notifications_outlined,size: 25,color: Color(0xfff1c40f)),
-    Icon(Icons.campaign,size: 25,color: Color(0xfff1c40f)),
-    Icon(Icons.description_outlined,size: 25,color: Color(0xfff1c40f)),
+    Icon(Icons.rate_review_outlined, size: 25, color: Color(0xfff1c40f)),
+    Icon(Icons.comment, size: 25, color: Color(0xfff1c40f)),
+    Icon(Icons.circle_notifications_outlined,
+        size: 25, color: Color(0xfff1c40f)),
+    Icon(Icons.campaign, size: 25, color: Color(0xfff1c40f)),
+    Icon(Icons.description_outlined, size: 25, color: Color(0xfff1c40f)),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        //backgroundColor: Color(0xfff1c40f),
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text(
-          'My Page',
-          style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
+        appBar: AppBar(
+          //backgroundColor: Color(0xfff1c40f),
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: Text(
+            'My Page',
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
+          ),
         ),
-      ),
-        body: func(_isLogin)
-    );
+        body: func(isLogin));
   }
 
   // 로그인/회원가입, 프로필 페이지
-  Widget func(bool _isLogin) {
-    if (_isLogin == true) {
+  Widget func(@required bool _isLogin) {
+    if (isLogin == true) {
       return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-
             LoginProfile(),
             ProfileImage(),
             ListMenu()
@@ -93,8 +86,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                   decoration: BoxDecoration(
                       color: Colors.black,
                       border: Border.all(),
-                      shape: BoxShape.circle
-                  ),
+                      shape: BoxShape.circle),
                   // padding:
                   //     EdgeInsets.only(left: 20, right: 30, top: 20, bottom: 20),
                   child: CircleAvatar(
@@ -115,12 +107,13 @@ class _ProfileHomeState extends State<ProfileHome> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(_name,
-                      style: TextStyle(fontSize: 20,),
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
                       textAlign: TextAlign.center),
                   SizedBox(
                     height: 15,
                   )
-
                 ],
               )
             ],
@@ -154,7 +147,10 @@ class _ProfileHomeState extends State<ProfileHome> {
                     ),
                     Text(
                       " 프로필 수정하기",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                          color: Colors.black),
                     )
                   ],
                 )),
@@ -176,34 +172,30 @@ class _ProfileHomeState extends State<ProfileHome> {
   // 리뷰 관리, 댓글 관리...
   Widget ListMenu() {
     return Expanded(
-        child: Card(
-          elevation: 5,
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8)
-          ),
-          child: ListView(
-            //padding: EdgeInsets.all(8),
-            children: [
-              //리뷰 관리 페이지 이동
-              _MenuListTile(0, "리뷰 관리"),
+      child: Card(
+        elevation: 5,
+        color: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        child: ListView(
+          //padding: EdgeInsets.all(8),
+          children: [
+            //리뷰 관리 페이지 이동
+            _MenuListTile(0, "리뷰 관리"),
 
-              //댓글 관리 페이지 이동
-              _MenuListTile(1, "댓글 관리"),
+            //댓글 관리 페이지 이동
+            _MenuListTile(1, "댓글 관리"),
 
-              //알림 설정 페이지 이동
-              _MenuListTile(2, "알림설정"),
+            //알림 설정 페이지 이동
+            _MenuListTile(2, "알림설정"),
 
-              //공지사항 페이지 이동
-              _MenuListTile(3, "공지사항"),
+            //공지사항 페이지 이동
+            _MenuListTile(3, "공지사항"),
 
-              //이용약관 페이지 이동
-              _MenuListTile(4, "이용약관"),
-
-            ],
-          ),
+            //이용약관 페이지 이동
+            _MenuListTile(4, "이용약관"),
+          ],
         ),
-
+      ),
     );
   }
 
@@ -217,40 +209,44 @@ class _ProfileHomeState extends State<ProfileHome> {
               //color: Colors.transparent,
               padding: EdgeInsets.all(20),
               child: Center(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                    ),
-                    Text("더 많은 기능을 사용하시려면"),
-                    Text("로그인/회원가입 하십시오."),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                    ),
-                    ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xfff1c40f))
-                        ),
-                        onPressed: () async {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => SignInScreen()));
-                        },
-                        child: Text("로그인/회원가입",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
-                                color: Colors.white)
-                        )
-                    )
-                  ],
-                )
-              ),
+                  child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  Text("더 많은 기능을 사용하시려면"),
+                  Text("로그인/회원가입 하십시오."),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Color(0xfff1c40f))),
+                      onPressed: () async {
+                        var a = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignInScreen()));
+                        if (a == true) {
+                          setState(() {
+                            isLogin = true;
+                          });
+                        }
+                      },
+                      child: Text("로그인/회원가입",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25,
+                              color: Colors.white)))
+                ],
+              )),
             ),
           ),
           _NoListMenu(),
-        ]
-      );
+        ]);
   }
+
   ListTile _MenuListTile(int index, String name) {
     return ListTile(
         onTap: () {
@@ -262,15 +258,18 @@ class _ProfileHomeState extends State<ProfileHome> {
         title: Row(
           children: [
             _menuIcon[index],
-            SizedBox(width: 10,),
+            SizedBox(
+              width: 10,
+            ),
             Text("${name}",
                 style: TextStyle(fontSize: 22), textAlign: TextAlign.left),
-
             Spacer(),
-            Icon(Icons.arrow_forward_ios_outlined, color: Color(0xfff1c40f),)
+            Icon(
+              Icons.arrow_forward_ios_outlined,
+              color: Color(0xfff1c40f),
+            )
           ],
-        )
-    );
+        ));
   }
 
   // 비로그인 메뉴 리스트
@@ -278,47 +277,40 @@ class _ProfileHomeState extends State<ProfileHome> {
     return ListTile(
         onTap: () {
           showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text("dd"),
-                content: SingleChildScrollView(
-                  child: ListBody(
-                    children: [
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                    title: Text("dd"),
+                    content: SingleChildScrollView(
+                        child: ListBody(
+                      children: [Center(child: Text("로그인이 필요합니다."))],
+                    )),
+                    actions: <Widget>[
                       Center(
-                          child: Text("로그인이 필요합니다.")
-                      )
-                    ],
-                  )
-                ),
-                actions: <Widget>[
-                  Center(
-                    child: ElevatedButton(
-                        child: Text("확인"),
-                        onPressed:() {
-                          Navigator.of(context).pop();
-                        }
-                    )
-                  )
-                ]
-              );
-
-            }
-          );
+                          child: ElevatedButton(
+                              child: Text("확인"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              }))
+                    ]);
+              });
         },
         title: Row(
           children: [
             _menuIcon[index],
-            SizedBox(width: 10,),
+            SizedBox(
+              width: 10,
+            ),
             Text("${name}",
                 style: TextStyle(fontSize: 22), textAlign: TextAlign.left),
-
             Spacer(),
-            Icon(Icons.arrow_forward_ios_outlined, color: Color(0xfff1c40f),)
+            Icon(
+              Icons.arrow_forward_ios_outlined,
+              color: Color(0xfff1c40f),
+            )
           ],
-        )
-    );
+        ));
   }
 
   Widget _NoListMenu() {
@@ -326,9 +318,7 @@ class _ProfileHomeState extends State<ProfileHome> {
       child: Card(
         elevation: 5,
         color: Colors.white,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8)
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: ListView(
           //padding: EdgeInsets.all(8),
           children: [
@@ -346,11 +336,9 @@ class _ProfileHomeState extends State<ProfileHome> {
 
             //이용약관 페이지 이동
             _MenuListTile(4, "이용약관"),
-
           ],
         ),
       ),
-
     );
   }
 }
