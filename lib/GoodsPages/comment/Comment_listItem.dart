@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -24,125 +25,170 @@ class _commentListItemState extends State<commentListItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: CircleAvatar(
-              backgroundImage: widget.userProfileUrl == null
-                  ? AssetImage('assets/images/default_profile.png')
-                  : NetworkImage(widget.userProfileUrl),
-              radius: 15,
-            ),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Row(
-                    children: [
-                      Text(
-                        widget.userName == null ? '비회원' : widget.userName,
-                        style: TextStyle(fontSize: 13, color: Colors.grey[700]),
-                      ),
-                      Text(' · '),
-                      Text(
-                        DateFormat('MM/dd HH:mm')
-                            .format(widget.dateTime.toDate())
-                            .toString(),
-                        style: TextStyle(fontSize: 13, color: Colors.grey[700]),
-                      ),
-                    ],
-                  ),
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: CircleAvatar(
+                  backgroundImage: widget.userProfileUrl == null
+                      ? AssetImage('assets/images/default_profile.png')
+                      : NetworkImage(widget.userProfileUrl),
+                  radius: 15,
                 ),
-                Container(
-                    padding: EdgeInsets.only(top: 5, bottom: 5),
-                    width: MediaQuery.of(context).size.width * .8,
-                    child: Text(
-                      widget.text,
-                      style: TextStyle(fontSize: 15),
-                    )),
-                Row(
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
-                        InkWell(
-                          child: Icon(
-                            Icons.thumb_up_alt_outlined,
-                            size: 17,
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 5),
+                          child: Row(
+                            children: [
+                              Text(
+                                widget.userName == null
+                                    ? '비회원'
+                                    : widget.userName,
+                                style: TextStyle(
+                                    fontSize: 13, color: Colors.grey[700]),
+                              ),
+                              Text(' · '),
+                              Text(
+                                DateFormat('MM/dd HH:mm')
+                                    .format(widget.dateTime.toDate())
+                                    .toString(),
+                                style: TextStyle(
+                                    fontSize: 13, color: Colors.grey[700]),
+                              ),
+                            ],
                           ),
-                          highlightColor: Colors.blue,
+                        ),
+                        Spacer(),
+                        InkResponse(
+                          child: Icon(
+                            Icons.more_vert_sharp,
+                            size: 20,
+                          ),
                           onTap: () {
-                            setState(() {
-                              _like += 1;
-                            });
+                            final snackBar = SnackBar(
+                              backgroundColor: Colors.white,
+                              content: Row(
+                                children: [
+                                  Icon(Icons.delete_outline),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  Text(
+                                    '삭제',
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                              ..removeCurrentSnackBar()
+                              ..showSnackBar(snackBar);
+                            print('클릭');
                           },
                         ),
                         const SizedBox(
-                          width: 7,
-                        ),
-                        SizedBox(
-                          width: 60,
-                          child: _like == 0
-                              ? Text('')
-                              : Text(
-                                  _like.toString(),
-                                  style: TextStyle(fontSize: 13),
-                                ),
+                          width: 10,
                         )
                       ],
                     ),
-                    InkResponse(
-                      child: Icon(
-                        Icons.mode_comment_outlined,
-                        size: 17,
-                      ),
-                      highlightColor: Colors.blue,
-                      splashColor: Colors.blue,
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                content: Text('답글을 작성하시겠습니까?'),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text(
-                                        '취소',
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xfff1c40f),
-                                            fontWeight: FontWeight.bold),
-                                      )),
-                                  TextButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        '확인',
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xfff1c40f),
-                                            fontWeight: FontWeight.bold),
-                                      ))
-                                ],
-                              );
-                            });
-                      },
-                    )
+                    Container(
+                        padding: EdgeInsets.only(top: 5, bottom: 15),
+                        width: MediaQuery.of(context).size.width * .8,
+                        child: Text(
+                          widget.text,
+                          style: TextStyle(fontSize: 15),
+                        )),
+                    Row(
+                      children: [
+                        Row(
+                          children: [
+                            InkWell(
+                              child: Icon(
+                                Icons.thumb_up_alt_outlined,
+                                size: 17,
+                              ),
+                              highlightColor: Colors.blue,
+                              onTap: () {
+                                setState(() {
+                                  _like += 1;
+                                });
+                              },
+                            ),
+                            const SizedBox(
+                              width: 7,
+                            ),
+                            SizedBox(
+                              width: 60,
+                              child: _like == 0
+                                  ? Text('')
+                                  : Text(
+                                      _like.toString(),
+                                      style: TextStyle(fontSize: 13),
+                                    ),
+                            )
+                          ],
+                        ),
+                        InkResponse(
+                          child: Icon(
+                            Icons.mode_comment_outlined,
+                            size: 17,
+                          ),
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: Text('답글을 작성하시겠습니까?'),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text(
+                                            '취소',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: Color(0xfff1c40f),
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                      TextButton(
+                                          onPressed: () {},
+                                          child: Text(
+                                            '확인',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: Color(0xfff1c40f),
+                                                fontWeight: FontWeight.bold),
+                                          ))
+                                    ],
+                                  );
+                                });
+                          },
+                        )
+                      ],
+                    ),
                   ],
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+        Divider(
+          thickness: 1.4,
+        )
+      ],
     );
   }
 }
