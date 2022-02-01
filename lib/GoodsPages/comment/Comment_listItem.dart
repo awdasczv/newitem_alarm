@@ -28,6 +28,8 @@ class _commentListItemState extends State<commentListItem> {
     return Column(
       children: [
         Container(
+          width: MediaQuery.of(context).size.width,
+          color: Colors.white,
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,7 +187,7 @@ class _commentListItemState extends State<commentListItem> {
             ],
           ),
         ),
-        Divider(
+        const Divider(
           thickness: 1.4,
         )
       ],

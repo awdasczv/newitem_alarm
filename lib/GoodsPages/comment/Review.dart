@@ -94,6 +94,7 @@ class _ReviewState extends State<Review> {
           final commentDocs = snapshot.data.docs;
           //snapshot.date!.docs 안됨..
           return ListView.builder(
+              shrinkWrap: true,
               controller: _controller,
               itemBuilder: (context, index) {
                 if (index < commentDocs.length) {
@@ -112,20 +113,19 @@ class _ReviewState extends State<Review> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-          color: Colors.white,
-          height: MediaQuery.of(context).size.height * .8,
-          width: MediaQuery.of(context).size.width,
-          child: Stack(children: [
-            Column(
-              children: [
-                Expanded(child: _buildcommentList()),
-                const Divider(
-                  height: 1,
-                ),
-                buildInput(' 댓글을 적어주세요.')
-              ],
-            ),
-          ])),
+        color: Colors.white,
+        child: ListView(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            Stack(children: [
+              Column(
+                children: [_buildcommentList(), buildInput(' 댓글을 적어주세요.')],
+              ),
+            ])
+          ],
+        ),
+      ),
     );
   }
 
