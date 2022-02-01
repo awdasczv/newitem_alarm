@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:newitem_alarm/model/goods.dart';
 
 import './Comment.dart';
-import './Review.dart';
+import 'comment/Review.dart';
 
 class Bottom extends StatefulWidget {
   final Goods goods;
@@ -70,7 +70,9 @@ class _BottomState extends State<Bottom> with SingleTickerProviderStateMixin {
           IndexedStack(
             children: <Widget>[
               Visibility(
-                child: Comment(goods: widget.goods,),
+                child: Comment(
+                  goods: widget.goods,
+                ),
                 maintainState: true, //invisible할 때도 child 유지
                 visible: currentIndex == 0,
               ),

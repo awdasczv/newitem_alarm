@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
+import './Comment_listItem.dart';
 
 class Review extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class _ReviewState extends State<Review> {
   FocusNode _focusNode = FocusNode();
   bool _isComposing = false;
   bool _isReply = false;
+  ScrollController _controller = ScrollController();
   final auth = FirebaseAuth.instance;
 
   @override
@@ -37,6 +39,15 @@ class _ReviewState extends State<Review> {
   }
 
   @override
+  userID() {
+    final user = auth.currentUser;
+    if (user != null) {
+      final user_id = user.uid;
+      return user_id;
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
   }
@@ -52,6 +63,8 @@ class _ReviewState extends State<Review> {
   @override
   void _handleSubmitted(String text) {
     _textEditingController.clear();
+    _focusNode.requestFocus();
+    FocusScope.of(context).unfocus();
     setState(() {
       _isComposing = false;
       FirebaseFirestore.instance.collection('comment').add({
@@ -59,10 +72,9 @@ class _ReviewState extends State<Review> {
         'dateTime': Timestamp.now(),
         'userName': userName(),
         'userProfileUrl': userProfile(),
+        'userID': userID(),
       });
     });
-    _focusNode.requestFocus();
-    FocusScope.of(context).unfocus();
   }
 
   Widget _buildcommentList() {
@@ -73,106 +85,27 @@ class _ReviewState extends State<Review> {
             .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (!snapshot.hasData) {
             return Center(
               child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f))),
             );
           }
-          final commentDocs = snapshot.data.docs; //snapshot.date!.docs 안됨..
-          return ListView.builder(itemBuilder: (context, index) {
-            if (index < commentDocs.length) {
-              return _buildListItem(commentDocs, index, context);
-            }
-          });
-        });
-  }
-
-  Container _buildListItem(
-      List<QueryDocumentSnapshot<Map<String, dynamic>>> commentDocs,
-      int index,
-      BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: CircleAvatar(
-              backgroundImage: commentDocs[index]['userProfileUrl'] == null
-                  ? AssetImage('assets/images/default_profile.png')
-                  : NetworkImage(commentDocs[index]['userProfileUrl']),
-              radius: 20,
-            ),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Row(
-                    children: [
-                      Text(
-                        commentDocs[index]['userName'] == null
-                            ? '비회원'
-                            : commentDocs[index]['userName'],
-                        style: TextStyle(fontSize: 13, color: Colors.grey[700]),
-                      ),
-                      Text(' · '),
-                      Text(
-                        DateFormat('MM/dd HH:mm')
-                            .format(commentDocs[index]['dateTime'].toDate())
-                            .toString(),
-                        style: TextStyle(fontSize: 13, color: Colors.grey[700]),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                    padding: EdgeInsets.only(top: 5, bottom: 5),
-                    width: MediaQuery.of(context).size.width * .8,
-                    child: Text(
+          final commentDocs = snapshot.data.docs;
+          //snapshot.date!.docs 안됨..
+          return ListView.builder(
+              controller: _controller,
+              itemBuilder: (context, index) {
+                if (index < commentDocs.length) {
+                  return commentListItem(
+                      commentDocs[index]['userProfileUrl'],
+                      commentDocs[index]['userName'],
+                      commentDocs[index]['dateTime'],
                       commentDocs[index]['text'],
-                      style: TextStyle(fontSize: 15),
-                    )),
-                Row(
-                  children: [
-                    InkResponse(
-                      child: Icon(
-                        Icons.thumb_up_alt_outlined,
-                        size: 17,
-                      ),
-                      highlightColor: Colors.blue,
-                      onTap: () {
-                        setState(() {});
-                      },
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    InkResponse(
-                      child: Icon(
-                        Icons.mode_comment_outlined,
-                        size: 17,
-                      ),
-                      highlightColor: Colors.blue,
-                      splashColor: Colors.blue,
-                      onTap: () {
-                        setState(() {
-                          print('클릭');
-                        });
-                      },
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                      commentDocs[index]['userID']);
+                }
+              });
+        });
   }
 
   @override
@@ -210,18 +143,21 @@ class _ReviewState extends State<Review> {
           children: [
             Container(
                 decoration: BoxDecoration(
-                  color: Color(0xfffbeeb7),
-                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(15),
                 ),
                 margin: const EdgeInsets.only(left: 10, right: 10),
                 width: MediaQuery.of(context).size.width - 70,
                 child: Expanded(
                   child: TextField(
                     maxLines: null,
+                    //자동으로 줄바꿈
                     keyboardType: TextInputType.multiline,
                     controller: _textEditingController,
                     focusNode: _focusNode,
                     textCapitalization: TextCapitalization.sentences,
+                    cursorColor: Color(0xfff1c40f),
+                    cursorWidth: 3,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(
                           left: 15, right: 10, top: 10, bottom: 10),
@@ -230,11 +166,9 @@ class _ReviewState extends State<Review> {
                       alignLabelWithHint: true,
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.transparent),
-                        borderRadius: BorderRadius.circular(30),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.transparent),
-                        borderRadius: BorderRadius.circular(30),
                       ),
                     ),
                     onSubmitted: _isComposing ? _handleSubmitted : null,
