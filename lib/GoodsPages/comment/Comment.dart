@@ -6,18 +6,19 @@ import 'package:flutter/material.dart';
 
 import './Comment_listItem.dart';
 
-class Review extends StatefulWidget {
+class Comment extends StatefulWidget {
   @override
-  _ReviewState createState() => _ReviewState();
+  _CommentState createState() => _CommentState();
 }
 
-class _ReviewState extends State<Review> {
+class _CommentState extends State<Comment> {
   TextEditingController _textEditingController = TextEditingController();
   StreamSubscription _streamSubscription;
   FocusNode _focusNode = FocusNode();
   bool _isComposing = false;
   bool _isReply = false;
-  ScrollController _controller = ScrollController();
+  CollectionReference commentRef =
+      FirebaseFirestore.instance.collection('comment');
   final auth = FirebaseAuth.instance;
 
   @override
@@ -33,7 +34,7 @@ class _ReviewState extends State<Review> {
   userProfile() {
     final user = auth.currentUser;
     if (user != null) {
-      final user_profile = user.displayName.toString();
+      final user_profile = user.photoURL;
       return user_profile;
     }
   }
@@ -67,35 +68,37 @@ class _ReviewState extends State<Review> {
     FocusScope.of(context).unfocus();
     setState(() {
       _isComposing = false;
-      FirebaseFirestore.instance.collection('comment').add({
+      commentRef.add({
         'text': text,
         'dateTime': Timestamp.now(),
         'userName': userName(),
         'userProfileUrl': userProfile(),
         'userID': userID(),
+      }).catchError((error) {
+        return print('댓글 작성 오류: $error');
       });
     });
   }
 
   Widget _buildcommentList() {
-    return StreamBuilder(
+    return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('comment')
             .orderBy('dateTime', descending: false)
             .snapshots(),
-        builder: (context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (!snapshot.hasData) {
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f))),
             );
+          } else if (snapshot.hasError) {
+            return Center(child: Text('오류'));
           }
           final commentDocs = snapshot.data.docs;
           //snapshot.date!.docs 안됨..
           return ListView.builder(
               shrinkWrap: true,
-              controller: _controller,
               itemBuilder: (context, index) {
                 if (index < commentDocs.length) {
                   return commentListItem(
@@ -120,7 +123,7 @@ class _ReviewState extends State<Review> {
           children: [
             Stack(children: [
               Column(
-                children: [_buildcommentList(), buildInput(' 댓글을 적어주세요.')],
+                children: [_buildcommentList(), buildInput(' 댓글을 입력해주세요.')],
               ),
             ])
           ],

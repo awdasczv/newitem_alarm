@@ -22,6 +22,7 @@ class commentListItem extends StatefulWidget {
 class _commentListItemState extends State<commentListItem> {
   int _like = 0; //위치 중요!!....
   final auth = FirebaseAuth.instance;
+  final mainColor = Color(0xfff1c40f);
 
   @override
   Widget build(BuildContext context) {
@@ -78,26 +79,60 @@ class _commentListItemState extends State<commentListItem> {
                             size: 20,
                           ),
                           onTap: () {
-                            final snackBar = SnackBar(
-                              backgroundColor: Colors.white,
-                              content: Row(
-                                children: [
-                                  Icon(Icons.delete_outline),
-                                  const SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text(
-                                    '삭제',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 15),
-                                  ),
-                                ],
-                              ),
-                            );
-                            ScaffoldMessenger.of(context)
-                              ..removeCurrentSnackBar()
-                              ..showSnackBar(snackBar);
-                            print('클릭');
+                            showModalBottomSheet<void>(
+                                backgroundColor: Colors.white,
+                                isScrollControlled: false,
+                                elevation: 5,
+                                context: context,
+                                builder: (context) {
+                                  return Container(
+                                    height: 90,
+                                    padding: EdgeInsets.only(
+                                        bottom: MediaQuery.of(context)
+                                            .viewInsets
+                                            .bottom),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15, vertical: 10),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Icon(Icons.edit_outlined),
+                                              const SizedBox(
+                                                width: 17,
+                                              ),
+                                              Text(
+                                                '수정',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 17,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Icon(Icons.delete_outline),
+                                              const SizedBox(
+                                                width: 17,
+                                              ),
+                                              Text(
+                                                '삭제',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 17),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                });
                           },
                         ),
                         const SizedBox(
@@ -162,7 +197,7 @@ class _commentListItemState extends State<commentListItem> {
                                             '취소',
                                             style: TextStyle(
                                                 fontSize: 15,
-                                                color: Color(0xfff1c40f),
+                                                color: mainColor,
                                                 fontWeight: FontWeight.bold),
                                           )),
                                       TextButton(
@@ -171,7 +206,7 @@ class _commentListItemState extends State<commentListItem> {
                                             '확인',
                                             style: TextStyle(
                                                 fontSize: 15,
-                                                color: Color(0xfff1c40f),
+                                                color: mainColor,
                                                 fontWeight: FontWeight.bold),
                                           ))
                                     ],

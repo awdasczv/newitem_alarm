@@ -15,7 +15,7 @@ import 'model/comment_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(); //파이어베이스 사용할 때 해당 두 줄은 꼭 추가하기
   runApp(MyApp());
 }
 
