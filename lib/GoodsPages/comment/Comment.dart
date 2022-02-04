@@ -68,24 +68,25 @@ class _CommentState extends State<Comment> {
     FocusScope.of(context).unfocus();
     setState(() {
       _isComposing = false;
-      commentRef.add({
-        'text': text,
-        'dateTime': Timestamp.now(),
-        'userName': userName(),
-        'userProfileUrl': userProfile(),
-        'userID': userID(),
-      }).catchError((error) {
-        return print('댓글 작성 오류: $error');
-      });
+      commentRef
+          .add({
+            'text': text,
+            'dateTime': Timestamp.now(),
+            'userName': userName(),
+            'userProfileUrl': userProfile(),
+            'userID': userID(),
+            'like': 0,
+          })
+          .then((value) => print(value.id))
+          .catchError((error) {
+            return print('댓글 입력 오류: $error'); //제대로 추가되면 id 출력하고, 문제가 발생하면 오류 출력
+          });
     });
   }
 
   Widget _buildcommentList() {
     return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('comment')
-            .orderBy('dateTime', descending: false)
-            .snapshots(),
+        stream: commentRef.orderBy('dateTime', descending: false).snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -93,12 +94,13 @@ class _CommentState extends State<Comment> {
                   valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f))),
             );
           } else if (snapshot.hasError) {
-            return Center(child: Text('오류'));
+            return Center(child: Text(snapshot.error.toString()));
           }
           final commentDocs = snapshot.data.docs;
           //snapshot.date!.docs 안됨..
           return ListView.builder(
               shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 if (index < commentDocs.length) {
                   return commentListItem(
@@ -106,7 +108,9 @@ class _CommentState extends State<Comment> {
                       commentDocs[index]['userName'],
                       commentDocs[index]['dateTime'],
                       commentDocs[index]['text'],
-                      commentDocs[index]['userID']);
+                      commentDocs[index]['userID'],
+                      commentDocs[index]['like'],
+                      commentDocs[index].reference);
                 }
               });
         });
