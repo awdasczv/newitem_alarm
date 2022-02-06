@@ -5,23 +5,28 @@ import 'package:json_annotation/json_annotation.dart';
 class CommentModel {
   final String userProfileUrl;
   final String userName;
-  final String dateTime;
-  final String comment;
+  var dateTime;
+  final String text;
+  final String userID;
+  final int like;
 
   CommentModel({
     this.userProfileUrl,
     this.userName,
     this.dateTime,
-    this.comment,
+    this.text,
+    this.userID,
+    this.like,
   });
 
   factory CommentModel.fromJson(Map<String, dynamic> json) {
     return CommentModel(
-      userProfileUrl: json['userProfileUrl'] as String,
-      userName: json['userName'] as String,
-      dateTime: json['dateTime'] as String,
-      comment: json['comment'] as String,
-    );
+        userProfileUrl: json['userProfileUrl'] as String,
+        userName: json['userName'] as String,
+        dateTime: json['dateTime'],
+        text: json['text'] as String,
+        userID: json['userID'] as String,
+        like: json['like'] as int);
   }
 
   Map<String, dynamic> toJson() {
@@ -29,20 +34,8 @@ class CommentModel {
       'userProfileUrl': userProfileUrl,
       'userName': userName,
       'dateTime': dateTime,
-      'comment': comment,
+      'text': text,
+      'like': like,
     };
   }
 }
-
-List<CommentModel> commentData = [
-  CommentModel(
-      userName: '테스트',
-      userProfileUrl: 'http://kaihuastudio.com/common/img/default_profile.png',
-      dateTime: '1분 전',
-      comment: 'Hello World!'),
-  CommentModel(
-      userName: '하이',
-      userProfileUrl: 'http://kaihuastudio.com/common/img/default_profile.png',
-      dateTime: '2분 전',
-      comment: '안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕')
-];

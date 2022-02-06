@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../model/goods.dart';
+import 'review/WritingReview.dart';
 
 class Body extends StatefulWidget {
   final Goods goods; //goods.dart에 있는 Goods 객체 넘겨받기
@@ -371,12 +372,22 @@ class _TopState extends State<Top> {
                     const Padding(padding: EdgeInsets.only(bottom: 10)),
                     TextButton(
                         onPressed: () {},
-                        child: Text(
-                          '리뷰 더보기 (${widget.goods.total_review_count}) →',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.blueAccent),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WritingReview(
+                                          goods: widget.goods,
+                                        )));
+                          },
+                          child: Text(
+                            '리뷰 작성하러 가기',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.blueAccent),
+                          ),
                         ))
                   ],
                 ),

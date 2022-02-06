@@ -27,7 +27,9 @@ class _DetailMainState extends State<DetailMain> {
           Top(
             goods: widget.goods,
           ),
-          Bottom()
+          Bottom(
+            goods: widget.goods,
+          )
         ],
       ),
     );

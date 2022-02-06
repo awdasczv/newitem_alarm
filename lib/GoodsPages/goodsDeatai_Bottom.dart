@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:newitem_alarm/model/goods.dart';
 
-import './Comment.dart';
-import './Review.dart';
+import 'comment/Comment.dart';
+import 'review/Review.dart';
 
 class Bottom extends StatefulWidget {
+  final Goods goods;
+
+  const Bottom({Key key, this.goods}) : super(key: key);
+
   @override
   _BottomState createState() => _BottomState();
 }
@@ -70,7 +75,9 @@ class _BottomState extends State<Bottom> with SingleTickerProviderStateMixin {
                 visible: currentIndex == 0,
               ),
               Visibility(
-                child: Review(),
+                child: Review(
+                  goods: widget.goods,
+                ),
                 maintainState: true,
                 visible: currentIndex == 1,
               ),
