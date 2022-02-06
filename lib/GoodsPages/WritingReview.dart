@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:newitem_alarm/GoodsPages/Comment.dart';
+import 'package:newitem_alarm/model/Firestore_model.dart';
 import 'package:newitem_alarm/model/goods.dart';
 
 class WritingReview extends StatefulWidget {
@@ -212,11 +213,18 @@ class _WritingReviewState extends State<WritingReview> {
                   ],
                 ),
               ),
+              ElevatedButton(
+                  onPressed: (){
+                    fireStoreTempUpload();
+                  },
+                  child: Text('임시 버튼(새 상품 업로드)')
+              )
             ],
           )
       ),
     );
   }
+
   void uploadReview() async{
     FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
     await _firebaseFirestore.collection('structure_practice').doc('User').collection('ItemList').doc('2103-03-0002').collection('Review').doc('2103-03-0001-02-0002')
@@ -229,4 +237,5 @@ class _WritingReviewState extends State<WritingReview> {
       'userId' : _user.uid
     });
   }
+
 }
