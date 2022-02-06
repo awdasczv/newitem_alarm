@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/ProfilePages/components/sign_from.dart';
-import 'package:newitem_alarm/ProfilePages/ProfileHome.dart';
-import 'package:newitem_alarm/src/app.dart';
+
+final auth = FirebaseAuth.instance;
 
 class SignInScreen extends StatelessWidget {
   static String routeName = '/sign_in';
@@ -23,26 +23,24 @@ class SignInScreen extends StatelessWidget {
       ),
 */
         body: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-              if(!snapshot.hasData) {
-                return SignFrom();
-              }
-              else if(snapshot.hasError){
-                return Center(
-                  child: Text('로그인 실패'),
-                );
-              }
-              else {
-                Navigator.pop(context,true);
-                return  Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f)),
-                  ),
-                );
-              }
-          },
-        )
+      stream: auth.authStateChanges(),
+      builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+        if (!snapshot.hasData) {
+          return SignFrom();
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('로그인 실패'),
+          );
+        } else {
+          Navigator.pop(context, true);
+          return Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f)),
+            ),
+          );
+        }
+      },
+    )
         //SignFrom(),
 
         //body: SignFrom(),
