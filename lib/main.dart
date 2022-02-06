@@ -1,7 +1,7 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:newitem_alarm/GoodsPages/Comment_Provider.dart';
+import 'package:newitem_alarm/GoodsPages/comment/Comment_Provider.dart';
 import 'package:newitem_alarm/HomePages/HomePage.dart';
 import 'package:newitem_alarm/LikePages/LikeHome.dart';
 import 'package:newitem_alarm/ProfilePages/ProfileHome.dart';
@@ -10,12 +10,12 @@ import 'package:newitem_alarm/WatchPages/WatchHome.dart';
 import 'package:newitem_alarm/routes.dart';
 import 'package:provider/provider.dart';
 
-import 'GoodsPages/Comment_Provider.dart';
+import 'GoodsPages/comment/Comment_Provider.dart';
 import 'model/comment_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(); //파이어베이스 사용할 때 해당 두 줄은 꼭 추가하기
   runApp(MyApp());
 }
 
@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => TestProvider()),
         ChangeNotifierProvider(create: (_) => CommentProvider(CommentModel))
-
       ],
       child: MaterialApp(
         title: '먹어봤니',

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../model/goods.dart';
-import '../GoodsPages/WritingReview.dart';
+import 'review/WritingReview.dart';
 
 class Body extends StatefulWidget {
   final Goods goods; //goods.dart에 있는 Goods 객체 넘겨받기

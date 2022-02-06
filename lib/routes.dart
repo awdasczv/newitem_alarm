@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:newitem_alarm/ProfilePages/SignInScreen.dart';
 import 'package:newitem_alarm/SplashScreen.dart';
 import 'package:newitem_alarm/WatchPages/WatchHome.dart';
 import 'package:newitem_alarm/main.dart';
