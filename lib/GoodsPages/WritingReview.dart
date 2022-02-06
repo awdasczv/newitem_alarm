@@ -76,7 +76,9 @@ class _WritingReviewState extends State<WritingReview> {
                  ),
                  Spacer(),
                  TextButton(
-                     onPressed: (){},
+                     onPressed: (){
+
+                     },
                      child: Text('완료',style: TextStyle(color: Colors.black,fontSize: 17),)
                  )
                ],
@@ -183,18 +185,20 @@ class _WritingReviewState extends State<WritingReview> {
                         Reference ref = _firebaseStorage.ref().child("profile/${_user.uid}");
 
                         // 파일 업로드
-                      //  UploadTask  storageUploadTask = ref.putFile(_tempUploadImage);
+                        File _tempFile = File(_tempUploadImage.path);
+                        UploadTask  storageUploadTask = ref.putFile(_tempFile);
 
                         // 파일 업로드 완료까지 대기
-                      //  await storageUploadTask.onComplete;
+                        await storageUploadTask.whenComplete(() => null);
 
                         // 업로드한 사진의 URL 획득
-                     //   String downloadURL = await storageReference.getDownloadURL();
+                        String downloadURL = await ref.getDownloadURL();
 
                         // 업로드된 사진의 URL을 페이지에 반영
                         setState(() {
-                     //     _profileImageURL = downloadURL;
+                          _profileImageURL = downloadURL;
                         });
+                        print(_profileImageURL);
                       },
                     ),
                     _temp_success_get_image == true ?
