@@ -29,11 +29,12 @@ class commentListItem extends StatefulWidget {
 }
 
 class _commentListItemState extends State<commentListItem> {
-  int _like = 0; //위치 중요!!....
   final auth = FirebaseAuth.instance;
   final mainColor = Color(0xfff1c40f);
   CollectionReference commentRef =
       FirebaseFirestore.instance.collection('comment');
+  bool _isReply = false;
+  bool _isClick = false;
 
   Future<void> updateComment(DocumentSnapshot doc, String text) {
     return commentRef.doc(doc.id).update({
@@ -56,7 +57,6 @@ class _commentListItemState extends State<commentListItem> {
       children: [
         Container(
           width: MediaQuery.of(context).size.width,
-          color: Colors.white,
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,11 +95,11 @@ class _commentListItemState extends State<commentListItem> {
                                         children: [
                                           Row(
                                             children: [
-                                              Icon(Icons.edit_outlined),
+                                              const Icon(Icons.edit_outlined),
                                               const SizedBox(
                                                 width: 17,
                                               ),
-                                              Text(
+                                              const Text(
                                                 '수정',
                                                 style: TextStyle(
                                                   color: Colors.black,
@@ -111,23 +111,7 @@ class _commentListItemState extends State<commentListItem> {
                                           const SizedBox(
                                             height: 20,
                                           ),
-                                          InkResponse(
-                                            child: Row(
-                                              children: [
-                                                Icon(Icons.delete_outline),
-                                                const SizedBox(
-                                                  width: 17,
-                                                ),
-                                                Text(
-                                                  '삭제',
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 17),
-                                                ),
-                                              ],
-                                            ),
-                                            onTap: () {},
-                                          ),
+                                          Delete(widget.reference)
                                         ],
                                       ),
                                     ),
@@ -145,7 +129,7 @@ class _commentListItemState extends State<commentListItem> {
                       children: [
                         Like(reference: widget.reference, like: widget.like),
                         InkResponse(
-                          child: Icon(
+                          child: const Icon(
                             Icons.mode_comment_outlined,
                             size: 17,
                           ),
@@ -259,13 +243,10 @@ class _LikeState extends State<Like> {
 
   int _like;
 
+  //null safety만 되면 late 사용해서 굳이 initState() 핳 필요 없음.....
   @override
   void initState() {
     super.initState();
-    _like = widget.like;
-  }
-
-  getInit() {
     _like = widget.like;
   }
 
@@ -327,5 +308,100 @@ class _LikeState extends State<Like> {
         )
       ],
     );
+  }
+}
+
+class Update extends StatefulWidget {
+  const Update(@required this.reference, @required this.text, {Key key})
+      : super(key: key);
+
+  final DocumentReference reference;
+  final String text;
+
+  @override
+  Future<void> _update() async {
+    return reference.update({'text': text});
+  }
+
+  @override
+  _UpdateState createState() => _UpdateState();
+}
+
+class _UpdateState extends State<Update> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class Delete extends StatefulWidget {
+  Delete(@required this.reference, {Key key}) : super(key: key);
+
+  final DocumentReference reference;
+
+  @override
+  _DeleteState createState() => _DeleteState();
+}
+
+class _DeleteState extends State<Delete> {
+  final mainColor = Color(0xfff1c40f);
+
+  @override
+  Future<void> _delete() async {
+    return widget.reference.delete();
+  }
+
+  @override
+  Future<void> Alert() {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text('댓글을 정말 삭제하시겠습니까?'),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(1);
+                  },
+                  child: Text(
+                    '취소',
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: mainColor,
+                        fontWeight: FontWeight.bold),
+                  )),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(2);
+                    _delete();
+                  },
+                  child: Text(
+                    '확인',
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: mainColor,
+                        fontWeight: FontWeight.bold),
+                  ))
+            ],
+          );
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkResponse(
+        child: Row(
+          children: [
+            const Icon(Icons.delete_outline),
+            const SizedBox(
+              width: 17,
+            ),
+            const Text(
+              '삭제',
+              style: TextStyle(color: Colors.black, fontSize: 17),
+            ),
+          ],
+        ),
+        onTap: Alert);
   }
 }

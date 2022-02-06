@@ -16,7 +16,6 @@ class _CommentState extends State<Comment> {
   StreamSubscription _streamSubscription;
   FocusNode _focusNode = FocusNode();
   bool _isComposing = false;
-  bool _isReply = false;
   CollectionReference commentRef =
       FirebaseFirestore.instance.collection('comment');
   final auth = FirebaseAuth.instance;
