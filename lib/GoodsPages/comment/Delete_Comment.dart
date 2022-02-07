@@ -45,6 +45,11 @@ class _DeleteState extends State<Delete> {
                   onPressed: () {
                     Navigator.of(context).pop(2);
                     _delete();
+                    final snackBar = SnackBar(
+                      duration: const Duration(seconds: 1),
+                      content: const Text('댓글이 삭제되었습니다'),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                   child: Text(
                     '확인',
