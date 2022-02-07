@@ -336,8 +336,8 @@ packages:
       name: firebase_storage_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.6"
-    fixnum:
+    version: "3.2.7"
+  fixnum:
     dependency: transitive
     description:
       name: fixnum
@@ -492,7 +492,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.8.4+6"
-    image_picker_for_web:
+  image_picker_for_web:
     dependency: transitive
     description:
       name: image_picker_for_web
