@@ -336,8 +336,8 @@ packages:
       name: firebase_storage_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.7"
-  fixnum:
+    version: "3.2.6"
+    fixnum:
     dependency: transitive
     description:
       name: fixnum
@@ -349,6 +349,27 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_facebook_auth:
+    dependency: "direct main"
+    description:
+      name: flutter_facebook_auth
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.1"
+  flutter_facebook_auth_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_facebook_auth_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
+  flutter_facebook_auth_web:
+    dependency: transitive
+    description:
+      name: flutter_facebook_auth_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0+1"
   flutter_inappwebview:
     dependency: transitive
     description:
@@ -471,7 +492,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.8.4+6"
-  image_picker_for_web:
+    image_picker_for_web:
     dependency: transitive
     description:
       name: image_picker_for_web
