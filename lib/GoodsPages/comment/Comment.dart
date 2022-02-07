@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +11,13 @@ class Comment extends StatefulWidget {
 
 class _CommentState extends State<Comment> {
   TextEditingController _textEditingController = TextEditingController();
-  StreamSubscription _streamSubscription;
   FocusNode _focusNode = FocusNode();
   bool _isComposing = false;
+  bool _isReply = false;
   CollectionReference commentRef =
       FirebaseFirestore.instance.collection('comment');
   final auth = FirebaseAuth.instance;
 
-  @override
   userName() {
     final user = auth.currentUser;
     if (user != null) {
@@ -29,7 +26,6 @@ class _CommentState extends State<Comment> {
     }
   }
 
-  @override
   userProfile() {
     final user = auth.currentUser;
     if (user != null) {
@@ -38,7 +34,6 @@ class _CommentState extends State<Comment> {
     }
   }
 
-  @override
   userID() {
     final user = auth.currentUser;
     if (user != null) {
@@ -56,11 +51,9 @@ class _CommentState extends State<Comment> {
   void dispose() {
     _textEditingController.dispose();
     _focusNode.dispose();
-    _streamSubscription?.cancel();
     super.dispose();
   }
 
-  @override
   void _handleSubmitted(String text) {
     _textEditingController.clear();
     _focusNode.requestFocus();
@@ -75,6 +68,7 @@ class _CommentState extends State<Comment> {
             'userProfileUrl': userProfile(),
             'userID': userID(),
             'like': 0,
+            'likedBy': []
           })
           .then((value) => print(value.id))
           .catchError((error) {
@@ -102,14 +96,19 @@ class _CommentState extends State<Comment> {
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 if (index < commentDocs.length) {
-                  return commentListItem(
-                      commentDocs[index]['userProfileUrl'],
-                      commentDocs[index]['userName'],
-                      commentDocs[index]['dateTime'],
-                      commentDocs[index]['text'],
-                      commentDocs[index]['userID'],
-                      commentDocs[index]['like'],
-                      commentDocs[index].reference);
+                  return Column(
+                    children: [
+                      commentListItem(
+                          commentDocs[index]['userProfileUrl'],
+                          commentDocs[index]['userName'],
+                          commentDocs[index]['dateTime'],
+                          commentDocs[index]['text'],
+                          commentDocs[index]['userID'],
+                          commentDocs[index]['like'],
+                          commentDocs[index]['likedBy'],
+                          commentDocs[index].reference),
+                    ],
+                  );
                 }
               });
         });
@@ -126,7 +125,11 @@ class _CommentState extends State<Comment> {
           children: [
             Stack(children: [
               Column(
-                children: [_buildcommentList(), buildInput(' 댓글을 입력해주세요.')],
+                children: [
+                  _buildcommentList(),
+                  buildInput(
+                      _isReply == false ? ' 댓글을 입력해주세요.' : ' 답글을 입력해주세요.')
+                ],
               ),
             ])
           ],
