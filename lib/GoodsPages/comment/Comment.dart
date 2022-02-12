@@ -128,7 +128,7 @@ class _CommentState extends State<Comment> {
                 children: [
                   _buildcommentList(),
                   buildInput(
-                      _isReply == false ? ' 댓글을 입력해주세요.' : ' 답글을 입력해주세요.')
+                      _isReply == false ? ' 댓글을 입력해주세요.' : ' 답글을 입력해주세요.'),
                 ],
               ),
             ])

@@ -60,8 +60,7 @@ class _commentListItemState extends State<commentListItem> {
   Widget build(BuildContext context) {
     return _isReply == false
         ? Container(
-            color:
-                _isReply == false ? Colors.white : mainColor.withOpacity(.09),
+            color: _isReply == true ? Colors.white : mainColor.withOpacity(.09),
             child: Column(
               children: [
                 Container(

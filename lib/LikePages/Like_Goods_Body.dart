@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:newitem_alarm/GoodsPages/goodsDetail.dart';
+import 'package:newitem_alarm/GoodsPages/goodsDetail_New.dart';
 import 'package:newitem_alarm/model/goods.dart';
 
 import '../LikePages/Category.dart';
@@ -32,7 +32,7 @@ class Like_Goods_Body extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DetailMain(
+                            builder: (context) => GoodsDetailHome(
                                   goods: goodsList[index],
                                 )));
                   },
