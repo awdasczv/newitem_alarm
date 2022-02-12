@@ -22,8 +22,7 @@ class Goods {
   final String category;
   final String brand;
   final String brandlogo;
-  final String imageUrl1;
-  final String imageUrl2;
+  final List imageUrl;
   final String title;
   final int price;
   final double starScore;
@@ -38,8 +37,7 @@ class Goods {
     this.category,
     this.brand,
     this.brandlogo,
-    this.imageUrl1,
-    this.imageUrl2,
+    this.imageUrl,
     this.title,
     this.price,
     this.starScore,
@@ -66,14 +64,6 @@ class Goods {
 //   goods_data['starScore'] = this.starScore;
 //   return goods_data;
 
-  bool imageUrl2_Check() {
-    //imageUrl2가 null값인지 아닌지 확인
-    if (imageUrl2 != null) {
-      return true;
-    }
-    return false;
-  }
-
   bool starScore_Check() {
     //starScore가 null값인지 아닌지 확인
     if (starScore != null) {
@@ -89,11 +79,11 @@ List<Goods> goodsList = [
     category: category[5],
     brand: '삼양',
     brandlogo: "https://www.samyangfoods.com/asset/images/common/logo.png",
-    imageUrl1:
-        "https://www.samyangfoods.com/upload/product/20211222/20211222103336935629.jpg",
-    imageUrl2:
-        'https://www.samyangfoods.com/upload/product/20211222/20211222103336934627.png',
-    title: "큰컵 뽀끼뽀끼크림라뽀끼 fdfdfdffdfdfdfd",
+    imageUrl: [
+      "https://www.samyangfoods.com/upload/product/20211222/20211222103336935629.jpg",
+      'https://www.samyangfoods.com/upload/product/20211222/20211222103336934627.png',
+    ],
+    title: "큰컵 뽀끼뽀끼크림라뽀끼",
     price: 1200,
     launchdate: '20211221',
     starScore: 4.2,
@@ -105,10 +95,9 @@ List<Goods> goodsList = [
     brand: '오리온',
     brandlogo:
         "https://blog.kakaocdn.net/dn/nsXAr/btq0g0l5ndp/9xoD9kQ9bpRSSdisnPk9K1/img.jpg",
-    imageUrl1:
-        "http://www.orionworld.com/Data/Goods/%EA%B3%A0%EB%9E%98%EB%B0%A5_%EC%B4%88%EC%BD%94%EB%B2%94%EB%B2%85_%EC%A0%9C%ED%92%88%EC%9D%B4%EB%AF%B8%EC%A7%80_228x220.jpg",
-    imageUrl2:
-        "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTcnFOFEo53dDGG_bee0KtG0NZZBO5G7eT7Ky1miuUnaLlMlRNk16OAI6hdflMAmhuShR7Pdlkwbdc&usqp=CAc",
+    imageUrl: [
+      "http://www.orionworld.com/Data/Goods/%EA%B3%A0%EB%9E%98%EB%B0%A5_%EC%B4%88%EC%BD%94%EB%B2%94%EB%B2%85_%EC%A0%9C%ED%92%88%EC%9D%B4%EB%AF%B8%EC%A7%80_228x220.jpg",
+    ],
     title: "고래밥 초코범벅",
     price: 1500,
     starScore: 4.3,
@@ -127,10 +116,10 @@ List<Goods> goodsList = [
     brand: '오리온',
     brandlogo:
         "https://blog.kakaocdn.net/dn/nsXAr/btq0g0l5ndp/9xoD9kQ9bpRSSdisnPk9K1/img.jpg",
-    imageUrl1:
-        "http://www.orionworld.com/Data/Goods/%EC%98%A4!%EA%B7%B8%EB%9E%98%EB%86%80%EB%9D%BC%EB%94%B8%EA%B8%B0_3D-m[3].png",
-    imageUrl2:
-        'http://img.danawa.com/prod_img/500000/993/443/img/10443993_1.jpg?shrink=330:330&_v=20200129171919',
+    imageUrl: [
+      "http://www.orionworld.com/Data/Goods/%EC%98%A4!%EA%B7%B8%EB%9E%98%EB%86%80%EB%9D%BC%EB%94%B8%EA%B8%B0_3D-m[3].png",
+      'http://img.danawa.com/prod_img/500000/993/443/img/10443993_1.jpg?shrink=330:330&_v=20200129171919'
+    ],
     title: "오!그래놀라 딸기",
     price: 7000,
     launchdate: '20210907',
@@ -142,10 +131,10 @@ List<Goods> goodsList = [
     brand: '오리온',
     brandlogo:
         "https://blog.kakaocdn.net/dn/nsXAr/btq0g0l5ndp/9xoD9kQ9bpRSSdisnPk9K1/img.jpg",
-    imageUrl1:
-        "http://www.orionworld.com/Data/Goods/%EC%8A%A4%EC%9C%99%EC%B9%A9%20%EA%B0%88%EB%A6%AD%EB%94%94%ED%95%91%EC%86%8C%EC%8A%A4%EB%A7%9B-m[2].png",
-    imageUrl2:
-        'https://sep-item.ssgcdn.com/69/39/19/item/1000262193969_i1_350.jpg',
+    imageUrl: [
+      "http://www.orionworld.com/Data/Goods/%EC%8A%A4%EC%9C%99%EC%B9%A9%20%EA%B0%88%EB%A6%AD%EB%94%94%ED%95%91%EC%86%8C%EC%8A%A4%EB%A7%9B-m[2].png",
+      'https://sep-item.ssgcdn.com/69/39/19/item/1000262193969_i1_350.jpg'
+    ],
     title: "스윙칩 갈릭디핑소스맛",
     price: 2000,
     starScore: 3.9,

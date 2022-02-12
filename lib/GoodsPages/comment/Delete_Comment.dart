@@ -13,22 +13,20 @@ class Delete extends StatefulWidget {
 class _DeleteState extends State<Delete> {
   final mainColor = Color(0xfff1c40f);
 
-  @override
   Future<void> _delete() async {
     return widget.reference.delete();
   }
 
-  @override
   Future<void> Alert() {
     return showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text(
+            title: const Text(
               '댓글 삭제',
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            content: Text('댓글을 정말 삭제하시겠습니까?'),
+            content: const Text('댓글을 정말 삭제하시겠습니까?'),
             actions: [
               TextButton(
                   onPressed: () {

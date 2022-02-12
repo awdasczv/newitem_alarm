@@ -20,14 +20,17 @@ class GoodsCard extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ), //elevation주고 싶어서 Card사용했지만..
-                child: Container(
-                  height: 190,
-                  width: 180,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      image: DecorationImage(
-                          fit: BoxFit.contain,
-                          image: NetworkImage(goods.imageUrl1))),
+                child: Hero(
+                  tag: goods.title,
+                  child: Container(
+                    height: 190,
+                    width: 180,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        image: DecorationImage(
+                            fit: BoxFit.contain,
+                            image: NetworkImage(goods.imageUrl[0]))),
+                  ),
                 ),
               ),
               Positioned(
