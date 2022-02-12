@@ -354,7 +354,6 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
       leading: IconButton(
         icon: Icon(
           Icons.arrow_back_ios_rounded,
-          color: Colors.black,
         ),
         iconSize: 30,
         tooltip: 'Back Icon',
@@ -362,10 +361,11 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
           Navigator.pop(context);
         },
       ),
+      iconTheme: const IconThemeData(color: Colors.black),
       actions: [
         FavoriteButton(
           iconSize: 50,
-          iconDisabledColor: Colors.black87,
+          iconDisabledColor: Colors.black,
           isFavorite: false,
           valueChanged: (_isFavorite) {
             print('Is Favorite : $_isFavorite');
@@ -374,7 +374,6 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
         IconButton(
           onPressed: () {},
           icon: Icon(Icons.share_rounded),
-          color: Colors.black87,
           iconSize: 30,
         ),
         const SizedBox(

@@ -60,10 +60,11 @@ class _commentListItemState extends State<commentListItem> {
   Widget build(BuildContext context) {
     return _isReply == false
         ? Container(
-            color: _isReply == true ? Colors.white : mainColor.withOpacity(.09),
+            color: _isReply == true ? null : mainColor.withOpacity(.09),
             child: Column(
               children: [
                 Container(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
                   width: MediaQuery.of(context).size.width,
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   child: Row(
@@ -154,7 +155,10 @@ class _commentListItemState extends State<commentListItem> {
                     ],
                   ),
                 ),
-                const Divider(thickness: 1.4)
+                const Divider(
+                  thickness: 1.4,
+                  height: 0,
+                )
               ],
             ),
           )
