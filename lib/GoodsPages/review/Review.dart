@@ -139,16 +139,6 @@ class _ReviewState extends State<Review> {
             ),
           ],
         ),*/
-        OutlinedButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => WritingReview(
-                            goods: widget.goods,
-                          )));
-            },
-            child: Text('리뷰 작성하러가기')),
         ListView.builder(
             itemCount: _sampleReviewList.length,
             shrinkWrap: true,
