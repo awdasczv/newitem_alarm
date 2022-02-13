@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:newitem_alarm/GoodsPages/goodsDetail.dart';
 import 'package:newitem_alarm/HomePages/FastFood.dart';
 import 'package:newitem_alarm/HomePages/SearchPage.dart';
 import 'package:newitem_alarm/model/Favorite_button.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
 
+import '../GoodsPages/goodsDetail_New.dart';
 import '../model/Favorite_button.dart';
 import '../model/goods.dart';
 
@@ -298,6 +298,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               ],
+
                             ),
                             Container(
                               height: 70,
@@ -339,6 +340,46 @@ class _HomePageState extends State<HomePage> {
             ),
           )
       )
+                        ),
+                        Container(
+                          height: 70,
+                          color: Colors.white30,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Container(
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.teal,
+                                    ),
+                                    child: Center(
+                                      child: Text('Profile'),
+                                    )),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    goodsList[index].title,
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  Text(
+                                    goodsList[index].price.toString() + "원",
+                                    style: TextStyle(fontSize: 17),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )))
+          ],
+        ),
+      ),
     );
   }
 }
