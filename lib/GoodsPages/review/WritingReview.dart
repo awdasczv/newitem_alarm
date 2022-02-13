@@ -81,7 +81,8 @@ class _WritingReviewState extends State<WritingReview> {
                         uploadReview();
                         Navigator.pop(context);
                       },
-                      child: Text('완료',style: TextStyle(color: Colors.black,fontSize: 17),)
+                      child: Text('완료',style: TextStyle(color: Colors.black,fontSize: 17),
+                      )
                   )
                 ],
               ),
@@ -184,7 +185,7 @@ class _WritingReviewState extends State<WritingReview> {
                           });
                         }
                         // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거
-                        Reference ref = _firebaseStorage.ref().child("profile/${_user.uid}/profileImage");
+                        Reference ref = _firebaseStorage.ref().child("reviewImage/${widget.goods.id}/profileImage");
 
                         // 파일 업로드
                         File _tempFile = File(_tempUploadImage.path);
@@ -227,6 +228,7 @@ class _WritingReviewState extends State<WritingReview> {
 
   void uploadReview() async{
     FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+
     await _firebaseFirestore.collection('structure_practice').doc('User').collection('ItemList').doc('2103-03-0002').collection('Review').doc('2103-03-0001-02-0002')
         .set({
       'GoodsID' : '2103-03-0002',
