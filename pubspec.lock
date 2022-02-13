@@ -28,7 +28,9 @@ packages:
       name: archive
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "3.2.0"
+
   args:
     dependency: transitive
     description:
@@ -162,20 +164,24 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.8"
-  cloud_firestore_platform_interface:
+ cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "5.4.13"
+
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "2.6.8"
+
   code_builder:
     dependency: transitive
     description:
@@ -260,7 +266,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.7"
-  firebase_auth_platform_interface:
+    firebase_auth_platform_interface:
     dependency: transitive
     description:
       name: firebase_auth_platform_interface
@@ -323,21 +329,21 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "10.2.7"
-  firebase_storage_platform_interface:
+    firebase_storage_platform_interface:
     dependency: transitive
     description:
       name: firebase_storage_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.14"
-  firebase_storage_web:
+    firebase_storage_web:
     dependency: transitive
     description:
       name: firebase_storage_web
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.8"
-  fixnum:
+    fixnum:
     dependency: transitive
     description:
       name: fixnum
@@ -356,21 +362,21 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.5.7"
-  flutter_facebook_auth_platform_interface:
+    flutter_facebook_auth_platform_interface:
     dependency: transitive
     description:
       name: flutter_facebook_auth_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.7.1"
-  flutter_facebook_auth_web:
+    flutter_facebook_auth_web:
     dependency: transitive
     description:
       name: flutter_facebook_auth_web
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.6.0+2"
-  flutter_inappwebview:
+    flutter_inappwebview:
     dependency: transitive
     description:
       name: flutter_inappwebview
@@ -492,7 +498,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.8.4+8"
-  image_picker_for_web:
+    image_picker_for_web:
     dependency: transitive
     description:
       name: image_picker_for_web
@@ -931,7 +937,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.3.11"
-  xdg_directories:
+    xdg_directories:
     dependency: transitive
     description:
       name: xdg_directories

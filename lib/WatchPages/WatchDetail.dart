@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:newitem_alarm/GoodsPages/goodsDetail.dart';
 import 'package:newitem_alarm/model/YoutubeApiModel.dart';
 import 'package:newitem_alarm/model/goods.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import '../GoodsPages/goodsDetail_New.dart';
 
 class WatchDetail extends StatefulWidget {
   final YoutubeAPI videoData;
@@ -130,7 +131,7 @@ class _WatchDetailState extends State<WatchDetail> {
                   Expanded(
                       child: Center(
                     child: Container(
-                      child: Image.network(goodsList[index].imageUrl1),
+                      child: Image.network(goodsList[index].imageUrl[0]),
                     ),
                   )),
                   Divider(
@@ -151,7 +152,7 @@ class _WatchDetailState extends State<WatchDetail> {
                     //goodsDetail.dart와 연결되도록  Navigator push함.
                     context,
                     MaterialPageRoute(
-                        builder: (context) => DetailMain(
+                        builder: (context) => GoodsDetailHome(
                               goods: goodsList[index],
                             )));
               }, //상품 상세페이지로의 navigator
