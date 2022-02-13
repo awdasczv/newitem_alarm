@@ -270,9 +270,9 @@ class _HomePageState extends State<HomePage> {
                           //goodsDetail.dart와 연결되도록  Navigator push함.
                             context,
                             MaterialPageRoute(
-                                builder: (context) => DetailMain(
-                                  goods: goodsList[index],
-                                )));
+                                builder: (context) => GoodsDetailHome(goods: goodsList[index])
+                            )
+                        );
                       },
                       child: Column(
                         children: [
