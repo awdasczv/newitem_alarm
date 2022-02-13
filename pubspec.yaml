@@ -48,6 +48,7 @@ dependencies:
   firebase_core: ^1.11.0
   google_sign_in: ^5.2.3
   firebase_auth: ^3.3.5
+  flutter_facebook_auth: ^3.5.0
   firebase_database:
 #  shared_preferences:
 #  firebase_messaging:
