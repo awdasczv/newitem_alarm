@@ -4,25 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../model/goods.dart';
-import '../GoodsPages/WritingReview.dart';
-
-class Body extends StatefulWidget {
-  final Goods goods; //goods.dart에 있는 Goods 객체 넘겨받기
-  const Body({Key key, @required this.goods}) : super(key: key);
-
-  @override
-  _BodyState createState() => _BodyState();
-}
-
-class _BodyState extends State<Body> {
-  int _currentPage = 0;
-  @override //main
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text(widget.goods.title),
-    ); //StatelessWidget이면 그냥 goods.~이어도 parameter를 State에 pass할 수 있지만, //StatefulWidget이면 widget.goods.~로 pass
-  }
-}
+import 'review/WritingReview.dart';
 
 class Top extends StatefulWidget {
   final Goods goods; //goods.dart에 있는 Goods 객체 넘겨받기
@@ -46,8 +28,8 @@ class _TopState extends State<Top> {
           // alignment: Alignment.center,
           children: [
             CarouselSlider(
-              items:
-                  [widget.goods.imageUrl1, widget.goods.imageUrl2].map((item) {
+              items: [widget.goods.imageUrl[0], widget.goods.imageUrl[1]]
+                  .map((item) {
                 return Container(
                     color: Colors.white,
                     width: MediaQuery.of(context).size.width,
@@ -82,10 +64,12 @@ class _TopState extends State<Top> {
                 bottom: 29.0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [widget.goods.imageUrl1, widget.goods.imageUrl2]
+                  children: [widget.goods.imageUrl[0], widget.goods.imageUrl[1]]
                       .map((url) {
-                    int index = [widget.goods.imageUrl1, widget.goods.imageUrl2]
-                        .indexOf(url);
+                    int index = [
+                      widget.goods.imageUrl[0],
+                      widget.goods.imageUrl[1],
+                    ].indexOf(url);
                     return Container(
                       width: 8.0,
                       height: 8.0,

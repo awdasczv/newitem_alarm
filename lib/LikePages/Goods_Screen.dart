@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:newitem_alarm/GoodsPages/goodsDetail.dart';
+import 'package:newitem_alarm/GoodsPages/goodsDetail_New.dart';
 
 import '../LikePages/Goods_Card.dart';
 import '../controller/category_controller.dart';
@@ -34,7 +34,7 @@ class GoodsScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => DetailMain(
+                                builder: (context) => GoodsDetailHome(
                                       goods: list[index],
                                     )));
                       },

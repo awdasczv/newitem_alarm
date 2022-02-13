@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/model/goods.dart';
 
-import './goodsDeatai_Bottom.dart';
-import './goodsDetail_Body.dart';
 import '../model/Favorite_button.dart';
 
 class DetailMain extends StatefulWidget {
@@ -21,15 +19,6 @@ class _DetailMainState extends State<DetailMain> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: buildAppBar(context),
-      body: ListView(
-        children: [
-          Top(
-            goods: widget.goods,
-          ),
-          Bottom(goods: widget.goods,)
-        ],
-      ),
     );
   }
 
