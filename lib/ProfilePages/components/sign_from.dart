@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:newitem_alarm/constants.dart';
 import 'package:newitem_alarm/ProfilePages/components/default_button.dart';
@@ -29,6 +30,17 @@ class _SignFromState extends State<SignFrom> {
 
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<UserCredential> signInWithFacebook() async {
+    // Trigger the sign-in flow
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+
+    // Create a credential from the access token
+    final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken.token);
+
+    // Once signed in, return the UserCredential
+    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
 
   @override
@@ -97,6 +109,26 @@ class _SignFromState extends State<SignFrom> {
         Padding(
           padding: EdgeInsets.all(10),
         ),
+
+
+        Center(
+          child:GestureDetector(
+            child: Text("Facebook Login"),
+            onTap: signInWithFacebook,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(10),
+        ),
+
+
+
+
+
+
+
+
+
         Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
