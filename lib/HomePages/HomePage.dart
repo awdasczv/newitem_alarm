@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:newitem_alarm/GoodsPages/goodsDetail.dart';
 import 'package:newitem_alarm/HomePages/FastFood.dart';
 import 'package:newitem_alarm/HomePages/SearchPage.dart';
 import 'package:newitem_alarm/model/Favorite_button.dart';
@@ -258,126 +259,85 @@ class _HomePageState extends State<HomePage> {
     return Padding(
       padding: EdgeInsets.all(4),
       child: Card(
-          child: Container(
-            height: 300,
-            child: Column(
-              children: [
-                Expanded(
-                    child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            //goodsDetail.dart와 연결되도록  Navigator push함.
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DetailMain(
-                                    goods: goodsList[index],
-                                  )));
-                        },
-                        child: Column(
-                          children: [
-                            Stack(
-                              children: [
-                                Container(
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          fit: BoxFit.contain,
-                                          image: NetworkImage(
-                                              goodsList[index].imageUrl1))),
-                                ),
-                                Positioned(
-                                  right: 8,
-                                  bottom: 8,
-                                  child: FavoriteButton(
-                                    iconSize: 60,
-                                    iconDisabledColor: Colors.black87,
-                                    isFavorite: false,
-                                    valueChanged: (_isFavorite) {
-                                      print('Is Favorite : $_isFavorite');
-                                    },
-                                  ),
-                                ),
-                              ],
-
-                            ),
-                            Container(
-                              height: 70,
-                              color: Colors.white30,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Container(
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.teal,
-                                        ),
-                                        child: Center(
-                                          child: Text('Profile'),
-                                        )),
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        goodsList[index].title,
-                                        style: TextStyle(fontSize: 17),
-                                      ),
-                                      Text(
-                                        goodsList[index].price.toString() + "원",
-                                        style: TextStyle(fontSize: 17),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )))
-              ],
-            ),
-          )
-      )
-                        ),
-                        Container(
-                          height: 70,
-                          color: Colors.white30,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+        child: Container(
+          height: 300,
+          child: Column(
+            children: [
+              Expanded(
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          //goodsDetail.dart와 연결되도록  Navigator push함.
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailMain(
+                                  goods: goodsList[index],
+                                )));
+                      },
+                      child: Column(
+                        children: [
+                          Stack(
                             children: [
-                              Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Container(
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.teal,
-                                    ),
-                                    child: Center(
-                                      child: Text('Profile'),
-                                    )),
+                              Container(
+                                height: 200,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        fit: BoxFit.contain,
+                                        image: NetworkImage(
+                                            goodsList[index].imageUrl[0]))),
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    goodsList[index].title,
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  Text(
-                                    goodsList[index].price.toString() + "원",
-                                    style: TextStyle(fontSize: 17),
-                                  )
-                                ],
+                              Positioned(
+                                right: 8,
+                                bottom: 8,
+                                child: FavoriteButton(
+                                  iconSize: 60,
+                                  iconDisabledColor: Colors.black87,
+                                  isFavorite: false,
+                                  valueChanged: (_isFavorite) {
+                                    print('Is Favorite : $_isFavorite');
+                                  },
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    )))
-          ],
+                          Container(
+                            height: 70,
+                            color: Colors.white30,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Container(
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.teal,
+                                      ),
+                                      child: Center(
+                                        child: Text('Profile'),
+                                      )),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      goodsList[index].title,
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    Text(
+                                      goodsList[index].price.toString() + "원",
+                                      style: TextStyle(fontSize: 17),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )))
+            ],
+          ),
         ),
       ),
     );
