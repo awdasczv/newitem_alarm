@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:newitem_alarm/GoodsPages/WritingReview.dart';
 import 'package:newitem_alarm/model/goods.dart';
 
 
@@ -171,7 +170,7 @@ List<NewGoods> _newGoods= [
   NewGoods(
     brand: goodsList[0].brand,
     brandLogo: goodsList[0].brandlogo,
-    imageURL: [goodsList[0].imageUrl1,goodsList[0].imageUrl2 ],
+    imageURL: goodsList[0].imageUrl,
     title: goodsList[0].title,
     price: goodsList[0].price,
     launchdate: '2112',
@@ -182,7 +181,7 @@ List<NewGoods> _newGoods= [
   NewGoods(
       brand: goodsList[1].brand,
       brandLogo: goodsList[1].brandlogo,
-      imageURL: [goodsList[1].imageUrl1,goodsList[1].imageUrl2 ],
+      imageURL: goodsList[1].imageUrl,
       title: goodsList[1].title,
       price: goodsList[1].price,
       launchdate: '2112',
@@ -193,7 +192,7 @@ List<NewGoods> _newGoods= [
   NewGoods(
       brand: goodsList[2].brand,
       brandLogo: goodsList[2].brandlogo,
-      imageURL: [goodsList[2].imageUrl1,goodsList[2].imageUrl2 ],
+      imageURL: goodsList[2].imageUrl,
       title: goodsList[2].title,
       price: goodsList[2].price,
       launchdate: '2112',
@@ -204,7 +203,7 @@ List<NewGoods> _newGoods= [
   NewGoods(
       brand: goodsList[3].brand,
       brandLogo: goodsList[3].brandlogo,
-      imageURL: [goodsList[3].imageUrl1,goodsList[3].imageUrl2 ],
+      imageURL: goodsList[3].imageUrl,
       title: goodsList[3].title,
       price: goodsList[3].price,
       launchdate: '2112',
