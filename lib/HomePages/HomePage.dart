@@ -279,6 +279,7 @@ class _HomePageState extends State<HomePage> {
                                 builder: (context) => GoodsDetailHome(
                                       goods: goodsList[index],
                                     )));
+
                       },
                       child: Column(
                         children: [
