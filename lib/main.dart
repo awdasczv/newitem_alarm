@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 28,
         unselectedItemColor: Colors.black38,
-        fixedColor: Color(0xfff1c40f),
+        fixedColor: Color(0xffFFC845),
         backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         onTap: (int index) {

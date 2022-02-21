@@ -112,9 +112,9 @@ class _SignFromState extends State<SignFrom> {
 
 
         Center(
-          child:GestureDetector(
+          child:ElevatedButton(
             child: Text("Facebook Login"),
-            onTap: signInWithFacebook,
+            onPressed: signInWithFacebook,
           ),
         ),
         Padding(

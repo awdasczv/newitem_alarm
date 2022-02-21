@@ -84,7 +84,7 @@ class _CommentState extends State<Comment> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f))),
+                  valueColor: AlwaysStoppedAnimation(Color(0xffFFC845))),
             );
           } else if (snapshot.hasError) {
             return Center(child: Text(snapshot.error.toString()));
@@ -150,7 +150,7 @@ class _CommentState extends State<Comment> {
                   controller: _textEditingController,
                   focusNode: _focusNode,
                   textCapitalization: TextCapitalization.sentences,
-                  cursorColor: Color(0xfff1c40f),
+                  cursorColor: Color(0xffFFC845),
                   cursorWidth: 3,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(
@@ -174,7 +174,7 @@ class _CommentState extends State<Comment> {
                 ),
               )),
           CircleAvatar(
-              backgroundColor: Color(0xfff1c40f),
+              backgroundColor: Color(0xffFFC845),
               radius: 20,
               child: IconButton(
                 icon: Icon(

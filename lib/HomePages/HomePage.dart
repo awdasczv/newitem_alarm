@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:newitem_alarm/GoodsPages/goodsDetail.dart';
 import 'package:newitem_alarm/HomePages/FastFood.dart';
 import 'package:newitem_alarm/HomePages/SearchPage.dart';
 import 'package:newitem_alarm/model/Favorite_button.dart';
@@ -249,7 +248,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color(0xfff1c40f),
+                    color: Color(0xffFFC845),
                     image:
                         DecorationImage(image: AssetImage(icons), scale: 16))),
             Text(
@@ -291,7 +290,14 @@ class _HomePageState extends State<HomePage> {
     return Padding(
       padding: EdgeInsets.all(4),
       child: Card(
+        elevation: 3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
         child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+          ),
           height: 300,
           child: Column(
             children: [
@@ -299,12 +305,13 @@ class _HomePageState extends State<HomePage> {
                   child: GestureDetector(
                       onTap: () {
                         Navigator.push(
-                          //goodsDetail.dart와 연결되도록  Navigator push함.
+                            //goodsDetail.dart와 연결되도록  Navigator push함.
                             context,
                             MaterialPageRoute(
                                 builder: (context) => GoodsDetailHome(
                                   goods: goodsList[index],
                                 )));
+
                       },
                       child: Column(
                         children: [
