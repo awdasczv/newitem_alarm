@@ -25,25 +25,40 @@ class _CategoryState extends State<Category> {
     '아이스크림',
     '과자'
   ];
+
+  int index = 0;
   int currentIndex = 0;
+
+  TabController _controller;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return DefaultTabController(
+      initialIndex: 1,
+      length: category.length,
+      child: TabBar(
+        tabs: category.map((e) => Tab(text: e,)).toList(),
+        labelColor: Colors.black,
+      ),
+    );
+    /*Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: Container(
         height: 28,
-        child: ListView.builder(
+        child: TabBar(
+          controller
+        )
+        *//*ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: category.length,
             itemBuilder: (context, index) {
               return buildCategory(context, index);
-            }),
+            }),*//*
       ),
-    );
+    );*/
   }
 
-  Widget buildCategory(BuildContext context, int index) {
+  /*Widget buildCategory(BuildContext context, int index) {
     // double bar_width =
     //     category[index].length.roundToDouble() * 12; //음절 수 * 글자 크기
     return GestureDetector(
@@ -81,5 +96,5 @@ class _CategoryState extends State<Category> {
             ],
           )),
     );
-  }
+  }*/
 }
