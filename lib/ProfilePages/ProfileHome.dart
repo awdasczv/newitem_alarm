@@ -26,19 +26,19 @@ class _ProfileHomeState extends State<ProfileHome> {
   final _menuList = [ReviewMan(), CommandMan(), AlarmMan(), Notice(), Manual()];
 
   final _menuIcon = [
-    Icon(Icons.rate_review_outlined, size: 25, color: Color(0xfff1c40f)),
-    Icon(Icons.comment, size: 25, color: Color(0xfff1c40f)),
+    Icon(Icons.rate_review_outlined, size: 25, color: Color(0xffFFC845)),
+    Icon(Icons.comment, size: 25, color: Color(0xffFFC845)),
     Icon(Icons.circle_notifications_outlined,
-        size: 25, color: Color(0xfff1c40f)),
-    Icon(Icons.campaign, size: 25, color: Color(0xfff1c40f)),
-    Icon(Icons.description_outlined, size: 25, color: Color(0xfff1c40f)),
+        size: 25, color: Color(0xffFFC845)),
+    Icon(Icons.campaign, size: 25, color: Color(0xffFFC845)),
+    Icon(Icons.description_outlined, size: 25, color: Color(0xffFFC845)),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          //backgroundColor: Color(0xfff1c40f),
+          //backgroundColor: Color(0xffFFC845),
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
@@ -130,7 +130,7 @@ class _ProfileHomeState extends State<ProfileHome> {
             height: 58,
             width: 400,
             child: Card(
-                //color: Color(0xfff1c40f),
+                //color: Color(0xffFFC845),
                 color: Colors.white,
 
                 // decoration: BoxDecoration(
@@ -223,7 +223,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                   ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Color(0xfff1c40f))),
+                              MaterialStateProperty.all(Color(0xffFFC845))),
                       onPressed: () async {
                         var a = await Navigator.push(
                             context,
@@ -267,7 +267,7 @@ class _ProfileHomeState extends State<ProfileHome> {
             Spacer(),
             Icon(
               Icons.arrow_forward_ios_outlined,
-              color: Color(0xfff1c40f),
+              color: Color(0xffFFC845),
             )
           ],
         ));
@@ -308,7 +308,7 @@ class _ProfileHomeState extends State<ProfileHome> {
             Spacer(),
             Icon(
               Icons.arrow_forward_ios_outlined,
-              color: Color(0xfff1c40f),
+              color: Color(0xffFFC845),
             )
           ],
         ));
