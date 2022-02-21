@@ -37,8 +37,10 @@ class _CategoryState extends State<Category> {
       initialIndex: 1,
       length: category.length,
       child: TabBar(
+        isScrollable: true,
         tabs: category.map((e) => Tab(text: e,)).toList(),
         labelColor: Colors.black,
+        indicatorColor: Colors.yellow,
       ),
     );
     /*Padding(
