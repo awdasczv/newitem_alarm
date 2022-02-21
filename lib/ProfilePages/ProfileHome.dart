@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:newitem_alarm/ProfilePages/AlarmMan.dart';
@@ -46,6 +47,17 @@ class _ProfileHomeState extends State<ProfileHome> {
             style: TextStyle(
                 fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
           ),
+          actions: [
+            TextButton(
+                onPressed: () async{
+                  await FirebaseAuth.instance.signOut();
+                  setState(() {
+                    _isLogin = false;
+                  });
+                },
+                child: Text('로그아웃')
+            )
+          ],
         ),
         body: func(_isLogin));
   }
