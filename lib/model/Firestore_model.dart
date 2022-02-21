@@ -51,7 +51,6 @@ class NewGoods{
   final String id;
   final int category;
   final String brand;
-  final String brandLogo;
   final List<String> imageURL;
   final String title;
   final int price;
@@ -66,7 +65,6 @@ class NewGoods{
     this.id = "",
     this.category,
     this.brand,
-    this.brandLogo,
     this.imageURL,
     this.title,
     this.price,
@@ -77,6 +75,7 @@ class NewGoods{
     this.commentNum = 0,
     this.MukTVNum = 0
   });
+
 
   Future<String> getID() async{
     FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -109,8 +108,6 @@ class NewGoods{
   void uploadNewGoods() async{
     FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-    print(0);
-
     String _category;
     String _index;
     var _finalIndex;
@@ -118,8 +115,6 @@ class NewGoods{
     if(category < 10){
       _category = "0" + category.toString();
     }else _category = category.toString();
-
-    print(1);
 
     try{
       await _firebaseFirestore.collection('Goods').doc('metadata').collection('final_index').doc(launchdate + '-' + _category).get().then((value) => _finalIndex = value.get('final_index'));
@@ -135,11 +130,7 @@ class NewGoods{
     else if(_finalIndex < 1000) _index = "0"  + _finalIndex.toString();
     else _index = _finalIndex.toString();
 
-    print(2);
-
     await _firebaseFirestore.collection('Goods').doc('metadata').collection('final_index').doc(launchdate + '-' + _category).set({'final_index' : _finalIndex});
-
-    print(3);
 
     await _firebaseFirestore.collection('Goods').doc(launchdate + '-' + _category + '-' + _index).set({
       'title' : title,
@@ -151,7 +142,6 @@ class NewGoods{
       'id' : launchdate + '-' + _category + '-' + _index,
       'category' : category,
       'brand' : brand,
-      'brandLogo' : brandLogo,
       'imageURL' : imageURL
     });
   }
@@ -169,7 +159,6 @@ void fireStoreTempUpload() async{
 List<NewGoods> _newGoods= [
   NewGoods(
     brand: goodsList[0].brand,
-    brandLogo: goodsList[0].brandlogo,
     imageURL: goodsList[0].imageUrl,
     title: goodsList[0].title,
     price: goodsList[0].price,
@@ -180,7 +169,6 @@ List<NewGoods> _newGoods= [
   ),
   NewGoods(
       brand: goodsList[1].brand,
-      brandLogo: goodsList[1].brandlogo,
       imageURL: goodsList[1].imageUrl,
       title: goodsList[1].title,
       price: goodsList[1].price,
@@ -191,7 +179,6 @@ List<NewGoods> _newGoods= [
   ),
   NewGoods(
       brand: goodsList[2].brand,
-      brandLogo: goodsList[2].brandlogo,
       imageURL: goodsList[2].imageUrl,
       title: goodsList[2].title,
       price: goodsList[2].price,
@@ -202,7 +189,6 @@ List<NewGoods> _newGoods= [
   ),
   NewGoods(
       brand: goodsList[3].brand,
-      brandLogo: goodsList[3].brandlogo,
       imageURL: goodsList[3].imageUrl,
       title: goodsList[3].title,
       price: goodsList[3].price,

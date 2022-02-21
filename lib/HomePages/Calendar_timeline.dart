@@ -121,7 +121,7 @@ class isSelectedMonth extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         decoration: isSelected
-            ? BoxDecoration(color: Color(0xfff1c40f), shape: BoxShape.circle)
+            ? BoxDecoration(color: Color(0xffFFC845), shape: BoxShape.circle)
             : BoxDecoration(color: Colors.transparent),
         width: 53,
         child: Align(
