@@ -130,7 +130,7 @@ class isSelectedMonth extends StatelessWidget {
             '${month}월'.toUpperCase(),
             style: isSelected
                 ? TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.bold, height: 0.7)
+                    fontSize: 20, fontWeight: FontWeight.bold, height: 0.7, color: Colors.white)
                 : TextStyle(
                     fontWeight: FontWeight.normal, fontSize: 20, height: 0.7),
           ),
