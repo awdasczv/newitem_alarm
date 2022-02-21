@@ -16,7 +16,7 @@ class Bottom extends StatefulWidget {
 }
 
 class _BottomState extends State<Bottom> with SingleTickerProviderStateMixin {
-  final mainColor = Color(0xfff1c40f);
+  final mainColor = Color(0xffFFC845);
   TabController _tabController;
   int currentIndex = 0;
   final bar = ['댓글', '리뷰', '먹TV'];

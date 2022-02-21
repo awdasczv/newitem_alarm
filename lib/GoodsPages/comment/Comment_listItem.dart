@@ -36,7 +36,7 @@ class commentListItem extends StatefulWidget {
 
 class _commentListItemState extends State<commentListItem> {
   final auth = FirebaseAuth.instance;
-  final mainColor = Color(0xfff1c40f);
+  final mainColor = Color(0xffFFC845);
   CollectionReference commentRef =
       FirebaseFirestore.instance.collection('comment');
   bool _isReply = false;

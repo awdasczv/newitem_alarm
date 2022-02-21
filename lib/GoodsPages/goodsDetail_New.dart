@@ -21,7 +21,7 @@ class GoodsDetailHome extends StatefulWidget {
 }
 
 class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
-  final mainColor = Color(0xfff1c40f);
+  final mainColor = Color(0xffFFC845);
   int currentimage = 0;
   int currentIndex = 0;
   final bar = ['댓글', '리뷰', '먹TV'];
@@ -308,9 +308,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                           widget.goods.launchdate.substring(0, 4) +
                               "년 " +
                               widget.goods.launchdate.substring(4, 6) +
-                              "월 " +
-                              widget.goods.launchdate.substring(6, 8) +
-                              "일",
+                              "월 ",
                           style: TextStyle(
                             fontSize: 14,
                           ),
@@ -524,7 +522,7 @@ class TabSliverDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final mainColor = Color(0xfff1c40f);
+    final mainColor = Color(0xffFFC845);
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
