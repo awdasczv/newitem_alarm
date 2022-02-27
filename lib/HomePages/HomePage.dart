@@ -3,13 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/HomePages/FastFood.dart';
 import 'package:newitem_alarm/HomePages/SearchPage.dart';
-
-import 'package:newitem_alarm/model/Favorite_button.dart';
 import 'package:newitem_alarm/model/Firestore_model.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
 
 import '../GoodsPages/goodsDetail_New.dart';
-import '../model/Favorite_button.dart';
+
 import '../model/goods.dart';
 
 class HomePage extends StatefulWidget {
@@ -309,7 +307,9 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => GoodsDetailHome(
+
                                   goods: _goods,
+
                                 )));
 
                       },
@@ -325,18 +325,7 @@ class _HomePageState extends State<HomePage> {
                                         image: NetworkImage(
                                             _goods.imageURL[0]))),
                               ),
-                              Positioned(
-                                right: 8,
-                                bottom: 8,
-                                child: FavoriteButton(
-                                  iconSize: 60,
-                                  iconDisabledColor: Colors.black87,
-                                  isFavorite: false,
-                                  valueChanged: (_isFavorite) {
-                                    print('Is Favorite : $_isFavorite');
-                                  },
-                                ),
-                              ),
+
                             ],
                           ),
                           Container(
