@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_screenutil/flutter_screenutil.dart';
-//import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vertical_barchart/vertical-barchart.dart';
 import 'package:vertical_barchart/vertical-barchartmodel.dart';
-import 'package:vertical_barchart/vertical-legend.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 
 class ProductReview extends StatelessWidget {
 
@@ -14,35 +10,35 @@ class ProductReview extends StatelessWidget {
       VBarChartModel(
         index: 0,
         label: "5.0",
-        colors: [Color(0xffFFC845), Color(0xfff93f5b)],
+        colors: [Color(0xffFFC845), Color(0xffFFC845)],
         jumlah: 179,
         tooltip: "179개",
       ),
       VBarChartModel(
         index: 1,
         label: "4.0",
-        colors: [Color(0xffFFC845), Color(0xfff93f5b)],
+        colors: [Color(0xffFFC845), Color(0xffFFC845)],
         jumlah: 123,
         tooltip: "123개",
       ),
       VBarChartModel(
         index: 2,
         label: "3.0",
-        colors: [Color(0xffFFC845), Color(0xfff93f5b)],
+        colors: [Color(0xffFFC845), Color(0xffFFC845)],
         jumlah: 121,
         tooltip: "121개",
       ),
       VBarChartModel(
         index: 3,
         label: "2.0",
-        colors: [Color(0xffFFC845), Color(0xfff93f5b)],
+        colors: [Color(0xffFFC845), Color(0xffFFC845)],
         jumlah: 4,
         tooltip: "4개",
       ),
       VBarChartModel(
         index: 4,
         label: "1.0",
-        colors: [Color(0xffFFC845), Color(0xfff93f5b)],
+        colors: [Color(0xffFFC845), Color(0xffFFC845)],
         jumlah: 7,
         tooltip: "7개",
       ),
