@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:newitem_alarm/model/Firestore_model.dart';
 import 'package:newitem_alarm/model/YoutubeApiModel.dart';
 import 'package:newitem_alarm/model/goods.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -93,7 +95,7 @@ class _WatchDetailState extends State<WatchDetail> {
                             style: TextStyle(fontSize: 18),
                           ),
                         ),
-                        _goods_gridview_in_video()
+                        _goods_gridview_in_video2()
                       ],
                     ),
                   )
@@ -102,6 +104,7 @@ class _WatchDetailState extends State<WatchDetail> {
         });
   }
 
+/*
   Widget _goods_gridview_in_video() {
     return GridView.builder(
         shrinkWrap: true,
@@ -113,9 +116,39 @@ class _WatchDetailState extends State<WatchDetail> {
         itemBuilder: (BuildContext context, int index) {
           return _goods_container_in_video(index);
         });
+  }*/
+
+
+
+  Widget _goods_gridview_in_video2(){
+    CollectionReference goodsRef = FirebaseFirestore.instance.collection('Goods');
+
+    return FutureBuilder<QuerySnapshot>(
+        future: goodsRef.orderBy('launchdate',descending: false).get(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+          if(snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f))),
+            );
+          } else if (snapshot.hasError) {
+            return Center(child: Text(snapshot.error.toString()));
+          }
+          final List<QueryDocumentSnapshot<Object>> _newGoodsList = snapshot.data.docs;
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: _newGoodsList.length - 1,
+            itemBuilder: (BuildContext context, int index){
+              return _goods_container_in_video(NewGoods.fromJson(_newGoodsList[index].data()));
+            },
+          );
+        }
+    );
   }
 
-  Widget _goods_container_in_video(int index) {
+  Widget _goods_container_in_video(NewGoods _goods) {
     return Padding(
         padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
         child: Card(
@@ -131,18 +164,18 @@ class _WatchDetailState extends State<WatchDetail> {
                   Expanded(
                       child: Center(
                     child: Container(
-                      child: Image.network(goodsList[index].imageUrl[0]),
+                      child: Image.network(_goods.imageURL[0]),
                     ),
                   )),
                   Divider(
                     color: Colors.black26,
                   ),
                   Text(
-                    " " + goodsList[index].title,
+                    " " + _goods.title,
                     maxLines: 1,
                     style: TextStyle(fontSize: 15),
                   ),
-                  Text(" " + goodsList[index].price.toString() + "원",
+                  Text(" " + _goods.price.toString() + "원",
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
                 ],
@@ -153,7 +186,7 @@ class _WatchDetailState extends State<WatchDetail> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => GoodsDetailHome(
-                              goods: goodsList[index],
+                              goods: _goods
                             )));
               }, //상품 상세페이지로의 navigator
             )));

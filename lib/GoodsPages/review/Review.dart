@@ -3,18 +3,19 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:newitem_alarm/GoodsPages/review/WritingReview.dart';
+import 'package:newitem_alarm/model/Firestore_model.dart';
 import 'package:newitem_alarm/model/goods.dart';
 
-class Review extends StatefulWidget {
-  final Goods goods;
+class ReviewPage extends StatefulWidget {
+  final NewGoods goods;
 
-  const Review({Key key, this.goods}) : super(key: key);
+  const ReviewPage({Key key, this.goods}) : super(key: key);
 
   @override
-  _ReviewState createState() => _ReviewState();
+  _ReviewPageState createState() => _ReviewPageState();
 }
 
-class _ReviewState extends State<Review> {
+class _ReviewPageState extends State<ReviewPage> {
   final mainColor = 0xfff1c40f;
 
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
