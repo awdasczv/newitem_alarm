@@ -233,11 +233,11 @@ class _WritingReviewState extends State<WritingReview> {
       brand: "임시",
       title: "임시타이틀",
       price: 0, //가격  숫자로 넣어주기
-      launchdate: "2345", //launchdate는 출시 일자인데 연도 + 월 입니다 ex) 21년 9월출시 -> "2109"(String입니다)
+      launchdate: "2109", //launchdate는 출시 일자인데 연도 + 월 입니다 ex) 21년 9월출시 -> "2109"(String입니다)
       starScore: 4, //starscore는 1~5 사이의 실수값을 넣어주세요
       reviewNum: 0,//얘는 0으로 놔두기
       category: 6, //category 번호는 아래 Map<int,String> category 을 참고해주세요
-      imageURL: ["imageurl1","imageurl2"]
+      imageURL: ["imageurl1","imageurl2"] //살아있는 이미지 링크를 사용해주세요
     );
 
     newGoods.uploadNewGoods();
