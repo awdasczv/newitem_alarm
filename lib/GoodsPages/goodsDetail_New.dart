@@ -11,6 +11,7 @@ import './comment/Comment.dart';
 import './review/Review.dart';
 import './review/WritingReview.dart';
 import '../model/Favorite_button.dart';
+import 'bar_chart.dart';
 
 class GoodsDetailHome extends StatefulWidget {
   final NewGoods goods;
@@ -91,7 +92,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
           decoration: BoxDecoration(
             color: Colors.white,
           ),
-          height: 210,
+          height: 270,
           child: Padding(
             padding: EdgeInsets.only(top: 15),
             child: Column(
@@ -204,6 +205,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                       ],
                     )),
                 const Padding(padding: EdgeInsets.only(bottom: 10)),
+
                 TextButton(
                     onPressed: () {},
                     child: TextButton(
@@ -552,3 +554,52 @@ class TabSliverDelegate extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
 }
+
+
+/*
+RatingBarIndicator(
+                          rating: 3.5,
+                          itemBuilder: (context, index) {
+                            switch (index) {
+                              case 0:
+                                return Column(
+                                  children: [
+                                  Container(
+                                    width: 10,
+                                    height: 150,
+                                    color: Colors.purple,
+                                  ),
+                                  Text("5점", style: TextStyle(fontSize: 100)),
+                                  ],
+                                );
+                              case 1:
+                                return Container(
+                                  width: 3,
+                                  height: 70,
+                                  color: Colors.green,
+                                );
+                              case 2:
+                                return Container(
+                                  width: 3,
+                                  height: 70,
+                                  color: Colors.deepOrange,
+                                );
+                              case 3:
+                                return Container(
+                                  width: 3,
+                                  height: 70,
+                                  color: Colors.black26,
+                                );
+                              case 4:
+                                return Container(
+                                  width: 3,
+                                  height: 70,
+                                  color: Colors.black26,
+                                );
+                            }
+                          },
+                          itemCount: 5,
+                          itemSize: 30,
+                          direction: Axis.horizontal,
+                        ),
+ */

@@ -123,7 +123,9 @@ class _State extends State<FastFood> {
             },
             body: Column(
               children: [
-                Category(),
+                Card(
+                  child: Category(),
+                ),
                 Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 14),
