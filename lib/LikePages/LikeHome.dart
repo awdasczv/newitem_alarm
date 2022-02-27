@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:newitem_alarm/LikePages/video_widget.dart';
 
 import '../LikePages/Like_Goods_Body.dart';
 import '../LikePages/likegoods_filter.dart';
@@ -224,6 +225,8 @@ Widget Goods(int index) {
   );
 }
 
+//여기서부터 작업
+
 class WatchPage extends StatefulWidget {
   //워치 화면
 
@@ -236,134 +239,26 @@ class _WatchPageState extends State<WatchPage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: CustomScrollView(
-      slivers: [
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8),
-                child: Thumbanil(),
-              );
-            },
-            childCount: 10,
-          ),
-        )
-      ],
-    ));
-  }
-}
+          slivers: [
+            //sliver list로 여러가지 구현
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          },
+                        child: VideoWidget(),
+                        //비디오 형식을 구현하는 부분
+                      );
 
-class Thumbanil extends StatefulWidget {
-  @override
-  _ThumbanilState createState() => _ThumbanilState();
-}
 
-class _ThumbanilState extends State<Thumbanil> {
-  @override
-  Widget build(BuildContext context) {
-    return Hero(
-        //watch좋아요Card 눌렀을 때 나오는 watch상세페이지와 연결되도록 tag하기 (후에 할 일)
-        tag: 'watchLikeCard',
-        child: Card(
-            elevation: 2, //그림자 깊이
-            margin: EdgeInsets.all(2),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: InkWell(
-                onTap: () {}, //후에 클릭하면 상세페이지로 이동하도록 수정해야 함.
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    children: <Widget>[_thumbnail(), _watchInfo()],
-                  ),
-                ))));
-  }
-}
+                      },
 
-Widget _thumbnail() {
-  return Container(
-    height: 250,
-    color: Colors.grey.withOpacity(0.5),
-  );
-}
-
-Widget _watchInfo() {
-  return Container(
-      padding: const EdgeInsets.only(left: 10, top: 10, bottom: 7),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.grey.withOpacity(0.6),
-            backgroundImage: Image.network(
-                    "https://t1.daumcdn.net/cfile/tistory/9994463B5C2B89F731")
-                .image,
-          ),
-          SizedBox(
-            width: 13,
-          ),
-          Expanded(
-              child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Watch Title",
-                      style: TextStyle(fontSize: 18),
-                      maxLines: 2,
-                    ),
-                  ), //Title 길때 2줄까지
-                ],
+                childCount: 10,
               ),
-              Row(
-                children: [
-                  Text(
-                    "Name",
-                    style: TextStyle(
-                        fontSize: 14, color: Colors.black.withOpacity(0.5)),
-                  ),
-                  SizedBox(
-                    width: 3,
-                  ),
-                  Text(
-                    "·",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: Colors.black.withOpacity(0.5)),
-                  ),
-                  SizedBox(
-                    width: 3,
-                  ),
-                  Text(
-                    "조회수",
-                    style: TextStyle(
-                        fontSize: 14, color: Colors.black.withOpacity(0.5)),
-                  ),
-                  SizedBox(
-                    width: 3,
-                  ),
-                  Text(
-                    "·",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: Colors.black.withOpacity(0.5)),
-                  ),
-                  SizedBox(
-                    width: 3,
-                  ),
-                  Text(
-                    "20XX-0X-XX",
-                    style: TextStyle(
-                        fontSize: 14, color: Colors.black.withOpacity(0.5)),
-                  ),
-                ],
-              )
-            ],
-          ))
-        ],
-      ));
+            ),
+          ],
+        ),
+    );
+  }
 }
