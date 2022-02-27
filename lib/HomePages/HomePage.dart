@@ -1,9 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:newitem_alarm/GoodsPages/goodsDetail.dart';
 import 'package:newitem_alarm/HomePages/FastFood.dart';
 import 'package:newitem_alarm/HomePages/SearchPage.dart';
-
+import 'package:newitem_alarm/model/Firestore_model.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
 
 import '../GoodsPages/goodsDetail_New.dart';
@@ -22,6 +22,32 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  CollectionReference goodsRef = FirebaseFirestore.instance.collection('Goods');
+  
+  Widget _newProductList(){
+    return FutureBuilder<QuerySnapshot>(
+      future:  goodsRef.orderBy('launchdate',descending: false).get(),
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f))),
+          );
+        } else if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error.toString()));
+        }
+        final List<QueryDocumentSnapshot<Object>> _newGoodsList = snapshot.data.docs;
+        return ListView.builder(
+            itemCount: _newGoodsList.length - 1,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return _itemContainer(_newGoodsList[index].data(), index);
+            });
+      });
+  }
+
   final _colorList1 = [
     Color(0xffaee4ff),
     Color(0xffffe4af),
@@ -35,7 +61,7 @@ class _HomePageState extends State<HomePage> {
 
   List<bool> _isfavorite;
   final _colorList2 = [Colors.black54, Colors.black87];
-
+  
   @override
   void initState() {
     // TODO: implement initState
@@ -50,24 +76,24 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      children: [
-        _banner(),
-        _category(),
-        Divider(
-          thickness: 3,
-        ),
-        Padding(
-          padding: EdgeInsets.all(10),
-          child: Text(
-            '이주의 신상',
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
-        _itemList()
-      ],
-    ));
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          children: [
+            _banner(),
+            _category(),
+            Divider(
+              thickness: 3,
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                '이주의 신상',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            _newProductList()
+          ],
+        ));
   }
 
   Widget _banner() {
@@ -220,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color(0xfff1c40f),
+                    color: Color(0xffFFC845),
                     image:
                         DecorationImage(image: AssetImage(icons), scale: 16))),
             Text(
@@ -232,7 +258,8 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
+  
+/*
   Widget _itemList() {
     return ListView.builder(
         shrinkWrap: true,
@@ -241,9 +268,11 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (BuildContext context, int index) {
           return _itemContainer(index);
         });
-  }
+  }*/
 
-  Widget _itemContainer(int index) {
+  Widget _itemContainer(var _item,index) {
+
+    NewGoods _goods = NewGoods.fromJson(_item);
     Icon _icon() {
       if (_isfavorite[index]) {
         return Icon(
@@ -259,7 +288,14 @@ class _HomePageState extends State<HomePage> {
     return Padding(
       padding: EdgeInsets.all(4),
       child: Card(
+        elevation: 3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
         child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+          ),
           height: 300,
           child: Column(
             children: [
@@ -267,12 +303,15 @@ class _HomePageState extends State<HomePage> {
                   child: GestureDetector(
                       onTap: () {
                         Navigator.push(
-                          //goodsDetail.dart와 연결되도록  Navigator push함.
+                            //goodsDetail.dart와 연결되도록  Navigator push함.
                             context,
                             MaterialPageRoute(
                                 builder: (context) => GoodsDetailHome(
-                                  goods: goodsList[index],
+
+                                  goods: _goods,
+
                                 )));
+
                       },
                       child: Column(
                         children: [
@@ -284,7 +323,7 @@ class _HomePageState extends State<HomePage> {
                                     image: DecorationImage(
                                         fit: BoxFit.contain,
                                         image: NetworkImage(
-                                            goodsList[index].imageUrl[0]))),
+                                            _goods.imageURL[0]))),
                               ),
 
                             ],
@@ -311,11 +350,11 @@ class _HomePageState extends State<HomePage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      goodsList[index].title,
+                                      _goods.title,
                                       style: TextStyle(fontSize: 17),
                                     ),
                                     Text(
-                                      goodsList[index].price.toString() + "원",
+                                      _goods.price.toString() + "원",
                                       style: TextStyle(fontSize: 17),
                                     )
                                   ],

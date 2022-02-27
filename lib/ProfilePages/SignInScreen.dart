@@ -35,7 +35,7 @@ class SignInScreen extends StatelessWidget {
           Navigator.pop(context, true);
           return Center(
             child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f)),
+              valueColor: AlwaysStoppedAnimation(Color(0xffFFC845)),
             ),
           );
         }

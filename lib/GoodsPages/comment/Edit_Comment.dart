@@ -11,7 +11,7 @@ class Edit extends StatefulWidget {
 }
 
 class _EditState extends State<Edit> {
-  final mainColor = Color(0xfff1c40f);
+  final mainColor = Color(0xffFFC845);
 
   Future<void> edit() async {}
 

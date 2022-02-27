@@ -11,7 +11,7 @@ class Delete extends StatefulWidget {
 }
 
 class _DeleteState extends State<Delete> {
-  final mainColor = Color(0xfff1c40f);
+  final mainColor = Color(0xffFFC845);
 
   Future<void> _delete() async {
     return widget.reference.delete();

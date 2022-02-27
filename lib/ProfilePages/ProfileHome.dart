@@ -22,24 +22,24 @@ class _ProfileHomeState extends State<ProfileHome> {
   final ImagePicker _picker = ImagePicker();
   PickedFile _image;
 
-  bool _isLogin = false;
+  bool _isLogin = true;
 
   final _menuList = [ReviewMan(), CommandMan(), AlarmMan(), Notice(), Manual()];
 
   final _menuIcon = [
-    Icon(Icons.rate_review_outlined, size: 25, color: Color(0xfff1c40f)),
-    Icon(Icons.comment, size: 25, color: Color(0xfff1c40f)),
+    Icon(Icons.rate_review_outlined, size: 25, color: Color(0xffFFC845)),
+    Icon(Icons.comment, size: 25, color: Color(0xffFFC845)),
     Icon(Icons.circle_notifications_outlined,
-        size: 25, color: Color(0xfff1c40f)),
-    Icon(Icons.campaign, size: 25, color: Color(0xfff1c40f)),
-    Icon(Icons.description_outlined, size: 25, color: Color(0xfff1c40f)),
+        size: 25, color: Color(0xffFFC845)),
+    Icon(Icons.campaign, size: 25, color: Color(0xffFFC845)),
+    Icon(Icons.description_outlined, size: 25, color: Color(0xffFFC845)),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          //backgroundColor: Color(0xfff1c40f),
+          //backgroundColor: Color(0xffFFC845),
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
@@ -47,6 +47,17 @@ class _ProfileHomeState extends State<ProfileHome> {
             style: TextStyle(
                 fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
           ),
+          actions: [
+            TextButton(
+                onPressed: () async{
+                  await FirebaseAuth.instance.signOut();
+                  setState(() {
+                    _isLogin = false;
+                  });
+                },
+                child: Text('로그아웃', style: TextStyle(color: Color(0xffFFC845), fontWeight: FontWeight.bold),)
+            )
+          ],
         ),
         body: func(_isLogin));
   }
@@ -131,7 +142,7 @@ class _ProfileHomeState extends State<ProfileHome> {
             height: 58,
             width: 400,
             child: Card(
-                //color: Color(0xfff1c40f),
+                //color: Color(0xffFFC845),
                 color: Colors.white,
 
                 // decoration: BoxDecoration(
@@ -224,7 +235,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                   ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Color(0xfff1c40f))),
+                              MaterialStateProperty.all(Color(0xffFFC845))),
                       onPressed: () async {
                         var a = await Navigator.push(
                             context,
@@ -268,7 +279,7 @@ class _ProfileHomeState extends State<ProfileHome> {
             Spacer(),
             Icon(
               Icons.arrow_forward_ios_outlined,
-              color: Color(0xfff1c40f),
+              color: Color(0xffFFC845),
             )
           ],
         ));
@@ -283,7 +294,7 @@ class _ProfileHomeState extends State<ProfileHome> {
               barrierDismissible: false,
               builder: (BuildContext context) {
                 return AlertDialog(
-                    title: Text("dd"),
+                    title: Text(""),
                     content: SingleChildScrollView(
                         child: ListBody(
                       children: [Center(child: Text("로그인이 필요합니다."))],
@@ -291,6 +302,9 @@ class _ProfileHomeState extends State<ProfileHome> {
                     actions: <Widget>[
                       Center(
                           child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xffFFC845),
+                              ),
                               child: Text("확인"),
                               onPressed: () {
                                 Navigator.of(context).pop();
@@ -309,7 +323,7 @@ class _ProfileHomeState extends State<ProfileHome> {
             Spacer(),
             Icon(
               Icons.arrow_forward_ios_outlined,
-              color: Color(0xfff1c40f),
+              color: Color(0xffFFC845),
             )
           ],
         ));
