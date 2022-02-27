@@ -146,18 +146,18 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                               },
                               itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
                               itemCount: 5,
-                              itemSize: 25,
+                              itemSize: 15,
                               direction: Axis.horizontal,
                             ),
                           ],
                         ),
                         Container(
                           width: 2,
-                          height: 40,
+                          height: 120,
                           color: Colors.grey[200],
                         ),
                         //여기서는 VerticalDivider()보다 Container()사용하는 게 더 편함.
-                        Column(
+                        /*Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             RatingBarIndicator(
@@ -201,10 +201,11 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                               direction: Axis.horizontal,
                             ),
                           ],
-                        ),
+                        ),*/
+                        ProductReview()
                       ],
                     )),
-                const Padding(padding: EdgeInsets.only(bottom: 10)),
+             //   const Padding(padding: EdgeInsets.only(bottom: 10)),
 
                 TextButton(
                     onPressed: () {},
