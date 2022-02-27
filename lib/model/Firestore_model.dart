@@ -87,7 +87,7 @@ class NewGoods{
     imageURL : _list.cast<String>(),
     title : json['title'],
     price : json['price'],
-    starScore : json['starscore'],
+    starScore : json['starScore'],
     describe : "",
     launchdate : json['launchdate'],
     reviewNum : json['reviewNum'],

@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:newitem_alarm/model/Firestore_model.dart';
 
 import '../../model/goods.dart';
 import 'review/WritingReview.dart';
@@ -354,7 +355,7 @@ class _TopState extends State<Top> {
                               ],
                             )),
                         const Padding(padding: EdgeInsets.only(bottom: 10)),
-                        TextButton(
+                        /*TextButton(
                             onPressed: () {},
                             child: TextButton(
                               onPressed: () {
@@ -372,7 +373,8 @@ class _TopState extends State<Top> {
                                     fontWeight: FontWeight.w500,
                                     color: Colors.blueAccent),
                               ),
-                            ))
+                            )
+                        )*/
                       ],
                     ),
                   )),

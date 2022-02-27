@@ -12,7 +12,7 @@ import 'package:newitem_alarm/model/Firestore_model.dart';
 import 'package:newitem_alarm/model/goods.dart';
 
 class WritingReview extends StatefulWidget {
-  final Goods goods;
+  final NewGoods goods;
 
   const WritingReview({Key key, this.goods}) : super(key: key);
 

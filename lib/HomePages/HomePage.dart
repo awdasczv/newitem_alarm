@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/HomePages/FastFood.dart';
 import 'package:newitem_alarm/HomePages/SearchPage.dart';
+
 import 'package:newitem_alarm/model/Favorite_button.dart';
 import 'package:newitem_alarm/model/Firestore_model.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
@@ -39,7 +40,6 @@ class _HomePageState extends State<HomePage> {
           return Center(child: Text(snapshot.error.toString()));
         }
         final List<QueryDocumentSnapshot<Object>> _newGoodsList = snapshot.data.docs;
-        print(_newGoodsList.length);
         return ListView.builder(
             itemCount: _newGoodsList.length - 1,
             shrinkWrap: true,
@@ -309,7 +309,7 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => GoodsDetailHome(
-                                  goods: goodsList[index],
+                                  goods: _goods,
                                 )));
 
                       },
