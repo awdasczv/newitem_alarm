@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:newitem_alarm/GoodsPages/bar_chart.dart';
 
 class Manual extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         title: Text("이용약관",
         style: TextStyle(
