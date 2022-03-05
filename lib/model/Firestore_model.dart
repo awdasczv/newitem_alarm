@@ -76,6 +76,26 @@ class NewGoods{
     this.MukTVNum = 0
   });
 
+  factory NewGoods.fromJson(Map<String,dynamic> json)  {
+
+    List _list = json['imageURL'];
+
+    return NewGoods(
+    id : json['id'],
+    category : json['category'],
+    brand : json['brand'],
+    imageURL : _list.cast<String>(),
+    title : json['title'],
+    price : json['price'],
+    starScore : json['starScore'],
+    describe : "",
+    launchdate : json['launchdate'],
+    reviewNum : json['reviewNum'],
+    commentNum : json['commentNum'],
+    MukTVNum : json['MukTVNum']
+    );
+  }
+
 
   Future<String> getID() async{
     FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -142,8 +162,11 @@ class NewGoods{
       'id' : launchdate + '-' + _category + '-' + _index,
       'category' : category,
       'brand' : brand,
-      'imageURL' : imageURL
+      'imageURL' : imageURL,
+      'launchdate' : launchdate
     });
+
+    print("success upload new goods!!");
   }
 }
 

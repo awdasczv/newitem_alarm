@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:newitem_alarm/model/Firestore_model.dart';
 
 import '../model/Favorite_button.dart';
 import '../model/goods.dart';
 
 class GoodsCard extends StatelessWidget {
-  final Goods goods;
+  final NewGoods goods;
 
   GoodsCard({Key key, this.goods}) : super(key: key);
+
+  bool _isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,7 @@ class GoodsCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
                             fit: BoxFit.contain,
-                            image: NetworkImage(goods.imageUrl[0]))),
+                            image: NetworkImage(goods.imageURL[0]))),
                   ),
                 ),
               ),
@@ -40,9 +43,9 @@ class GoodsCard extends StatelessWidget {
                 child: FavoriteButton(
                   iconSize: 40,
                   iconDisabledColor: Colors.black87,
-                  isFavorite: goods.isFavorite, //찜목록에 있으니까
-                  valueChanged: (_isFavorite) {
-                    goods.isFavorite = !goods.isFavorite;
+                  isFavorite: _isFavorite, //찜목록에 있으니까
+                  valueChanged: (value) {
+                    _isFavorite = !_isFavorite;
                     print('Is Favorite : $_isFavorite');
                   },
                 ),
@@ -87,7 +90,7 @@ class GoodsCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 2),
                 child: Text(
-                  "(${goods.total_review_count.toString()})",
+                  "(${goods.reviewNum.toString()})",
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                 ),
               ),

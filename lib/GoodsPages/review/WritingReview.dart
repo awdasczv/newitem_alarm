@@ -12,7 +12,7 @@ import 'package:newitem_alarm/model/Firestore_model.dart';
 import 'package:newitem_alarm/model/goods.dart';
 
 class WritingReview extends StatefulWidget {
-  final Goods goods;
+  final NewGoods goods;
 
   const WritingReview({Key key, this.goods}) : super(key: key);
 
@@ -78,7 +78,7 @@ class _WritingReviewState extends State<WritingReview> {
                   Spacer(),
                   TextButton(
                       onPressed: ()async{
-                        uploadReview();
+                        uploadNewGoods();
                         Navigator.pop(context);
                       },
                       child: Text('완료',style: TextStyle(color: Colors.black,fontSize: 17),
@@ -216,7 +216,7 @@ class _WritingReviewState extends State<WritingReview> {
               ),
               ElevatedButton(
                   onPressed: (){
-                    fireStoreTempUpload();
+                    uploadNewGoods();
                   },
                   child: Text('임시 버튼(새 상품 업로드)')
               )
@@ -226,17 +226,37 @@ class _WritingReviewState extends State<WritingReview> {
     );
   }
 
-  void uploadReview() async{
-    FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  void uploadNewGoods() async{
+    //다양한 카테고리 데이터를 업로드 해주세요!!
 
-    await _firebaseFirestore.collection('structure_practice').doc('User').collection('ItemList').doc('2103-03-0002').collection('Review').doc('2103-03-0001-02-0002')
-        .set({
-      'GoodsID' : '2103-03-0002',
-      'mainText' : _tc.text,
-      'reviewID' : "2103-03-0001-02-0002",
-      'starScore' : _reviewData.starScore,
-      'updateTime' : DateTime.now(),
-      'userId' : _user.uid
-    });
+    NewGoods newGoods = NewGoods(
+      brand: "스타벅스",
+      title: "스노우 민트 초콜릿 블렌디드",
+      price: 6300, //가격  숫자로 넣어주기
+      launchdate: "2112", //launchdate는 출시 일자인데 연도 + 월 입니다 ex) 21년 9월출시 -> "2109"(String입니다)
+      starScore: 3, //starscore는 1~5 사이의 실수값을 넣어주세요
+      reviewNum: 0,//얘는 0으로 놔두기
+      category: 4, //category 번호는 아래 Map<int,String> category 을 참고해주세요
+      imageURL: ["https://img.insight.co.kr/static/2021/12/08/700/img_20211208174745_80xb0gwn.webp"]
+    );
+
+    newGoods.uploadNewGoods();
+
+
   }
+
+  Map<int,String> category = {
+    1 : '젤리/초콜릿',
+    2 : '빵집',
+    3 : '음료',
+    4 : '카페/디저트',
+    5 : '주류',
+    6 : '라면',
+    7 : '햄버거',
+    8 : '피자',
+    9 : '치킨',
+    10 : '즉석/냉동',
+    11 : '아이스크림',
+    12 : '과자'
+  };
 }

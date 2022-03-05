@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:newitem_alarm/GoodsPages/MukTV.dart';
+import 'package:newitem_alarm/model/Firestore_model.dart';
 import 'package:newitem_alarm/model/goods.dart';
 
 import './comment/Comment.dart';
 import './review/Review.dart';
 import './review/WritingReview.dart';
 import '../model/Favorite_button.dart';
+import 'bar_chart.dart';
 
 class GoodsDetailHome extends StatefulWidget {
-  final Goods goods;
+  final NewGoods goods;
 
   const GoodsDetailHome({Key key, @required this.goods}) : super(key: key);
 
@@ -26,6 +28,14 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
   int currentIndex = 0;
   final bar = ['댓글', '리뷰', '먹TV'];
   final CarouselController _carouselController = CarouselController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  //  print(widget.goods.starScore);
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +77,10 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                   ];
                 },
                 body: TabBarView(
-                  children: [Comment(), Review(goods: widget.goods), MukTV()],
-                ))),
+                  children: [Comment(), ReviewPage(goods: widget.goods), MukTV()],
+                )
+            )
+        ),
       ),
     );
   }
@@ -80,7 +92,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
           decoration: BoxDecoration(
             color: Colors.white,
           ),
-          height: 210,
+          height: 270,
           child: Padding(
             padding: EdgeInsets.only(top: 15),
             child: Column(
@@ -100,7 +112,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      "(${widget.goods.total_review_count.toString()}개)",
+                      "(${widget.goods.reviewNum.toString()}개)",
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -111,88 +123,90 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                 const Padding(padding: EdgeInsets.only(bottom: 10)),
                 Expanded(
                     child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      mainAxisAlignment:
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          mainAxisAlignment:
                           MainAxisAlignment.center, //Column일 때 가운데 정렬
-                      children: [
-                        Text(
-                          widget.goods.starScore.toString(),
-                          style: TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          children: [
+                            Text(
+                              widget.goods.starScore.toString(),
+                              style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            RatingBarIndicator(
+                              rating: widget.goods.starScore,
+                              itemBuilder: (context, index) {
+                                return Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                );
+                              },
+                              itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                              itemCount: 5,
+                              itemSize: 15,
+                              direction: Axis.horizontal,
+                            ),
+                          ],
                         ),
-                        RatingBarIndicator(
-                          rating: widget.goods.starScore,
-                          itemBuilder: (context, index) {
-                            return Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            );
-                          },
-                          itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                          itemCount: 5,
-                          itemSize: 25,
-                          direction: Axis.horizontal,
+                        Container(
+                          width: 2,
+                          height: 120,
+                          color: Colors.grey[200],
                         ),
+                        //여기서는 VerticalDivider()보다 Container()사용하는 게 더 편함.
+                        /*Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RatingBarIndicator(
+                              rating: 3.5,
+                              itemBuilder: (context, index) {
+                                switch (index) {
+                                  case 0:
+                                    return Container(
+                                      width: 10,
+                                      height: 150,
+                                      color: Colors.purple,
+                                    );
+                                  case 1:
+                                    return Container(
+                                      width: 3,
+                                      height: 70,
+                                      color: Colors.green,
+                                    );
+                                  case 2:
+                                    return Container(
+                                      width: 3,
+                                      height: 70,
+                                      color: Colors.deepOrange,
+                                    );
+                                  case 3:
+                                    return Container(
+                                      width: 3,
+                                      height: 70,
+                                      color: Colors.black26,
+                                    );
+                                  case 4:
+                                    return Container(
+                                      width: 3,
+                                      height: 70,
+                                      color: Colors.black26,
+                                    );
+                                }
+                              },
+                              itemCount: 5,
+                              itemSize: 30,
+                              direction: Axis.horizontal,
+                            ),
+                          ],
+                        ),*/
+                        ProductReview()
                       ],
-                    ),
-                    Container(
-                      width: 2,
-                      height: 40,
-                      color: Colors.grey[200],
-                    ),
-                    //여기서는 VerticalDivider()보다 Container()사용하는 게 더 편함.
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        RatingBarIndicator(
-                          rating: 3.5,
-                          itemBuilder: (context, index) {
-                            switch (index) {
-                              case 0:
-                                return Container(
-                                  width: 10,
-                                  height: 150,
-                                  color: Colors.purple,
-                                );
-                              case 1:
-                                return Container(
-                                  width: 3,
-                                  height: 70,
-                                  color: Colors.green,
-                                );
-                              case 2:
-                                return Container(
-                                  width: 3,
-                                  height: 70,
-                                  color: Colors.deepOrange,
-                                );
-                              case 3:
-                                return Container(
-                                  width: 3,
-                                  height: 70,
-                                  color: Colors.black26,
-                                );
-                              case 4:
-                                return Container(
-                                  width: 3,
-                                  height: 70,
-                                  color: Colors.black26,
-                                );
-                            }
-                          },
-                          itemCount: 5,
-                          itemSize: 30,
-                          direction: Axis.horizontal,
-                        ),
-                      ],
-                    ),
-                  ],
-                )),
-                const Padding(padding: EdgeInsets.only(bottom: 10)),
+                    )),
+             //   const Padding(padding: EdgeInsets.only(bottom: 10)),
+
                 TextButton(
                     onPressed: () {},
                     child: TextButton(
@@ -305,9 +319,9 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                           width: 25,
                         ),
                         Text(
-                          widget.goods.launchdate.substring(0, 4) +
+                          widget.goods.launchdate.substring(0, 2) +
                               "년 " +
-                              widget.goods.launchdate.substring(4, 6) +
+                              widget.goods.launchdate.substring(2, 4) +
                               "월 ",
                           style: TextStyle(
                             fontSize: 14,
@@ -393,7 +407,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                           fontWeight: FontWeight.bold),
                     )
                   : null,
-              background: widget.goods.imageUrl.length != 1
+              background: widget.goods.imageURL.length > 1
                   ? Stack(
                       children: [
                         CarouselSlider(
@@ -413,7 +427,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                                   currentimage = index;
                                 });
                               }),
-                          items: widget.goods.imageUrl.map((img) {
+                          items: widget.goods.imageURL.map((img) {
                             return Container(
                               decoration: BoxDecoration(
                                   image: DecorationImage(
@@ -450,7 +464,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                                             children: [
                                               TextSpan(
                                                   text:
-                                                      '/ ${widget.goods.imageUrl.length}',
+                                                      '/ ${widget.goods.imageURL.length}',
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.normal))
@@ -467,7 +481,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                           height: 320,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: NetworkImage(widget.goods.imageUrl[0]),
+                                  image: NetworkImage(widget.goods.imageURL[0]),
                                   fit: BoxFit.fill)),
                         ),
                         Positioned(
@@ -497,7 +511,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                                             children: [
                                               TextSpan(
                                                   text:
-                                                      '/ ${widget.goods.imageUrl.length}',
+                                                      '/ ${widget.goods.imageURL.length}',
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.normal))
@@ -541,3 +555,52 @@ class TabSliverDelegate extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
 }
+
+
+/*
+RatingBarIndicator(
+                          rating: 3.5,
+                          itemBuilder: (context, index) {
+                            switch (index) {
+                              case 0:
+                                return Column(
+                                  children: [
+                                  Container(
+                                    width: 10,
+                                    height: 150,
+                                    color: Colors.purple,
+                                  ),
+                                  Text("5점", style: TextStyle(fontSize: 100)),
+                                  ],
+                                );
+                              case 1:
+                                return Container(
+                                  width: 3,
+                                  height: 70,
+                                  color: Colors.green,
+                                );
+                              case 2:
+                                return Container(
+                                  width: 3,
+                                  height: 70,
+                                  color: Colors.deepOrange,
+                                );
+                              case 3:
+                                return Container(
+                                  width: 3,
+                                  height: 70,
+                                  color: Colors.black26,
+                                );
+                              case 4:
+                                return Container(
+                                  width: 3,
+                                  height: 70,
+                                  color: Colors.black26,
+                                );
+                            }
+                          },
+                          itemCount: 5,
+                          itemSize: 30,
+                          direction: Axis.horizontal,
+                        ),
+ */

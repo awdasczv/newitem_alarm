@@ -57,17 +57,15 @@ class _ProfileHomeState extends State<ProfileHome> {
           ),
           actions: [
             TextButton(
-                onPressed: () async {
+                onPressed: () async{
                   await FirebaseAuth.instance.signOut();
                   setState(() {
                     _isLogin = false;
                   });
                 },
-                child: Text(
-                  '로그아웃',
-                  style: TextStyle(
-                      color: Color(0xffFFC845), fontWeight: FontWeight.bold),
-                ))
+              child: Text('로그아웃', style: TextStyle(color: Color(0xffFFC845), fontWeight: FontWeight.bold),)
+            )
+
           ],
         ),
         body: func(_isLogin));
@@ -305,7 +303,7 @@ class _ProfileHomeState extends State<ProfileHome> {
               barrierDismissible: false,
               builder: (BuildContext context) {
                 return AlertDialog(
-                    title: Text("dd"),
+                    title: Text(""),
                     content: SingleChildScrollView(
                         child: ListBody(
                       children: [Center(child: Text("로그인이 필요합니다."))],
@@ -313,6 +311,9 @@ class _ProfileHomeState extends State<ProfileHome> {
                     actions: <Widget>[
                       Center(
                           child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xffFFC845),
+                              ),
                               child: Text("확인"),
                               onPressed: () {
                                 Navigator.of(context).pop();
