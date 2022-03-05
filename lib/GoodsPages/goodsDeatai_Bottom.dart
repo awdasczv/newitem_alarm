@@ -72,13 +72,14 @@ class _BottomState extends State<Bottom> with SingleTickerProviderStateMixin {
                 maintainState: true, //invisible할 때도 child 유지
                 visible: currentIndex == 0,
               ),
+              /*
               Visibility(
-                child: Review(
+                child: ReviewPage(
                   goods: widget.goods,
                 ),
                 maintainState: true,
                 visible: currentIndex == 1,
-              ),
+              ),*/
               Visibility(
                 child: MukTV(),
                 maintainState: true,

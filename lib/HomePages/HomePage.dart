@@ -3,12 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/HomePages/FastFood.dart';
 import 'package:newitem_alarm/HomePages/SearchPage.dart';
-import 'package:newitem_alarm/model/Favorite_button.dart';
 import 'package:newitem_alarm/model/Firestore_model.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
 
 import '../GoodsPages/goodsDetail_New.dart';
-import '../model/Favorite_button.dart';
+
 import '../model/goods.dart';
 
 class HomePage extends StatefulWidget {
@@ -39,7 +38,6 @@ class _HomePageState extends State<HomePage> {
           return Center(child: Text(snapshot.error.toString()));
         }
         final List<QueryDocumentSnapshot<Object>> _newGoodsList = snapshot.data.docs;
-        print(_newGoodsList.length);
         return ListView.builder(
             itemCount: _newGoodsList.length - 1,
             shrinkWrap: true,
@@ -168,18 +166,24 @@ class _HomePageState extends State<HomePage> {
 
   Widget _category() {
     List<Map> category = [
-      {'icon': "assets/icons/chocolate.png", "text": "젤리/초콜릿"},
-      {'icon': "assets/icons/bread.png", "text": "빵집"},
-      {'icon': "assets/icons/softdrink.png", "text": "음료"},
-      {'icon': "assets/icons/cafe.png", "text": "카페/디저트"},
-      {'icon': "assets/icons/alchol.png", "text": "주류"},
-      {'icon': "assets/icons/ramen.png", "text": "라면"},
-      {'icon': "assets/icons/burger.png", "text": "햄버거"},
-      {'icon': "assets/icons/pizza.png", "text": "피자"},
-      {'icon': "assets/icons/fried-chicken.png", "text": "치킨"},
-      {'icon': "assets/icons/microwave.png", "text": "즉석/냉동"},
-      {'icon': "assets/icons/ice-cream.png", "text": "아이스크림"},
-      {'icon': "assets/icons/crisps.png", "text": "과자"}
+      {
+        'icon': "assets/icons_new/icons8-chocolate-bar-96.png",
+        "text": "젤리/초콜릿"
+      },
+      {'icon': "assets/icons_new/icons8-bread-96.png", "text": "빵"},
+      {'icon': "assets/icons_new/icons8-energy-drink-96.png", "text": "음료"},
+      {'icon': "assets/icons_new/icons8-cafe-96.png", "text": "카페/디저트"},
+      {'icon': "assets/icons_new/icons8-beer-96.png", "text": "주류"},
+      {'icon': "assets/icons_new/icons8-noodles-96.png", "text": "라면"},
+      {'icon': "assets/icons_new/icons8-hamburger-96.png", "text": "햄버거"},
+      {'icon': "assets/icons_new/icons8-pizza-96.png", "text": "피자"},
+      {'icon': "assets/icons_new/icons8-poultry-leg-96.png", "text": "치킨"},
+      {'icon': "assets/icons_new/icons8-cooker-96.png", "text": "즉석/냉동"},
+      {
+        'icon': "assets/icons_new/icons8-ice-pop-yellow-96.png",
+        "text": "아이스크림"
+      },
+      {'icon': "assets/icons_new/icons8-gingerbread-man-96.png", "text": "과자"}
     ];
     return SizedBox(
       child: Column(
@@ -248,9 +252,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color(0xffFFC845),
-                    image:
-                        DecorationImage(image: AssetImage(icons), scale: 16))),
+                    image: DecorationImage(image: AssetImage(icons)))),
             Text(
               label,
               style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
@@ -309,7 +311,7 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => GoodsDetailHome(
-                                  goods: goodsList[index],
+                                  goods: _goods,
                                 )));
 
                       },
@@ -325,18 +327,7 @@ class _HomePageState extends State<HomePage> {
                                         image: NetworkImage(
                                             _goods.imageURL[0]))),
                               ),
-                              Positioned(
-                                right: 8,
-                                bottom: 8,
-                                child: FavoriteButton(
-                                  iconSize: 60,
-                                  iconDisabledColor: Colors.black87,
-                                  isFavorite: false,
-                                  valueChanged: (_isFavorite) {
-                                    print('Is Favorite : $_isFavorite');
-                                  },
-                                ),
-                              ),
+
                             ],
                           ),
                           Container(

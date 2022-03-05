@@ -32,11 +32,14 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-          title: Text(
-            "회원가입",
-            style: TextStyle(
-                height: 1.5, fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),
-          ),
+        title: Text(
+          "회원가입",
+          style: TextStyle(
+              height: 1.5,
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+              color: Colors.white),
+        ),
         centerTitle: true,
       ),
       body: Id(),
@@ -111,12 +114,13 @@ class _LoginPageState extends State<LoginPage> {
                 alignment: Alignment.centerRight,
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.black)
-                  ),
+                      backgroundColor: MaterialStateProperty.all(Colors.black)),
                   onPressed: () {
                     //_register();
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignInScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SignInScreen()));
                   },
                   child: Text('회원가입'),
                 ),
