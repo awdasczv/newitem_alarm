@@ -139,18 +139,24 @@ class _HomePageState extends State<HomePage> {
 
   Widget _category() {
     List<Map> category = [
-      {'icon': "assets/icons/chocolate.png", "text": "젤리/초콜릿"},
-      {'icon': "assets/icons/bread.png", "text": "빵집"},
-      {'icon': "assets/icons/softdrink.png", "text": "음료"},
-      {'icon': "assets/icons/cafe.png", "text": "카페/디저트"},
-      {'icon': "assets/icons/alchol.png", "text": "주류"},
-      {'icon': "assets/icons/ramen.png", "text": "라면"},
-      {'icon': "assets/icons/burger.png", "text": "햄버거"},
-      {'icon': "assets/icons/pizza.png", "text": "피자"},
-      {'icon': "assets/icons/fried-chicken.png", "text": "치킨"},
-      {'icon': "assets/icons/microwave.png", "text": "즉석/냉동"},
-      {'icon': "assets/icons/ice-cream.png", "text": "아이스크림"},
-      {'icon': "assets/icons/crisps.png", "text": "과자"}
+      {
+        'icon': "assets/icons_new/icons8-chocolate-bar-96.png",
+        "text": "젤리/초콜릿"
+      },
+      {'icon': "assets/icons_new/icons8-bread-96.png", "text": "빵"},
+      {'icon': "assets/icons_new/icons8-energy-drink-96.png", "text": "음료"},
+      {'icon': "assets/icons_new/icons8-cafe-96.png", "text": "카페/디저트"},
+      {'icon': "assets/icons_new/icons8-beer-96.png", "text": "주류"},
+      {'icon': "assets/icons_new/icons8-noodles-96.png", "text": "라면"},
+      {'icon': "assets/icons_new/icons8-hamburger-96.png", "text": "햄버거"},
+      {'icon': "assets/icons_new/icons8-pizza-96.png", "text": "피자"},
+      {'icon': "assets/icons_new/icons8-poultry-leg-96.png", "text": "치킨"},
+      {'icon': "assets/icons_new/icons8-cooker-96.png", "text": "즉석/냉동"},
+      {
+        'icon': "assets/icons_new/icons8-ice-pop-yellow-96.png",
+        "text": "아이스크림"
+      },
+      {'icon': "assets/icons_new/icons8-gingerbread-man-96.png", "text": "과자"}
     ];
     return SizedBox(
       child: Column(
@@ -219,9 +225,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color(0xffFFC845),
-                    image:
-                        DecorationImage(image: AssetImage(icons), scale: 16))),
+                    image: DecorationImage(image: AssetImage(icons)))),
             Text(
               label,
               style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
@@ -279,7 +283,6 @@ class _HomePageState extends State<HomePage> {
                                 builder: (context) => GoodsDetailHome(
                                       goods: goodsList[index],
                                     )));
-
                       },
                       child: Column(
                         children: [

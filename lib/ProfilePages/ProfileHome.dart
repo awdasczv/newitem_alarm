@@ -39,6 +39,14 @@ class _ProfileHomeState extends State<ProfileHome> {
     return Scaffold(
         appBar: AppBar(
           //backgroundColor: Color(0xffFFC845),
+          leading: TextButton(
+            child: Text('로그아웃'),
+            onPressed: () {
+              setState(() {
+                _isLogin == false;
+              });
+            },
+          ),
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
