@@ -95,6 +95,7 @@ flutter:
     - assets/images/google_button.png
     - assets/images/naver_button.png
     - assets/icons/
+    - assets/icons_new/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

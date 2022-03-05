@@ -40,6 +40,14 @@ class _ProfileHomeState extends State<ProfileHome> {
     return Scaffold(
         appBar: AppBar(
           //backgroundColor: Color(0xffFFC845),
+          leading: TextButton(
+            child: Text('로그아웃'),
+            onPressed: () {
+              setState(() {
+                _isLogin == false;
+              });
+            },
+          ),
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
@@ -55,8 +63,9 @@ class _ProfileHomeState extends State<ProfileHome> {
                     _isLogin = false;
                   });
                 },
-                child: Text('로그아웃', style: TextStyle(color: Color(0xffFFC845), fontWeight: FontWeight.bold),)
+              child: Text('로그아웃', style: TextStyle(color: Color(0xffFFC845), fontWeight: FontWeight.bold),)
             )
+
           ],
         ),
         body: func(_isLogin));

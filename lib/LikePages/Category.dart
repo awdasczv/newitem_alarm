@@ -13,7 +13,7 @@ class _CategoryState extends State<Category> {
   List<String> category = [
     '전체',
     '스낵',
-    '빵집',
+    '빵',
     '음료',
     '카페/디저트',
     '주류',

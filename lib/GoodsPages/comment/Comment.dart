@@ -184,7 +184,28 @@ class _CommentState extends State<Comment> {
                 ),
                 onPressed: _isComposing
                     ? () {
-                        _handleSubmitted(_textEditingController.text);
+                        if (userName() != null) {
+                          _handleSubmitted(_textEditingController.text);
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text(
+                                    '댓글 작성',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  content: Column(
+                                    children: [
+                                      Text('로그인이 필요한 서비스입니다.'),
+                                      Text('로그인 후 이용해주세요.'),
+                                    ],
+                                  ),
+                                  actions: [],
+                                );
+                              });
+                        }
                         //method 뒤에 ()가 있다는 것은 method가 실행되며, method 값이 리턴된다는 의미, ()가 없다면, 위치를 참조
                       }
                     : null,
