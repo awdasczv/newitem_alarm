@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:newitem_alarm/ProfilePages/AlarmMan.dart';
 import 'package:newitem_alarm/ProfilePages/ChangeProfile.dart';
@@ -17,6 +19,7 @@ class ProfileHome extends StatefulWidget {
 }
 
 class _ProfileHomeState extends State<ProfileHome> {
+
   String _name = "";
   String _imagePath = "";
   final ImagePicker _picker = ImagePicker();
