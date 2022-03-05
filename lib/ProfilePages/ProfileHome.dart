@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:newitem_alarm/ProfilePages/AlarmMan.dart';
 import 'package:newitem_alarm/ProfilePages/ChangeProfile.dart';
@@ -10,6 +12,7 @@ import 'package:newitem_alarm/ProfilePages/Manual.dart';
 import 'package:newitem_alarm/ProfilePages/Notice.dart';
 import 'package:newitem_alarm/ProfilePages/ReviewMan.dart';
 import 'package:newitem_alarm/ProfilePages/SignInScreen.dart';
+import 'package:newitem_alarm/ProfilePages/components/sign_from.dart';
 
 class ProfileHome extends StatefulWidget {
   @override
@@ -17,6 +20,34 @@ class ProfileHome extends StatefulWidget {
 }
 
 class _ProfileHomeState extends State<ProfileHome> {
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth = await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<UserCredential> signInWithFacebook() async {
+    // Trigger the sign-in flow
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+
+    // Create a credential from the access token
+    final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken.token);
+
+    // Once signed in, return the UserCredential
+    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  }
+
   String _name = "";
   String _imagePath = "";
   final ImagePicker _picker = ImagePicker();
@@ -227,31 +258,70 @@ class _ProfileHomeState extends State<ProfileHome> {
                   Padding(
                     padding: EdgeInsets.all(10),
                   ),
-                  Text("더 많은 기능을 사용하시려면"),
-                  Text("로그인/회원가입 하십시오."),
+                  Text("간편 로그인",
+                      style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.black87)),
                   Padding(
                     padding: EdgeInsets.all(10),
                   ),
-                  ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Color(0xffFFC845))),
-                      onPressed: () async {
-                        var a = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SignInScreen()));
-                        if (a == true) {
-                          setState(() {
-                            _isLogin = true;
-                          });
-                        }
-                      },
-                      child: Text("로그인/회원가입",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                              color: Colors.white)))
+
+                  //여기서부터 동그라미 로그인 버튼 구현
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right:5),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: SizedBox(
+                            height: 60,
+                            width: 60,
+                             child: ElevatedButton(
+                                child: Image.asset(
+                                    'assets/images/google_logo.png'),
+                                onPressed: signInWithGoogle,
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.white,
+                                  shape: CircleBorder(),
+                                ),
+                              )
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(right:10, left: 10),
+                        child: FittedBox(
+                          child: SizedBox(
+                              height: 60,
+                              width: 60,
+                              child: ElevatedButton(
+                                child: Text('f',
+
+                                    style: TextStyle(
+                                        fontFamily: 'Facebook',
+                                        fontWeight: FontWeight.bold,
+                                        height: 1.5,
+                                        fontSize: 35,
+                                        color: Colors.white)
+                                ),
+                                onPressed: signInWithFacebook,
+                                style: ElevatedButton.styleFrom(
+                                  primary: Color(0xFF3B5998),
+                                  shape: CircleBorder(),
+                                ),
+                              )
+                          ),
+                        ),
+                      ),
+
+
+                    ],
+                  )
+
+
                 ],
               )),
             ),
@@ -328,6 +398,7 @@ class _ProfileHomeState extends State<ProfileHome> {
           ],
         ));
   }
+
 
   Widget _NoListMenu() {
     return Expanded(
