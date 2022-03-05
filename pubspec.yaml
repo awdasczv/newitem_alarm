@@ -85,6 +85,10 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  fonts:
+    - family: Facebook
+      fonts:
+        - asset: fonts/FACEBOLF.OTF
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -99,6 +103,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/icons_new/
 
 
   # To add assets to your application, add an assets section, like this:
