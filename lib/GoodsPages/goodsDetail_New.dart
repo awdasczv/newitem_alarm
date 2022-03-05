@@ -29,6 +29,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
   final bar = ['댓글', '리뷰', '먹TV'];
   final CarouselController _carouselController = CarouselController();
 
+  bool buttonStyle = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -238,7 +239,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
           decoration: BoxDecoration(
             color: Colors.white,
           ),
-          height: 195,
+          //height: 500,
           child: Column(
             children: [
               Padding(
@@ -329,29 +330,70 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                         )
                       ],
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          '영양성분',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w600),
-                        ),
-                        // const SizedBox(
-                        //   width: 15,
-                        // ),
-                        IconButton(
-                          onPressed: () {},
-                          //추후에 영양성분 api랑 연결해서 정보 뜨게 만들기!
-                          icon: Icon(Icons.arrow_forward_ios_rounded),
-                          iconSize: 15,
-                        )
-                      ],
-                    )
+                    buttonStyle == false ? Nutrient1() : Nutrient2(),
                   ],
                 ),
               )
             ],
           )),
+    );
+  }
+
+  Widget Nutrient1() {
+    return Row(
+      children: [
+        Text(
+          '영양성분',
+          style: TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w600),
+        ),
+        // const SizedBox(
+        //   width: 15,
+        // ),
+        IconButton(
+          icon: Icon(Icons.arrow_forward_ios_rounded),
+          iconSize: 15,
+          onPressed: () {
+            setState(() {
+              buttonStyle = !buttonStyle;
+            });
+          },
+          //추후에 영양성분 api랑 연결해서 정보 뜨게 만들기!
+
+        ),
+        //Nutrient(),
+      ],
+    );
+  }
+
+  Widget Nutrient2() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('영양성분', style: TextStyle( fontSize: 14, fontWeight: FontWeight.w600),),
+            // const SizedBox(
+            //   width: 15,
+            // ),
+            IconButton(
+              icon: Icon(Icons.keyboard_arrow_down_sharp),
+              iconSize: 25,
+              onPressed: () {
+                setState(() {
+                  buttonStyle = !buttonStyle;
+                });
+              },
+              //추후에 영양성분 api랑 연결해서 정보 뜨게 만들기!
+            ),
+          ],
+        ),
+        Text( '가나다라마바사akefeihjaie라더먀더ㅑ처파ㅓ미ㅏ어먀ㅐ더마ㅓㅜㅊ낲미ㅏ괘먀ㅙㅏ춮먀ㅗㄷ개먀니차ㅓㅍ먀거매ㅑㅜ내먀ㅙ먀ㅗㅓㅐㅑ더', style: TextStyle( fontSize: 14, fontWeight: FontWeight.w600), ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+        )
+      ],
     );
   }
 
