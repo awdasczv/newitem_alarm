@@ -22,7 +22,7 @@ Map<int,String> category = {
   12 : '과자'
 };
 
-class Review{
+class ReviewData{
   final String uid;
   final double starScore;
   final String goodsID;
@@ -30,7 +30,7 @@ class Review{
   final DateTime updateTime;
   final String mainText;
 
-  Review({
+  ReviewData({
     this.uid,
     this.starScore = 0,
     this.mainText = "",

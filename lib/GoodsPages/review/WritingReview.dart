@@ -36,7 +36,7 @@ class _WritingReviewState extends State<WritingReview> {
     _user = _firebaseAuth.currentUser;
   }
 
-  ReviewData _reviewData;
+  TempReviewData _reviewData;
   XFile _uploadImage;
   XFile _tempUploadImage;
   bool _success_get_image = false;
@@ -45,7 +45,7 @@ class _WritingReviewState extends State<WritingReview> {
   @override
   void initState() {
     // TODO: implement initState
-    _reviewData = ReviewData(
+    _reviewData = TempReviewData(
         profileImageUrl: 'templink',
         nickname: '임시',
         starScore: 3.0,
