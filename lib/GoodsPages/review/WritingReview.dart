@@ -26,6 +26,8 @@ class _WritingReviewState extends State<WritingReview> {
   final _tc = TextEditingController();
   final _nickNameTc = TextEditingController();
 
+  double _imageBoxLength;
+
   File _image;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User _user;
@@ -38,8 +40,11 @@ class _WritingReviewState extends State<WritingReview> {
 
   TempReviewData _reviewData;
   XFile _uploadImage;
-  XFile _tempUploadImage;
   bool _success_get_image = false;
+
+  List<XFile> _uploadImageList = [];
+
+  XFile _tempUploadImage;
   bool _temp_success_get_image = false;
 
   @override
@@ -54,11 +59,44 @@ class _WritingReviewState extends State<WritingReview> {
     );
     _prepareService();
 
+
     super.initState();
+  }
+
+  Future<void> _uploadReview() async{
+    if(_success_get_image == false && _tc.text.length < 1){
+      return;
+    }
+
+     var documentSnapshot = await FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).get();
+
+
+     int _reviewNum = documentSnapshot.data()["reviewNum"] + 1;
+
+     String _reviewId = widget.goods.id + '-02-' + _reviewNum.toString();
+
+
+     List<File> _tempUploadFile = List.generate(_uploadImageList.length, (index) => File(_uploadImageList[index].path));
+
+     for(int i = 0 ; i < _tempUploadFile.length ; i++){
+       //사진 경로 설정
+       Reference ref = _firebaseStorage.ref().child("reviewImage/${widget.goods.id}/${_reviewId.toString()}/${i.toString()}");
+
+       // 사진 업로드
+       UploadTask  storageUploadTask = ref.putFile(_tempUploadFile[i]);
+       // 파일 업로드 완료까지 대기
+       await storageUploadTask.whenComplete(() => null);
+
+       // 업로드한 사진의 URL 획득
+       String downloadURL = await ref.getDownloadURL();
+     }
+
   }
 
   @override
   Widget build(BuildContext context) {
+    _imageBoxLength = MediaQuery.of(context).size.width/6;
+
     return Scaffold(
       body: SafeArea(
           child: ListView(
@@ -78,7 +116,7 @@ class _WritingReviewState extends State<WritingReview> {
                   Spacer(),
                   TextButton(
                       onPressed: ()async{
-                        uploadNewGoods();
+                        await _uploadReview();
                         Navigator.pop(context);
                       },
                       child: Text('완료',style: TextStyle(color: Colors.black,fontSize: 17),
@@ -86,20 +124,26 @@ class _WritingReviewState extends State<WritingReview> {
                   )
                 ],
               ),
-              Text(widget.goods.title),
-              RatingBar.builder(
-                initialRating: 3,
-                minRating: 1,
-                direction: Axis.horizontal,
-                itemCount: 5,
-                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                itemBuilder: (context, _) => Icon(
-                  Icons.star,
-                  color: Colors.amber,
+              Center(
+                child: Column(
+                  children: [
+                    Text(widget.goods.title),
+                    RatingBar.builder(
+                      initialRating: 3,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      onRatingUpdate: (rating) {
+                        _reviewData.starScore = rating;
+                      },
+                    ),
+                  ],
                 ),
-                onRatingUpdate: (rating) {
-                  _reviewData.starScore = rating;
-                },
               ),
               Container(
                 margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -128,41 +172,58 @@ class _WritingReviewState extends State<WritingReview> {
                   children: [
                     InkWell(
                       child: Container(
-                        height: 50,
-                        width: 50,
+                        height:_imageBoxLength,
+                        width:_imageBoxLength,
                         color: Colors.grey.shade200,
                         margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                        child: Icon(Icons.image),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Icon(Icons.image),
+                            Text(_uploadImageList.length.toString() + '/4')
+                          ],
+                        ),
                       ),
                       onTap: () async{
-                        var _image = await ImagePicker().pickImage(source: ImageSource.gallery);
+                        var _image = await ImagePicker().pickMultiImage();
                         if(_image != null){
                           setState(() {
-                            _uploadImage = _image;
+                            _uploadImage = _image.first;
+                            if(_image.length > 4){
+                              _uploadImageList = _image.sublist(0,4);
+                            }
+                            else _uploadImageList = _image;
                             _success_get_image = true;
                           });
                         }
                       },
                     ),
                     _success_get_image == true ?
-                    Container(
-                      height: 50,
-                      width: 50,
-                      child: Image.file(File(_uploadImage.path),fit: BoxFit.cover),
-                    ) :
+                    Expanded(
+                        child: Container(
+                          height: _imageBoxLength,
+                          child: ListView.separated(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: _uploadImageList.length,
+                              itemBuilder: (BuildContext context,int index){
+                                return Container(
+                                  height:_imageBoxLength,
+                                  width: _imageBoxLength,
+                                  child: Image.file(File(_uploadImageList[index].path),fit: BoxFit.cover),
+                                );
+                              },
+                            separatorBuilder: (BuildContext context, int index){
+                                return SizedBox(width: 10,);
+                            },
+                          ),
+                        )
+                    ):
                     Container()
                   ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: TextField(
-                  controller: _nickNameTc,
-                  decoration: InputDecoration(
-                      hintText: '임시 닉네임 적어두는곳'
-                  ),
-                ),
-              ),
+              /*
               Padding(
                 padding:  EdgeInsets.fromLTRB(10, 10, 10, 10),
                 child:  Row(
@@ -213,13 +274,7 @@ class _WritingReviewState extends State<WritingReview> {
                     Container()
                   ],
                 ),
-              ),
-              ElevatedButton(
-                  onPressed: (){
-                    uploadNewGoods();
-                  },
-                  child: Text('임시 버튼(새 상품 업로드)')
-              )
+              ),*/
             ],
           )
       ),

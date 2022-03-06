@@ -37,6 +37,19 @@ class _ProfileHomeState extends State<ProfileHome> {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
+  Future<UserCredential> signInWithFacebook() async {
+    // Trigger the sign-in flow
+    final AccessToken result = (await FacebookAuth.instance.login()) as AccessToken;
+
+    // Create a credential from the access token
+    final FacebookAuthCredential facebookAuthCredential =
+    FacebookAuthProvider.credential(result.token);
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance
+        .signInWithCredential(facebookAuthCredential);
+  }
+
   String _name = "";
   String _imagePath = "";
   final ImagePicker _picker = ImagePicker();
