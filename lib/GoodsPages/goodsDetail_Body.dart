@@ -18,6 +18,8 @@ class Top extends StatefulWidget {
 class _TopState extends State<Top> {
   int _currentimage = 0;
 
+  bool buttonStyle = true;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -172,6 +174,7 @@ class _TopState extends State<Top> {
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
+
                                             Row(
                                               children: [
                                                 Text('출시일 ',
@@ -382,6 +385,36 @@ class _TopState extends State<Top> {
             const Padding(padding: EdgeInsets.only(bottom: 10)),
           ],
         ));
+  }
+
+  Widget ButtonStyle() {
+    if (buttonStyle = false)
+      {
+        return IconButton(
+          onPressed: () {
+          },
+          //추후에 영양성분 api랑 연결해서 정보 뜨게 만들기!
+          icon: Icon(Icons
+              .arrow_forward_ios_sharp),
+          iconSize: 15,
+        );
+      }
+    else
+      {
+        return IconButton(
+          onPressed: () {
+            //buttonStyle = false;
+          },
+          //추후에 영양성분 api랑 연결해서 정보 뜨게 만들기!
+          icon: Icon(Icons
+              .keyboard_arrow_down_sharp),
+          iconSize: 15,
+        );
+      }
+  }
+
+  Widget Nutrient() {
+    return Text("가나다라마바사아자차카타파하");
   }
 }
 // CircleAvatar(
