@@ -24,6 +24,7 @@ Map<int,String> category = {
 
 class ReviewData{
   final String uid;
+  final String reviewID;
   final double starScore;
   final String goodsID;
   final List<String> reviewImageUrl;
@@ -33,11 +34,25 @@ class ReviewData{
   ReviewData({
     this.uid,
     this.starScore = 0,
+    this.reviewID,
     this.mainText = "",
     this.reviewImageUrl = const [""],
     this.updateTime,
     this.goodsID
 });
+
+  factory ReviewData.fromJson(Map<String,dynamic> json){
+    return ReviewData(
+      uid : json['uid'],
+      starScore : json['starScore'],
+      reviewID: json['reviewId'],
+      mainText : json['mainText'],
+      reviewImageUrl : json['reviewImageUrl'],
+      updateTime: json['updateTime'],
+      goodsID: json['goodsId']
+    );
+  }
+
   void uploadReview ()async{
     FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
     FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

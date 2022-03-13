@@ -4,45 +4,47 @@ import 'package:vertical_barchart/vertical-barchartmodel.dart';
 
 class ProductReview extends StatelessWidget {
 
+  List<VBarChartModel> bardata = [
+    VBarChartModel(
+      index: 0,
+      label: "5.0",
+      colors: [Color(0xffFFC845), Color(0xffFFC845)],
+      jumlah: 179,
+      tooltip: "179개",
+    ),
+    VBarChartModel(
+      index: 1,
+      label: "4.0",
+      colors: [Color(0xffFFC845), Color(0xffFFC845)],
+      jumlah: 123,
+      tooltip: "123개",
+    ),
+    VBarChartModel(
+      index: 2,
+      label: "3.0",
+      colors: [Color(0xffFFC845), Color(0xffFFC845)],
+      jumlah: 121,
+      tooltip: "121개",
+    ),
+    VBarChartModel(
+      index: 3,
+      label: "2.0",
+      colors: [Color(0xffFFC845), Color(0xffFFC845)],
+      jumlah: 4,
+      tooltip: "4개",
+    ),
+    VBarChartModel(
+      index: 4,
+      label: "1.0",
+      colors: [Color(0xffFFC845), Color(0xffFFC845)],
+      jumlah: 7,
+      tooltip: "7개",
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    List<VBarChartModel> bardata = [
-      VBarChartModel(
-        index: 0,
-        label: "5.0",
-        colors: [Color(0xffFFC845), Color(0xffFFC845)],
-        jumlah: 179,
-        tooltip: "179개",
-      ),
-      VBarChartModel(
-        index: 1,
-        label: "4.0",
-        colors: [Color(0xffFFC845), Color(0xffFFC845)],
-        jumlah: 123,
-        tooltip: "123개",
-      ),
-      VBarChartModel(
-        index: 2,
-        label: "3.0",
-        colors: [Color(0xffFFC845), Color(0xffFFC845)],
-        jumlah: 121,
-        tooltip: "121개",
-      ),
-      VBarChartModel(
-        index: 3,
-        label: "2.0",
-        colors: [Color(0xffFFC845), Color(0xffFFC845)],
-        jumlah: 4,
-        tooltip: "4개",
-      ),
-      VBarChartModel(
-        index: 4,
-        label: "1.0",
-        colors: [Color(0xffFFC845), Color(0xffFFC845)],
-        jumlah: 7,
-        tooltip: "7개",
-      ),
-    ];
+
     return Container(
       width: 200,
       height: 500,
@@ -54,6 +56,10 @@ class ProductReview extends StatelessWidget {
         child: _buildGrafik(bardata),
       ),
     );
+  }
+
+  double sum(){
+    return 3;
   }
 
   Widget _buildGrafik(List<VBarChartModel> bardata) {

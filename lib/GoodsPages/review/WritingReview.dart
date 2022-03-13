@@ -24,41 +24,31 @@ class _WritingReviewState extends State<WritingReview> {
 
   final mainColor = 0xfff1c40f;
   final _tc = TextEditingController();
-  final _nickNameTc = TextEditingController();
 
   double _imageBoxLength;
 
-  File _image;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User _user;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-  String _profileImageURL = "";
 
-  void _prepareService() async {
-    _user = _firebaseAuth.currentUser;
-  }
+  CollectionReference reviewRef;
+  DocumentReference goodsRef;
 
-  TempReviewData _reviewData;
-  XFile _uploadImage;
+
   bool _success_get_image = false;
 
   List<XFile> _uploadImageList = [];
 
-  XFile _tempUploadImage;
-  bool _temp_success_get_image = false;
-
+  double _starScore = 3;
+  List<String> _reviewImageUrlForFirebase = [];
+  
   @override
   void initState() {
     // TODO: implement initState
-    _reviewData = TempReviewData(
-        profileImageUrl: 'templink',
-        nickname: '임시',
-        starScore: 3.0,
-        reviewImageUrl: '',
-        mainText: ''
-    );
-    _prepareService();
-
+    _user = _firebaseAuth.currentUser;
+    
+    reviewRef = FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).collection('Review');
+    goodsRef = FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id);
 
     super.initState();
   }
@@ -75,7 +65,6 @@ class _WritingReviewState extends State<WritingReview> {
 
      String _reviewId = widget.goods.id + '-02-' + _reviewNum.toString();
 
-
      List<File> _tempUploadFile = List.generate(_uploadImageList.length, (index) => File(_uploadImageList[index].path));
 
      for(int i = 0 ; i < _tempUploadFile.length ; i++){
@@ -89,8 +78,23 @@ class _WritingReviewState extends State<WritingReview> {
 
        // 업로드한 사진의 URL 획득
        String downloadURL = await ref.getDownloadURL();
-     }
 
+       _reviewImageUrlForFirebase.add(downloadURL);
+     }
+     
+     reviewRef.doc(_reviewId).set({
+       'uid':_user.uid,
+       'reviewId' : _reviewId,
+       'starScore' : _starScore,
+       'mainText': _tc.text,
+       'goodsId' : widget.goods.id,
+       'updateTime' : Timestamp.now(),
+       'reviewImageUrl' : _reviewImageUrlForFirebase
+     });
+
+     goodsRef.update({
+       'reviewNum' : _reviewNum
+     });
   }
 
   @override
@@ -139,7 +143,7 @@ class _WritingReviewState extends State<WritingReview> {
                         color: Colors.amber,
                       ),
                       onRatingUpdate: (rating) {
-                        _reviewData.starScore = rating;
+                        _starScore = rating;
                       },
                     ),
                   ],
@@ -188,7 +192,6 @@ class _WritingReviewState extends State<WritingReview> {
                         var _image = await ImagePicker().pickMultiImage();
                         if(_image != null){
                           setState(() {
-                            _uploadImage = _image.first;
                             if(_image.length > 4){
                               _uploadImageList = _image.sublist(0,4);
                             }
@@ -223,58 +226,6 @@ class _WritingReviewState extends State<WritingReview> {
                   ],
                 ),
               ),
-              /*
-              Padding(
-                padding:  EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child:  Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      child: Container(
-                        height: 50,
-                        width: 100,
-                        color: Colors.grey.shade200,
-                        margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                        child: Text('임시프로필이미지 가져오는곳'),
-                      ),
-                      onTap: () async{
-                        var _image = await ImagePicker().pickImage(source: ImageSource.gallery);
-                        if(_image != null){
-                          setState(() {
-                            _tempUploadImage = _image;
-                            _temp_success_get_image = true;
-                          });
-                        }
-                        // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거
-                        Reference ref = _firebaseStorage.ref().child("reviewImage/${widget.goods.id}/profileImage");
-
-                        // 파일 업로드
-                        File _tempFile = File(_tempUploadImage.path);
-                        UploadTask  storageUploadTask = ref.putFile(_tempFile);
-
-                        // 파일 업로드 완료까지 대기
-                        await storageUploadTask.whenComplete(() => null);
-
-                        // 업로드한 사진의 URL 획득
-                        String downloadURL = await ref.getDownloadURL();
-
-                        // 업로드된 사진의 URL을 페이지에 반영
-                        setState(() {
-                          _profileImageURL = downloadURL;
-                        });
-                        print(_profileImageURL);
-                      },
-                    ),
-                    _temp_success_get_image == true ?
-                    Container(
-                      height: 50,
-                      width: 50,
-                      child: Image.file(File(_tempUploadImage.path),fit: BoxFit.cover),
-                    ) :
-                    Container()
-                  ],
-                ),
-              ),*/
             ],
           )
       ),
@@ -296,8 +247,6 @@ class _WritingReviewState extends State<WritingReview> {
     );
 
     newGoods.uploadNewGoods();
-
-
   }
 
   Map<int,String> category = {

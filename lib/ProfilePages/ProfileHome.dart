@@ -50,6 +50,7 @@ class _ProfileHomeState extends State<ProfileHome> {
         .signInWithCredential(facebookAuthCredential);
   }
 
+
   String _name = "";
   String _imagePath = "";
   final ImagePicker _picker = ImagePicker();

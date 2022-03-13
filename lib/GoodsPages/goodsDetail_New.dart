@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -29,6 +30,8 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
   final bar = ['댓글', '리뷰', '먹TV'];
   final CarouselController _carouselController = CarouselController();
 
+  User _user;
+
   bool buttonStyle = false;
   @override
   void initState() {
@@ -36,6 +39,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
     super.initState();
   //  print(widget.goods.starScore);
 
+    _user = FirebaseAuth.instance.currentUser;
   }
 
   @override
@@ -212,6 +216,27 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                     onPressed: () {},
                     child: TextButton(
                       onPressed: () {
+                        if(_user == null){
+                          showDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (BuildContext context){
+                                return AlertDialog(
+                                  title: Text('로그인 후 이용해주세요'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: (){
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('네')
+                                    )
+                                  ],
+                                );
+                              }
+                          );
+                          return;
+                        }
+
                         Navigator.push(
                             context,
                             MaterialPageRoute(
