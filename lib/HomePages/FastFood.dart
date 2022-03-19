@@ -11,6 +11,9 @@ import '../LikePages/Goods_Card.dart';
 import '../model/goods.dart';
 
 class FastFood extends StatefulWidget {
+  final String changeName;
+
+  const FastFood({Key key, this.changeName}) : super(key: key);
   @override
   _State createState() => _State();
 }
@@ -19,6 +22,7 @@ class _State extends State<FastFood> {
   DateTime _selectedDateTime = DateTime.now();
   DateTime _selectedDate = DateTime.now();
   String text = '';
+
 
   List yearList = ["2021년", "2020년", "2019년"];
 
@@ -55,9 +59,12 @@ class _State extends State<FastFood> {
   String year;
   String month;
 
+  String pn;
+
   @override
   void initState() {
     super.initState();
+    pn = widget.changeName;
 
     year = DateTime.now().year.toString();
     month = DateTime.now().month.toString();
@@ -73,6 +80,23 @@ class _State extends State<FastFood> {
       );
     }
   }
+
+  /*Widget ChangeProductName() {
+    if(pn[0])
+      {
+        return Text(
+          "젤리/초콜릿",
+          style: TextStyle(fontSize: 25, color: Colors.black),
+        );
+      }
+    if(pn[0])
+    {
+      return Text(
+        "빵",
+        style: TextStyle(fontSize: 25, color: Colors.black),
+      );
+    }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +119,7 @@ class _State extends State<FastFood> {
                   ),
                   centerTitle: true,
                   title: Text(
-                    "패스트푸드",
+                    pn,
                     style: TextStyle(fontSize: 25, color: Colors.black),
                   ),
                   floating: true,

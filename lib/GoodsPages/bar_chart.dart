@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vertical_barchart/vertical-barchart.dart';
 import 'package:vertical_barchart/vertical-barchartmodel.dart';
 
+
 class ProductReview extends StatelessWidget {
 
   String Sum()
@@ -27,127 +28,61 @@ class ProductReview extends StatelessWidget {
       label: "5.0",
       colors: [Color(0xffFFC845), Color(0xffFFC845)],
       jumlah: 179,
-      tooltip: "",
+      tooltip: "179",
     ),
     VBarChartModel(
       index: 1,
       label: "4.0",
       colors: [Color(0xffFFC845), Color(0xffFFC845)],
       jumlah: 123,
-      tooltip: "",
+      tooltip: "123",
     ),
     VBarChartModel(
       index: 2,
       label: "3.0",
       colors: [Color(0xffFFC845), Color(0xffFFC845)],
       jumlah: 121,
-      tooltip: "",
+      tooltip: "121",
     ),
     VBarChartModel(
       index: 3,
       label: "2.0",
       colors: [Color(0xffFFC845), Color(0xffFFC845)],
       jumlah: 4,
-      tooltip: "",
+      tooltip: "4",
     ),
     VBarChartModel(
       index: 4,
       label: "1.0",
       colors: [Color(0xffFFC845), Color(0xffFFC845)],
       jumlah: 7,
-      tooltip: "",
+      tooltip: "7",
     ),
   ];
   @override
   Widget build(BuildContext context) {
-
-
-    List<VBarChartModel> barcolor = [
-      VBarChartModel(
-        index: 0,
-        label: "",
-        colors: [Colors.grey, Colors.grey],
-        jumlah: 400,
-        tooltip: "179개",
-      ),
-      VBarChartModel(
-        index: 1,
-        label: "",
-        colors: [Colors.grey, Colors.grey],
-        jumlah: 400,
-        tooltip: "123개",
-      ),
-      VBarChartModel(
-        index: 2,
-        label: "",
-        colors: [Colors.grey, Colors.grey],
-        jumlah: 400,
-        tooltip: "121개",
-      ),
-      VBarChartModel(
-        index: 3,
-        label: "",
-        colors: [Colors.grey, Colors.grey],
-        jumlah: 400,
-        tooltip: "4개",
-      ),
-      VBarChartModel(
-        index: 4,
-        label: "",
-        colors: [Colors.grey, Colors.grey],
-        jumlah: 400,
-        tooltip: "7개",
-      ),
-
-    ];
-
-    // 평점 계산
-
-    //////////////////////////////////////////////////
     return Container(
       width: 200,
       height: 500,
-      //resizeToAvoidBottomInset: false,
-      //color: Colors.blue,
-      //child: Text('${avg.toStringAsFixed(1)}'),   // 평점 계산
       child: Container(
         width: 200,
         height: 130,
-        child: _buildGrafik(bardata, barcolor),
+        child: _buildGrafik(bardata),
       ),
     );
   }
 
-
-
-  Widget _buildGrafik(List<VBarChartModel> bardata, barcolor) {
-    return Stack(
-        children: [
-          VerticalBarchart(
-            background: Colors.transparent,
-            labelColor: Colors.grey,
-            tooltipColor: Colors.grey,
-            maxX: 400,
-            data: barcolor,
-            barStyle: BarStyle.DEFAULT,
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 4,
-            child: VerticalBarchart(
-              background: Colors.transparent,
-              labelColor: Color(0xff283137),
-              tooltipColor: Color(0xff8e97a0),
-              maxX: 400,
-              data: bardata,
-              barStyle: BarStyle.DEFAULT,
-            ),
-          )
-        ],
+  Widget _buildGrafik(List<VBarChartModel> bardata) {
+    return VerticalBarchart(
+      background: Colors.transparent,
+      labelColor: Color(0xff283137),
+      tooltipColor: Color(0xff8e97a0),
+      maxX: 400,
+      data: bardata,
+      barStyle: BarStyle.DEFAULT,
     );
   }
+
 
   /*
   Widget _buildGrafik(List<VBarChartModel> bardata) {
