@@ -30,7 +30,6 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
   final bar = ['댓글', '리뷰', '먹TV'];
   final CarouselController _carouselController = CarouselController();
 
-
   bool buttonStyle = false;
   @override
   void initState() {
@@ -205,7 +204,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                             ),
                           ],
                         ),*/
-                        ProductReview()
+                        ProductReview(),
                       ],
                     )),
              //   const Padding(padding: EdgeInsets.only(bottom: 10)),

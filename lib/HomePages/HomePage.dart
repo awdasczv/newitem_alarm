@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/HomePages/FastFood.dart';
+import 'package:newitem_alarm/HomePages/HomePage.dart';
 import 'package:newitem_alarm/HomePages/SearchPage.dart';
 import 'package:newitem_alarm/model/Firestore_model.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
@@ -17,11 +18,15 @@ class HomePage extends StatefulWidget {
 
   static String routeName = "/home";
 
+
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
+  String productName = "";
 
   CollectionReference goodsRef = FirebaseFirestore.instance.collection('Goods');
   
@@ -239,9 +244,47 @@ class _HomePageState extends State<HomePage> {
       child: InkWell(
         //splashColor: Colors.green,
         onTap: () async {
+          setState(() {
+            if(label == "젤리/초콜릿") {
+              productName = "젤리/초콜릿";
+            }
+            if(label == "빵") {
+              productName = "빵";
+            }
+            if(label == "음료") {
+              productName = "음료";
+            }
+            if(label == "카페/디저트") {
+              productName = "카페/디저트";
+            }
+            if(label == "주류") {
+              productName = "주류";
+            }
+            if(label == "라면") {
+              productName = "라면";
+            }
+            if(label == "햄버거") {
+              productName = "햄버거";
+            }
+            if(label == "피자") {
+              productName = "피자";
+            }
+            if(label == "치킨") {
+              productName = "치킨";
+            }
+            if(label == "즉석/냉동") {
+              productName = "즉석/냉동";
+            }
+            if(label == "아이스크림") {
+              productName = "아이스크림";
+            }
+            if(label == "과자") {
+              productName = "과자";
+            }
+          });
           await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => FastFood()),
+            MaterialPageRoute(builder: (context) => FastFood(changeName: productName)),
           );
         },
         child: Column(
