@@ -5,9 +5,9 @@ import 'package:newitem_alarm/HomePages/FastFood.dart';
 import 'package:newitem_alarm/HomePages/SearchPage.dart';
 import 'package:newitem_alarm/model/Firestore_model.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
+import 'package:simple_shadow/simple_shadow.dart';
 
 import '../GoodsPages/goodsDetail_New.dart';
-
 import '../model/goods.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,30 +22,30 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   CollectionReference goodsRef = FirebaseFirestore.instance.collection('Goods');
-  
-  Widget _newProductList(){
+
+  Widget _newProductList() {
     return FutureBuilder<QuerySnapshot>(
-      future:  goodsRef.orderBy('launchdate',descending: false).get(),
-      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f))),
-          );
-        } else if (snapshot.hasError) {
-          return Center(child: Text(snapshot.error.toString()));
-        }
-        final List<QueryDocumentSnapshot<Object>> _newGoodsList = snapshot.data.docs;
-        return ListView.builder(
-            itemCount: _newGoodsList.length - 1,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return _itemContainer(_newGoodsList[index].data(), index);
-            });
-      });
+        future: goodsRef.orderBy('launchdate', descending: false).get(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f))),
+            );
+          } else if (snapshot.hasError) {
+            return Center(child: Text(snapshot.error.toString()));
+          }
+          final List<QueryDocumentSnapshot<Object>> _newGoodsList =
+              snapshot.data.docs;
+          return ListView.builder(
+              itemCount: _newGoodsList.length - 1,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return _itemContainer(_newGoodsList[index].data(), index);
+              });
+        });
   }
 
   final _colorList1 = [
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
 
   List<bool> _isfavorite;
   final _colorList2 = [Colors.black54, Colors.black87];
-  
+
   @override
   void initState() {
     // TODO: implement initState
@@ -76,24 +76,24 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          children: [
-            _banner(),
-            _category(),
-            Divider(
-              thickness: 3,
-            ),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Text(
-                '이주의 신상',
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            _newProductList()
-          ],
-        ));
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      children: [
+        _banner(),
+        _category(),
+        Divider(
+          thickness: 3,
+        ),
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: Text(
+            '이주의 신상',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+        _newProductList()
+      ],
+    ));
   }
 
   Widget _banner() {
@@ -246,13 +246,19 @@ class _HomePageState extends State<HomePage> {
         },
         child: Column(
           children: [
-            Container(
-                height: 50,
-                width: 50,
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(image: AssetImage(icons)))),
+            SimpleShadow(
+              opacity: 0.8,
+              sigma: 1,
+              offset: Offset(4, 4),
+              color: Colors.grey,
+              child: Container(
+                  height: 50,
+                  width: 50,
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(image: AssetImage(icons)))),
+            ),
             Text(
               label,
               style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
@@ -262,7 +268,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  
+
 /*
   Widget _itemList() {
     return ListView.builder(
@@ -274,8 +280,7 @@ class _HomePageState extends State<HomePage> {
         });
   }*/
 
-  Widget _itemContainer(var _item,index) {
-
+  Widget _itemContainer(var _item, index) {
     NewGoods _goods = NewGoods.fromJson(_item);
     Icon _icon() {
       if (_isfavorite[index]) {
@@ -311,9 +316,8 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => GoodsDetailHome(
-                                  goods: _goods,
-                                )));
-
+                                      goods: _goods,
+                                    )));
                       },
                       child: Column(
                         children: [
@@ -324,10 +328,9 @@ class _HomePageState extends State<HomePage> {
                                 decoration: BoxDecoration(
                                     image: DecorationImage(
                                         fit: BoxFit.contain,
-                                        image: NetworkImage(
-                                            _goods.imageURL[0]))),
+                                        image:
+                                            NetworkImage(_goods.imageURL[0]))),
                               ),
-
                             ],
                           ),
                           Container(

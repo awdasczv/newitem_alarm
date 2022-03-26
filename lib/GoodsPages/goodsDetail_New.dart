@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:newitem_alarm/GoodsPages/MukTV.dart';
 import 'package:newitem_alarm/model/Firestore_model.dart';
-import 'package:newitem_alarm/model/goods.dart';
 
 import './comment/Comment.dart';
 import './review/Review.dart';
@@ -28,13 +27,13 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
   int currentIndex = 0;
   final bar = ['댓글', '리뷰', '먹TV'];
   final CarouselController _carouselController = CarouselController();
+  bool _expandNutrient = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-  //  print(widget.goods.starScore);
-
+    //  print(widget.goods.starScore);
   }
 
   @override
@@ -77,10 +76,12 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                   ];
                 },
                 body: TabBarView(
-                  children: [Comment(), ReviewPage(goods: widget.goods), MukTV()],
-                )
-            )
-        ),
+                  children: [
+                    Comment(goods: widget.goods),
+                    ReviewPage(goods: widget.goods),
+                    MukTV()
+                  ],
+                ))),
       ),
     );
   }
@@ -123,41 +124,41 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                 const Padding(padding: EdgeInsets.only(bottom: 10)),
                 Expanded(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          mainAxisAlignment:
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      mainAxisAlignment:
                           MainAxisAlignment.center, //Column일 때 가운데 정렬
-                          children: [
-                            Text(
-                              widget.goods.starScore.toString(),
-                              style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            RatingBarIndicator(
-                              rating: widget.goods.starScore,
-                              itemBuilder: (context, index) {
-                                return Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                );
-                              },
-                              itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                              itemCount: 5,
-                              itemSize: 15,
-                              direction: Axis.horizontal,
-                            ),
-                          ],
+                      children: [
+                        Text(
+                          widget.goods.starScore.toString(),
+                          style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        Container(
-                          width: 2,
-                          height: 120,
-                          color: Colors.grey[200],
+                        RatingBarIndicator(
+                          rating: widget.goods.starScore,
+                          itemBuilder: (context, index) {
+                            return Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            );
+                          },
+                          itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                          itemCount: 5,
+                          itemSize: 15,
+                          direction: Axis.horizontal,
                         ),
-                        //여기서는 VerticalDivider()보다 Container()사용하는 게 더 편함.
-                        /*Column(
+                      ],
+                    ),
+                    Container(
+                      width: 2,
+                      height: 120,
+                      color: Colors.grey[200],
+                    ),
+                    //여기서는 VerticalDivider()보다 Container()사용하는 게 더 편함.
+                    /*Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             RatingBarIndicator(
@@ -202,10 +203,10 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                             ),
                           ],
                         ),*/
-                        ProductReview()
-                      ],
-                    )),
-             //   const Padding(padding: EdgeInsets.only(bottom: 10)),
+                    ProductReview()
+                  ],
+                )),
+                //   const Padding(padding: EdgeInsets.only(bottom: 10)),
 
                 TextButton(
                     onPressed: () {},
@@ -329,24 +330,52 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                         )
                       ],
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          '영양성분',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w600),
-                        ),
-                        // const SizedBox(
-                        //   width: 15,
-                        // ),
-                        IconButton(
-                          onPressed: () {},
-                          //추후에 영양성분 api랑 연결해서 정보 뜨게 만들기!
-                          icon: Icon(Icons.arrow_forward_ios_rounded),
-                          iconSize: 15,
-                        )
-                      ],
-                    )
+                    _expandNutrient == false
+                        ? Row(
+                            children: [
+                              Text(
+                                '영양성분',
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w600),
+                              ),
+                              // const SizedBox(
+                              //   width: 15,
+                              // ),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _expandNutrient = true;
+                                  });
+                                },
+                                //추후에 영양성분 api랑 연결해서 정보 뜨게 만들기!
+                                icon: Icon(Icons.arrow_forward_ios_rounded),
+                                iconSize: 15,
+                              ),
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              Text(
+                                '영양성분',
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w600),
+                              ),
+                              // const SizedBox(
+                              //   width: 15,
+                              // ),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _expandNutrient = false;
+                                  });
+                                },
+                                //추후에 영양성분 api랑 연결해서 정보 뜨게 만들기!
+                                icon: Icon(Icons.arrow_forward_ios_rounded),
+                                iconSize: 15,
+                              ),
+                              Text('가나마라')
+                            ],
+                          )
                   ],
                 ),
               )
@@ -555,7 +584,6 @@ class TabSliverDelegate extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
 }
-
 
 /*
 RatingBarIndicator(

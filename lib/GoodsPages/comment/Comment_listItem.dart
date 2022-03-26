@@ -37,9 +37,7 @@ class commentListItem extends StatefulWidget {
 class _commentListItemState extends State<commentListItem> {
   final auth = FirebaseAuth.instance;
   final mainColor = Color(0xffFFC845);
-  CollectionReference commentRef =
-      FirebaseFirestore.instance.collection('comment');
-  bool _isReply = false;
+  bool isReply = false;
 
   // Future<void> updateComment(DocumentSnapshot doc, String text) {
   //   return commentRef.doc(doc.id).update({
@@ -58,111 +56,108 @@ class _commentListItemState extends State<commentListItem> {
 
   @override
   Widget build(BuildContext context) {
-    return _isReply == false
-        ? Container(
-            color: _isReply == false ? null : mainColor.withOpacity(.09),
-            child: Column(
+    return Container(
+      color: isReply ? mainColor.withOpacity(.09) : null,
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.only(top: 5, bottom: 5),
+            width: MediaQuery.of(context).size.width,
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: EdgeInsets.only(top: 5, bottom: 5),
-                  width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsets.symmetric(vertical: 8),
-                  child: Row(
+                userProfile,
+                Expanded(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      userProfile,
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                metadata,
-                                Spacer(),
-                                InkResponse(
-                                  child: Icon(
-                                    Icons.more_vert_sharp,
-                                    size: 20,
-                                  ),
-                                  onTap: () {
-                                    _showBottomSheet();
-                                  },
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                )
-                              ],
+                      Row(
+                        children: [
+                          metadata,
+                          Spacer(),
+                          InkResponse(
+                            child: Icon(
+                              Icons.more_vert_sharp,
+                              size: 20,
                             ),
-                            comment,
-                            Row(
-                              children: [
-                                Like(
-                                  reference: widget.reference,
-                                  like: widget.like,
-                                  likedBy: widget.likedBy,
-                                ),
-                                InkResponse(
-                                  child: const Icon(
-                                    Icons.mode_comment_outlined,
-                                    size: 17,
-                                  ),
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: Text(
-                                              '답글 작성',
+                            onTap: () {
+                              _showBottomSheet();
+                            },
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          )
+                        ],
+                      ),
+                      comment,
+                      Row(
+                        children: [
+                          Like(
+                            reference: widget.reference,
+                            like: widget.like,
+                            likedBy: widget.likedBy,
+                          ),
+                          InkResponse(
+                            child: const Icon(
+                              Icons.mode_comment_outlined,
+                              size: 17,
+                            ),
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                        '답글 작성',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      content: Text('답글을 작성하시겠습니까?'),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text(
+                                              '취소',
                                               style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: mainColor,
                                                   fontWeight: FontWeight.bold),
-                                            ),
-                                            content: Text('답글을 작성하시겠습니까?'),
-                                            actions: [
-                                              TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Text(
-                                                    '취소',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: mainColor,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  )),
-                                              TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Text(
-                                                    '확인',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: mainColor,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ))
-                                            ],
-                                          );
-                                        });
-                                  },
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
+                                            )),
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              isReply = !isReply;
+                                            },
+                                            child: Text(
+                                              '확인',
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: mainColor,
+                                                  fontWeight: FontWeight.bold),
+                                            ))
+                                      ],
+                                    );
+                                  });
+                            },
+                          )
+                        ],
                       ),
                     ],
                   ),
                 ),
-                const Divider(
-                  thickness: 1.4,
-                  height: 0,
-                )
               ],
             ),
+          ),
+          const Divider(
+            thickness: 1.4,
+            height: 0,
           )
-        : Container();
+        ],
+      ),
+    );
   }
 
   Widget get comment {

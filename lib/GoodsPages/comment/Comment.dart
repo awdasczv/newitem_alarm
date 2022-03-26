@@ -1,10 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:newitem_alarm/model/Firestore_model.dart';
 
 import './Comment_listItem.dart';
 
 class Comment extends StatefulWidget {
+  final NewGoods goods;
+
+  const Comment({Key key, this.goods}) : super(key: key);
+
   @override
   _CommentState createState() => _CommentState();
 }
@@ -14,9 +19,21 @@ class _CommentState extends State<Comment> {
   FocusNode _focusNode = FocusNode();
   bool _isComposing = false;
   bool _isReply = false;
-  CollectionReference commentRef =
-      FirebaseFirestore.instance.collection('comment');
+  String goodsID;
+
+  // String goodsID = NewGoods.fromJson();
+  CollectionReference goodsRef = FirebaseFirestore.instance.collection('Goods');
   final auth = FirebaseAuth.instance;
+
+  getGoodsID(@required goods_title) {
+    goodsRef
+        .where("title", isEqualTo: goods_title) //비동기라서...시간이 오래 걸려서..??
+        .get()
+        .then((QuerySnapshot snapshot) => snapshot.docs.forEach((element) {
+              final goodsID = element.reference.id.toString();
+              return goodsID;
+            }));
+  }
 
   userName() {
     final user = auth.currentUser;
@@ -58,26 +75,32 @@ class _CommentState extends State<Comment> {
     _textEditingController.clear();
     _focusNode.requestFocus();
     FocusScope.of(context).unfocus();
+    Map<String, dynamic> data = {
+      'text': text,
+      'dateTime': Timestamp.now(),
+      'userName': userName(),
+      'userProfileUrl': userProfile(),
+      'userID': userID(),
+      'like': 0,
+      'likedBy': []
+    };
     setState(() {
       _isComposing = false;
-      commentRef
-          .add({
-            'text': text,
-            'dateTime': Timestamp.now(),
-            'userName': userName(),
-            'userProfileUrl': userProfile(),
-            'userID': userID(),
-            'like': 0,
-            'likedBy': []
-          })
-          .then((value) => print(value.id))
+      CollectionReference commentRef =
+          //왜 widget.goods.id로 하면 되고, 왜 id 받아서 하면 안될까,,,?
+          goodsRef.doc(widget.goods.id).collection('Comment');
+      commentRef //commentRef.doc(commentid를 문서 번호로)
+          .add(data)
+          .then((value) => print('Comment Upload'))
           .catchError((error) {
-            return print('댓글 입력 오류: $error'); //제대로 추가되면 id 출력하고, 문제가 발생하면 오류 출력
-          });
+        return print('댓글 입력 오류: $error'); //제대로 추가되면 id 출력하고, 문제가 발생하면 오류 출력
+      });
     });
   }
 
   Widget _buildcommentList() {
+    CollectionReference commentRef =
+        goodsRef.doc(widget.goods.id).collection('Comment');
     return StreamBuilder<QuerySnapshot>(
         stream: commentRef.orderBy('dateTime', descending: false).snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -96,6 +119,8 @@ class _CommentState extends State<Comment> {
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 if (index < commentDocs.length) {
+                  var comment_index = commentDocs[index];
+
                   return Column(
                     children: [
                       commentListItem(
@@ -127,6 +152,13 @@ class _CommentState extends State<Comment> {
       bottomNavigationBar:
           buildInput(_isReply == false ? '댓글을 입력해주세요.' : ' 답글을 입력해주세요.'),
     ));
+  }
+
+  Future<void> commentCount() async {
+    String id = getGoodsID(widget.goods.title);
+    CollectionReference commentRef = goodsRef.doc(id).collection('Comment');
+    final comment = await commentRef.get();
+    WriteBatch batch = FirebaseFirestore.instance.batch();
   }
 
   Widget buildInput(@required String hintText) {
@@ -196,12 +228,8 @@ class _CommentState extends State<Comment> {
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
-                                  content: Column(
-                                    children: [
-                                      Text('로그인이 필요한 서비스입니다.'),
-                                      Text('로그인 후 이용해주세요.'),
-                                    ],
-                                  ),
+                                  content:
+                                      Text('로그인이 필요한 서비스입니다. 로그인 후 이용해주세요.'),
                                   actions: [],
                                 );
                               });

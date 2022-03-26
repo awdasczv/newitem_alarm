@@ -14,7 +14,10 @@ class _DeleteState extends State<Delete> {
   final mainColor = Color(0xffFFC845);
 
   Future<void> _delete() async {
-    return widget.reference.delete();
+    return widget.reference
+        .delete()
+        .then((value) => print("Comment Deleted"))
+        .catchError((error) => print("Failed to delete comment: $error"));
   }
 
   Future<void> Alert() {
@@ -76,10 +79,14 @@ class _DeleteState extends State<Delete> {
           ),
           const Text(
             '삭제',
-            style: TextStyle(color: Colors.black, fontSize: 17),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 17,
+            ),
           ),
         ],
       ),
     );
+    ;
   }
 }
