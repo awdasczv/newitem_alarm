@@ -49,8 +49,6 @@ class _ProfileHomeState extends State<ProfileHome> {
     // Once signed in, return the UserCredential
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
-
-
   String _name = "";
   String _imagePath = "";
   final ImagePicker _picker = ImagePicker();
