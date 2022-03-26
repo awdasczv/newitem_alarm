@@ -13,6 +13,7 @@ import 'package:newitem_alarm/ProfilePages/Notice.dart';
 import 'package:newitem_alarm/ProfilePages/ReviewMan.dart';
 import 'package:newitem_alarm/ProfilePages/SignInScreen.dart';
 import 'package:newitem_alarm/ProfilePages/components/sign_from.dart';
+import 'package:newitem_alarm/model/Firestore_model.dart';
 
 class ProfileHome extends StatefulWidget {
   @override
@@ -34,7 +35,11 @@ class _ProfileHomeState extends State<ProfileHome> {
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    return await FirebaseAuth.instance.signInWithCredential(credential).then((value){
+      checkProfileImage();
+      User _user = FirebaseAuth.instance.currentUser;
+      return;
+    });
   }
 
   Future<UserCredential> signInWithFacebook() async {
@@ -71,6 +76,11 @@ class _ProfileHomeState extends State<ProfileHome> {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+    if(_firebaseAuth.currentUser == null){_isLogin = false;}
+    else _isLogin =true;
+
     return Scaffold(
         appBar: AppBar(
           //backgroundColor: Color(0xffFFC845),
@@ -293,7 +303,10 @@ class _ProfileHomeState extends State<ProfileHome> {
                              child: ElevatedButton(
                                 child: Image.asset(
                                     'assets/images/google_logo.png'),
-                                onPressed: signInWithGoogle,
+                                onPressed: ()async{
+                                  await signInWithGoogle();
+                                  setState(() {});
+                                },
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.white,
                                   shape: CircleBorder(),
@@ -332,8 +345,6 @@ class _ProfileHomeState extends State<ProfileHome> {
 
                     ],
                   )
-
-
                 ],
               )),
             ),

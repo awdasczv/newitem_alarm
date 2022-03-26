@@ -1,3 +1,5 @@
+import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -21,6 +23,10 @@ class _ReviewPageState extends State<ReviewPage> {
 
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+
+  final CarouselController _carouselController = CarouselController();
+  int currentImage = 0;
+  int currentIndex = 0;
 
   List<TempReviewData> _sampleReviewList = [
     TempReviewData(
@@ -75,7 +81,7 @@ class _ReviewPageState extends State<ReviewPage> {
   ];
 
   CollectionReference _reviewRef;
-/*
+
   Widget _futureListView(){
     return FutureBuilder<QuerySnapshot>(
         future: _reviewRef.orderBy('updateTime',descending: false).get(),
@@ -92,6 +98,7 @@ class _ReviewPageState extends State<ReviewPage> {
 
           return ListView.builder(
             itemCount: _reviewList.length,
+              physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (context, index){
               return _newCard(ReviewData.fromJson(_reviewList[index].data()));
@@ -99,7 +106,7 @@ class _ReviewPageState extends State<ReviewPage> {
           );
         }
     );
-  }*/
+  }
 
 
 
@@ -118,114 +125,226 @@ class _ReviewPageState extends State<ReviewPage> {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       children: [
+        _futureListView()
+        /*
         ListView.builder(
             itemCount: _sampleReviewList.length,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return _card(index);
-            }),
+            }),*/
       ],
     );
   }
-/*
-  Widget _newCard(ReviewData data){
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      child: Card(
-        elevation: 2, //그림자 깊이
-        margin: EdgeInsets.all(2),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10, 5, 5, 0),
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.grey.withOpacity(0.6),
-                    backgroundImage: data.uid == null
-                        ? AssetImage('assets/images/default_profile.png')
-                        : NetworkImage(widget.userProfileUrl),
-                  ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _sampleReviewList[index].nickname,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Row(
-                      children: [
-                        RatingBarIndicator(
-                            rating: _sampleReviewList[index].starScore,
-                            itemCount: 5,
-                            direction: Axis.horizontal,
-                            itemSize: 15,
-                            itemBuilder: (context, index) {
-                              return Icon(
-                                Icons.star,
-                                color: Color(mainColor),
-                              );
-                            }),
-                        SizedBox(
-                          width: 3,
+
+  Future<String> getProfileUrlByUid(String uid) {
+    DocumentReference _userRef = FirebaseFirestore.instance.collection('User').doc(uid);
+    return _userRef.get().then((value) {
+      Map<String, dynamic> _json =  value.data();
+      return _json['profileImageURL'];
+    });
+  }
+
+  Future<String> getNicknameByUid(String uid){
+    DocumentReference _userRef = FirebaseFirestore.instance.collection('User').doc(uid);
+    return _userRef.get().then((value) {
+      Map<String, dynamic> _json =  value.data();
+      return _json['nickname'];
+    });
+  }
+
+
+  Widget _newCard(ReviewData reviewData) {
+
+    String getReviewDateTime(){
+      Duration diff = DateTime.now().difference(reviewData.updateTime);
+
+      if(diff.compareTo(Duration(minutes: 1)) < 0){
+        return diff.inSeconds.toString() + '초전';
+      }
+      else if(diff.compareTo(Duration(hours: 1)) < 0){
+        return diff.inMinutes.toString() + '분전';
+      }
+      else if(diff.compareTo(Duration(days: 1)) < 0){
+        return diff.inHours.toString() + '시간전';
+      }
+      else if(diff.compareTo(Duration(days: 7)) < 0){
+        return diff.inDays.toString() + '일전';
+      }
+      else if(diff.compareTo(Duration(days: 30)) < 0){
+        return (diff.inDays~/7).toString() + '주전';
+      }
+     else if(diff.compareTo(Duration(days: 365)) < 0){
+        return (diff.inDays~/30).toString() + '달전';
+      }
+     else return (diff.inDays~/365).toString() + '년전';
+    }
+
+    return FutureBuilder(
+      future: Future.wait([getProfileUrlByUid(reviewData.uid),getNicknameByUid(reviewData.uid)]),
+        builder: (context, AsyncSnapshot<List<dynamic>> snapshot){
+        if(snapshot.connectionState == ConnectionState.done){
+          return Container(
+            width: MediaQuery.of(context).size.width,
+            child: Card(
+              elevation: 2, //그림자 깊이
+              margin: EdgeInsets.all(2),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(10, 5, 5, 0),
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.grey.withOpacity(0.6),
+                          backgroundImage:
+                          Image.network(snapshot.data[0].toString())
+                              .image,
                         ),
-                        Text(
-                          '어제',
-                          style: TextStyle(
-                              fontSize: 13, color: Colors.grey.shade600),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Spacer(),
-                PopupMenuButton(
-                  icon: Icon(
-                    Icons.more_vert,
-                    color: Colors.grey,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            snapshot.data[1].toString(),
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Row(
+                            children: [
+                              RatingBarIndicator(
+                                  rating: reviewData.starScore,
+                                  itemCount: 5,
+                                  direction: Axis.horizontal,
+                                  itemSize: 15,
+                                  itemBuilder: (context, index) {
+                                    return Icon(
+                                      Icons.star,
+                                      color: Color(mainColor),
+                                    );
+                                  }),
+                              SizedBox(
+                                width: 3,
+                              ),
+                              Text(
+                                getReviewDateTime(),
+                                style: TextStyle(
+                                    fontSize: 13, color: Colors.grey.shade600),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      Spacer(),
+                      PopupMenuButton(
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: Colors.grey,
+                        ),
+                        itemBuilder: (context) {
+                          return [PopupMenuItem<int>(value: 1, child: Text('신고하기'))];
+                        },
+                        onSelected: (value) {
+                          if (value == 1) {
+                            print('신고하기');
+                          }
+                        },
+                      ),
+                    ],
                   ),
-                  itemBuilder: (context) {
-                    return [PopupMenuItem<int>(value: 1, child: Text('신고하기'))];
-                  },
-                  onSelected: (value) {
-                    if (value == 1) {
-                      print('신고하기');
-                    }
-                  },
-                ),
-              ],
-            ),
-            AspectRatio(
-              aspectRatio: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                    border: Border(), borderRadius: BorderRadius.circular(20)),
-                margin: EdgeInsets.all(10),
-                width: double.infinity,
-                child: Image.network(
-                  _sampleReviewList[index].reviewImageUrl,
-                  fit: BoxFit.cover,
-                ),
+                  reviewData.reviewImageUrl.length > 0 ? AspectRatio(
+                    aspectRatio: 1,
+                    child: slidingImageViewer(reviewData.reviewImageUrl)
+                  ) : Container(),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    child: Text(reviewData.mainText),
+                  )
+                ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: Text(_sampleReviewList[index].mainText),
-            )
-          ],
-        ),
-      ),
+          );
+        }
+        else return CircularProgressIndicator();
+        }
     );
-  }*/
+  }
+
+  Widget slidingImageViewer(List<dynamic> _reviewImages){
+    return Stack(
+      children: [
+        CarouselSlider(
+          carouselController: _carouselController,
+            items: _reviewImages.map(
+                    (url) => Container(
+                      decoration: BoxDecoration(
+                          border: Border(), borderRadius: BorderRadius.circular(20)),
+                      margin: EdgeInsets.all(10),
+                      width: double.infinity,
+                        child: Image.network(
+                          url,
+                          fit: BoxFit.cover,
+                        )
+                    )
+            ).toList(),
+            options: CarouselOptions(
+              autoPlay: false,
+              onPageChanged: (index,reason){
+                setState(() {
+                  currentImage = index;
+                });
+              }
+            )
+        ),
+        Positioned(
+            left: 0.0,
+            right: 0.0,
+            bottom: 30,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child:Container(
+                      width: 50,
+                      height: 25,
+                      decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(.4),
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(30))),
+                      child: Center(
+                          child: RichText(
+                            text: TextSpan(
+                                text: '${currentImage + 1} ',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13),
+                                children: [
+                                  TextSpan(
+                                      text:
+                                      '/ ${_reviewImages.length}',
+                                      style: TextStyle(
+                                          fontWeight:
+                                          FontWeight.normal))
+                                ]),
+                          )
+                      )
+                  ),
+                )
+              ],
+            )
+        )
+      ],
+    );
+  }
 
   Widget _card(int index) {
     return Container(

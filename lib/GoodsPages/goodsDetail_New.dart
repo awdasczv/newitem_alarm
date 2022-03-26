@@ -536,7 +536,9 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                                                       fontWeight:
                                                           FontWeight.normal))
                                             ]),
-                                      ))),
+                                      )
+                                      )
+                                  ),
                                 )
                               ],
                             )),
