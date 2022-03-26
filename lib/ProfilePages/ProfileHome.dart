@@ -11,6 +11,7 @@ import 'package:newitem_alarm/ProfilePages/CommandMan.dart';
 import 'package:newitem_alarm/ProfilePages/Manual.dart';
 import 'package:newitem_alarm/ProfilePages/Notice.dart';
 import 'package:newitem_alarm/ProfilePages/ReviewMan.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:newitem_alarm/ProfilePages/SignInScreen.dart';
 import 'package:newitem_alarm/ProfilePages/components/sign_from.dart';
 
@@ -20,6 +21,7 @@ class ProfileHome extends StatefulWidget {
 }
 
 class _ProfileHomeState extends State<ProfileHome> {
+  final GlobalKey<ScaffoldState> _globalKey = GlobalKey();
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
@@ -67,32 +69,79 @@ class _ProfileHomeState extends State<ProfileHome> {
     Icon(Icons.description_outlined, size: 25, color: Color(0xffFFC845)),
   ];
 
+  Widget IsLogoutButton() {
+    if(_isLogin == true)
+      {
+        return TextButton(
+            onPressed: () async{
+              await FirebaseAuth.instance.signOut();
+              setState(() {
+                _isLogin = false;
+              });
+            },
+            child: Text('로그아웃', style: TextStyle(color: Color(0xffFFC845), fontWeight: FontWeight.bold),)
+        );
+      }
+    else
+      {
+        return Text("");
+      }
+  }
+
+  /// 뒤로가기 한 번 누르면 알람 표시 함수
+  static DateTime currentBackPressTime;
+
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  onPressBackButton() {
+    DateTime now = DateTime.now();
+    if(currentBackPressTime == null || now.difference(currentBackPressTime) > Duration(seconds: 2))
+      {
+        currentBackPressTime = now;
+        Fluttertoast.showToast(
+          msg: ("뒤로가기 버튼을 한 번 더 누르면 종료됩니다."),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.grey
+        );
+        return false;
+      }
+      return true;
+  }
+  /// 뒤로가기 한 번 누르면 알람 표시 함수
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: Text(
-            '마이 페이지',
-            style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
+    // 뒤로가기 한 번 누르면 메시지 표시
+    return WillPopScope(
+      onWillPop: () async {
+        bool result = onPressBackButton();
+        return await result;
+      },
+      child: Scaffold(
+        key: _globalKey,
+          appBar: AppBar(
+            //backgroundColor: Color(0xffFFC845),
+            /*leading: TextButton(
+            child: Text('로그아웃'),
+            onPressed: () {
+              setState(() {
+                _isLogin == false;
+              });
+            },
+          ),*/
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            title: Text(
+              'My Page',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
+            ),
+            actions: [
+              IsLogoutButton()
+            ],
           ),
-          actions: [
-            TextButton(
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
-                  setState(() {
-                    _isLogin = false;
-                  });
-                },
-                child: Text('로그아웃', style: TextStyle(
-                    color: Color(0xffFFC845), fontWeight: FontWeight.bold),)
-            )
-
-          ],
-        ),
-        body: func(_isLogin));
+          body: func(_isLogin))
+    );
   }
 
   // 로그인/회원가입, 프로필 페이지
@@ -332,10 +381,26 @@ class _ProfileHomeState extends State<ProfileHome> {
         children: <Widget>[
           Card(
             child: Container(
-              //color: Colors.transparent,
+              //color: Color(0xffFFC845),
               padding: EdgeInsets.all(20),
               child: Center(
                   child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  Text("간편 로그인",
+                      style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black87)),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+
+                  //여기서부터 동그라미 로그인 버튼 구현
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
                         padding: EdgeInsets.all(10),
