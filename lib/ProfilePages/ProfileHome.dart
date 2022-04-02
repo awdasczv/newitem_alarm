@@ -14,6 +14,7 @@ import 'package:newitem_alarm/ProfilePages/ReviewMan.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:newitem_alarm/ProfilePages/SignInScreen.dart';
 import 'package:newitem_alarm/ProfilePages/components/sign_from.dart';
+import 'package:newitem_alarm/model/Firestore_model.dart';
 
 class ProfileHome extends StatefulWidget {
   @override
@@ -37,7 +38,11 @@ class _ProfileHomeState extends State<ProfileHome> {
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    return await FirebaseAuth.instance.signInWithCredential(credential).then((value){
+      checkProfileImage();
+      User _user = FirebaseAuth.instance.currentUser;
+      return;
+    });
   }
 
   Future<UserCredential> signInWithFacebook() async {
@@ -384,23 +389,7 @@ class _ProfileHomeState extends State<ProfileHome> {
               //color: Color(0xffFFC845),
               padding: EdgeInsets.all(20),
               child: Center(
-                  child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                  ),
-                  Text("간편 로그인",
-                      style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.black87)),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                  ),
-
-                  //여기서부터 동그라미 로그인 버튼 구현
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
                     children: [
                       Padding(
                         padding: EdgeInsets.all(10),
@@ -408,7 +397,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                       Text("간편 로그인",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                              fontSize: 18,
                               color: Colors.black87)),
                       Padding(
                         padding: EdgeInsets.all(10),
@@ -418,61 +407,78 @@ class _ProfileHomeState extends State<ProfileHome> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 5),
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: SizedBox(
-                                  height: 60,
-                                  width: 60,
-                                  child: ElevatedButton(
-                                    child: Image.asset(
-                                        'assets/images/google_logo.png'),
-                                    onPressed: signInWithGoogle,
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.white,
-                                      shape: CircleBorder(),
-                                    ),
-                                  )
-                              ),
-                            ),
+                          /* Padding(
+                            padding: EdgeInsets.all(10),
                           ),
-
+                          Text("간편 로그인",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.black87)),
                           Padding(
-                            padding: const EdgeInsets.only(right: 10, left: 10),
-                            child: FittedBox(
-                              child: SizedBox(
-                                  height: 60,
-                                  width: 60,
-                                  child: ElevatedButton(
-                                    child: Text('f',
+                            padding: EdgeInsets.all(10),
+                          ),*/
 
-                                        style: TextStyle(
-                                            fontFamily: 'Facebook',
-                                            fontWeight: FontWeight.bold,
-                                            height: 1.5,
-                                            fontSize: 35,
-                                            color: Colors.white)
-                                    ),
-                                    onPressed: signInWithFacebook,
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Color(0xFF3B5998),
-                                      shape: CircleBorder(),
-                                    ),
-                                  )
+                          //여기서부터 동그라미 로그인 버튼 구현
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 5),
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: SizedBox(
+                                      height: 60,
+                                      width: 60,
+                                      child: ElevatedButton(
+                                        child: Image.asset(
+                                            'assets/images/google_logo.png'),
+                                        onPressed: signInWithGoogle,
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Colors.white,
+                                          shape: CircleBorder(),
+                                        ),
+                                      )
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
+
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10, left: 10),
+                                child: FittedBox(
+                                  child: SizedBox(
+                                      height: 60,
+                                      width: 60,
+                                      child: ElevatedButton(
+                                        child: Text('f',
+
+                                            style: TextStyle(
+                                                fontFamily: 'Facebook',
+                                                fontWeight: FontWeight.bold,
+                                                height: 1.5,
+                                                fontSize: 35,
+                                                color: Colors.white)
+                                        ),
+                                        onPressed: signInWithFacebook,
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Color(0xFF3B5998),
+                                          shape: CircleBorder(),
+                                        ),
+                                      )
+                                  ),
+                                ),
+                              ),
+
+
+                            ],
+                          )
 
 
                         ],
-                      )
-
-
-                    ],
-                  )),
-            ),
-          ),
+                      ),
+                    ]),
+              ),
+            ),),
           _NoListMenu(),
         ]);
   }
