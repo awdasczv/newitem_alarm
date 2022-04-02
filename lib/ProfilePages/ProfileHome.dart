@@ -14,6 +14,7 @@ import 'package:newitem_alarm/ProfilePages/ReviewMan.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:newitem_alarm/ProfilePages/SignInScreen.dart';
 import 'package:newitem_alarm/ProfilePages/components/sign_from.dart';
+import 'package:newitem_alarm/model/Firestore_model.dart';
 
 class ProfileHome extends StatefulWidget {
   @override
@@ -37,7 +38,11 @@ class _ProfileHomeState extends State<ProfileHome> {
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    return await FirebaseAuth.instance.signInWithCredential(credential).then((value){
+      checkProfileImage();
+      User _user = FirebaseAuth.instance.currentUser;
+      return;
+    });
   }
 
   Future<UserCredential> signInWithFacebook() async {

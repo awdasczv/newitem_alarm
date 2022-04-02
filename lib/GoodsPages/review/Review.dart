@@ -1,4 +1,7 @@
+import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -18,8 +21,9 @@ class ReviewPage extends StatefulWidget {
 class _ReviewPageState extends State<ReviewPage> {
   final mainColor = 0xfff1c40f;
 
-  FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-  FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  final CarouselController _carouselController = CarouselController();
+  int currentImage = 0;
+  int currentIndex = 0;
 
   List<TempReviewData> _sampleReviewList = [
     TempReviewData(
@@ -73,11 +77,42 @@ class _ReviewPageState extends State<ReviewPage> {
             '개척된 등반루트만 8,000개가 넘는다. 정부가 나서서 루트를 내줄 리 없으니 모두 충성심 높은 클라이머들 작품일 터. 바윗길 수만 보더라도 클라이머들이 이 공원을 얼마나 사랑하는지 알 수 있다. 쉬운 코스부터 어려운 크랙과 오버행까지 바위꾼들이 상상할 수 있는 모든 루트가 이곳에 다 있다. '),
   ];
 
-  TempReviewData _firebaseReviewData;
+  CollectionReference _reviewRef;
+
+  Widget _futureListView(){
+    return FutureBuilder<QuerySnapshot>(
+        future: _reviewRef.orderBy('updateTime',descending: false).get(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f))),
+            );
+          } else if (snapshot.hasError) {
+            return Center(child: Text(snapshot.error.toString()));
+          }
+          final List<QueryDocumentSnapshot<Object>> _reviewList = snapshot.data.docs;
+
+          return ListView.builder(
+            itemCount: _reviewList.length,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index){
+              return _newCard(ReviewData.fromJson(_reviewList[index].data()));
+              }
+          );
+        }
+    );
+  }
+
+
 
   @override
   void initState() {
     // TODO: implement initState
+    _reviewRef = FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).collection('Review');
+
+
     super.initState();
   }
 
@@ -87,66 +122,213 @@ class _ReviewPageState extends State<ReviewPage> {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       children: [
-        /*Row(
-          children: [
-            OutlinedButton(
-              child: Text('버튼 1'),
-              onPressed: () async{
-                await _firebaseFirestore.collection('Review').doc("2").get().then(
-                        (DocumentSnapshot ds){
-                      _firebaseReviewData = ReviewData(
-                          profileImageUrl: ds.get('profileImageUrl'),
-                          nickname: ds.get('nickname'),
-                          starScore: ds.get('starScore'),
-                          reviewImageUrl: ds.get('reviewImageUrl'),
-                          updateTime: ds.get('updateTime')
-                      );
-                    }
-                );
+        _futureListView()
+      ],
+    );
+  }
 
-                print(_firebaseReviewData.profileImageUrl);
+  Future<String> getProfileUrlByUid(String uid) {
+    DocumentReference _userRef = FirebaseFirestore.instance.collection('User').doc(uid);
+    return _userRef.get().then((value) {
+      Map<String, dynamic> _json =  value.data();
+      return _json['profileImageURL'];
+    });
+  }
 
-              },
+  Future<String> getNicknameByUid(String uid){
+    DocumentReference _userRef = FirebaseFirestore.instance.collection('User').doc(uid);
+    return _userRef.get().then((value) {
+      Map<String, dynamic> _json =  value.data();
+      return _json['nickname'];
+    });
+  }
+
+
+  Widget _newCard(ReviewData reviewData) {
+
+    String getReviewDateTime(){
+      Duration diff = DateTime.now().difference(reviewData.updateTime);
+
+      if(diff.compareTo(Duration(minutes: 1)) < 0){
+        return diff.inSeconds.toString() + '초전';
+      }
+      else if(diff.compareTo(Duration(hours: 1)) < 0){
+        return diff.inMinutes.toString() + '분전';
+      }
+      else if(diff.compareTo(Duration(days: 1)) < 0){
+        return diff.inHours.toString() + '시간전';
+      }
+      else if(diff.compareTo(Duration(days: 7)) < 0){
+        return diff.inDays.toString() + '일전';
+      }
+      else if(diff.compareTo(Duration(days: 30)) < 0){
+        return (diff.inDays~/7).toString() + '주전';
+      }
+     else if(diff.compareTo(Duration(days: 365)) < 0){
+        return (diff.inDays~/30).toString() + '달전';
+      }
+     else return (diff.inDays~/365).toString() + '년전';
+    }
+
+    return FutureBuilder(
+      future: Future.wait([getProfileUrlByUid(reviewData.uid),getNicknameByUid(reviewData.uid)]),
+        builder: (context, AsyncSnapshot<List<dynamic>> snapshot){
+        if(snapshot.connectionState == ConnectionState.done){
+          return Container(
+            width: MediaQuery.of(context).size.width,
+            child: Card(
+              elevation: 2, //그림자 깊이
+              margin: EdgeInsets.all(2),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(10, 5, 5, 0),
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.grey.withOpacity(0.6),
+                          backgroundImage:
+                          Image.network(snapshot.data[0].toString())
+                              .image,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            snapshot.data[1].toString(),
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Row(
+                            children: [
+                              RatingBarIndicator(
+                                  rating: reviewData.starScore,
+                                  itemCount: 5,
+                                  direction: Axis.horizontal,
+                                  itemSize: 15,
+                                  itemBuilder: (context, index) {
+                                    return Icon(
+                                      Icons.star,
+                                      color: Color(mainColor),
+                                    );
+                                  }),
+                              SizedBox(
+                                width: 3,
+                              ),
+                              Text(
+                                getReviewDateTime(),
+                                style: TextStyle(
+                                    fontSize: 13, color: Colors.grey.shade600),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      Spacer(),
+                      PopupMenuButton(
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: Colors.grey,
+                        ),
+                        itemBuilder: (context) {
+                          return [PopupMenuItem<int>(value: 1, child: Text('신고하기'))];
+                        },
+                        onSelected: (value) {
+                          if (value == 1) {
+                            print('신고하기');
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                  reviewData.reviewImageUrl.length > 0 ?  slidingImageViewer(reviewData.reviewImageUrl) : Container(),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    child: Text(reviewData.mainText),
+                  )
+                ],
+              ),
             ),
-            OutlinedButton(
-              child: Text('버튼 2'),
-              onPressed: () async{
-                _firebaseFirestore.collection('Review').doc('에부ㅐ부ㅐ부ㅐ붸붸').set({
-                  'profileImageUrl': _sampleReviewList[4].profileImageUrl,
-                  'nickname': _sampleReviewList[4].nickname,
-                  'starScore': _sampleReviewList[4].starScore,
-                  'reviewImageUrl': _sampleReviewList[4].reviewImageUrl,
-                  'updateTime': _sampleReviewList[4].updateTime
-                });
-              },
-            ),
-            OutlinedButton(
-              child: Text('버튼 3'),
-              onPressed: () async{
-                await _firebaseFirestore.collection('Review').doc("2").get().then(
-                        (DocumentSnapshot ds){
-                      _firebaseReviewData = ReviewData(
-                          profileImageUrl: ds.get('profileImageUrl'),
-                          nickname: ds.get('nickname'),
-                          starScore: ds.get('starScore'),
-                          reviewImageUrl: ds.get('reviewImageUrl'),
-                          updateTime: ds.get('updateTime')
-                      );
-                    }
-                );
-                print(_firebaseReviewData.profileImageUrl);
-                a=2;
-              },
-            ),
-          ],
-        ),*/
-        ListView.builder(
-            itemCount: _sampleReviewList.length,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (BuildContext context, int index) {
-              return _card(index);
-            }),
+          );
+        }
+        else return Container();
+        }
+    );
+  }
+
+  Widget slidingImageViewer(List<dynamic> _reviewImages){
+    return Stack(
+      children: [
+        CarouselSlider(
+          carouselController: _carouselController,
+            items: _reviewImages.map(
+                    (url) => Container(
+                      decoration: BoxDecoration(
+                          border: Border(), borderRadius: BorderRadius.circular(20)),
+                      margin: EdgeInsets.all(10),
+                      width: double.infinity,
+                        child: Image.network(
+                          url,
+                          fit: BoxFit.cover,
+                        )
+                    )
+            ).toList(),
+            options: CarouselOptions(
+              initialPage: 0,
+              enableInfiniteScroll: false,
+
+              //aspectRatio: 1,
+              autoPlay: false,
+              onPageChanged: (index,reason){
+              }
+            )
+        ),
+        Positioned(
+            left: 0.0,
+            right: 0.0,
+            bottom: 30,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child:Container(
+                      width: 50,
+                      height: 25,
+                      decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(.4),
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(30))),
+                      child: Center(
+                          child: RichText(
+                            text: TextSpan(
+                                text: '${currentImage + 1} ',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13),
+                                children: [
+                                  TextSpan(
+                                      text:
+                                      '/ ${_reviewImages.length}',
+                                      style: TextStyle(
+                                          fontWeight:
+                                          FontWeight.normal))
+                                ]),
+                          )
+                      )
+                  ),
+                )
+              ],
+            )
+        )
       ],
     );
   }
