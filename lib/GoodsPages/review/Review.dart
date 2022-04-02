@@ -21,9 +21,6 @@ class ReviewPage extends StatefulWidget {
 class _ReviewPageState extends State<ReviewPage> {
   final mainColor = 0xfff1c40f;
 
-  FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-  FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-
   final CarouselController _carouselController = CarouselController();
   int currentImage = 0;
   int currentIndex = 0;
@@ -126,14 +123,6 @@ class _ReviewPageState extends State<ReviewPage> {
       physics: NeverScrollableScrollPhysics(),
       children: [
         _futureListView()
-        /*
-        ListView.builder(
-            itemCount: _sampleReviewList.length,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (BuildContext context, int index) {
-              return _card(index);
-            }),*/
       ],
     );
   }
@@ -259,10 +248,7 @@ class _ReviewPageState extends State<ReviewPage> {
                       ),
                     ],
                   ),
-                  reviewData.reviewImageUrl.length > 0 ? AspectRatio(
-                    aspectRatio: 1,
-                    child: slidingImageViewer(reviewData.reviewImageUrl)
-                  ) : Container(),
+                  reviewData.reviewImageUrl.length > 0 ?  slidingImageViewer(reviewData.reviewImageUrl) : Container(),
                   Padding(
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: Text(reviewData.mainText),
@@ -272,7 +258,7 @@ class _ReviewPageState extends State<ReviewPage> {
             ),
           );
         }
-        else return CircularProgressIndicator();
+        else return Container();
         }
     );
   }
@@ -295,11 +281,12 @@ class _ReviewPageState extends State<ReviewPage> {
                     )
             ).toList(),
             options: CarouselOptions(
+              initialPage: 0,
+              enableInfiniteScroll: false,
+
+              //aspectRatio: 1,
               autoPlay: false,
               onPageChanged: (index,reason){
-                setState(() {
-                  currentImage = index;
-                });
               }
             )
         ),
