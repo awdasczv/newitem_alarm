@@ -17,6 +17,7 @@ import 'bar_chart.dart';
 class GoodsDetailHome extends StatefulWidget {
   final NewGoods goods;
 
+
   const GoodsDetailHome({Key key, @required this.goods}) : super(key: key);
 
   @override
@@ -135,7 +136,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                           MainAxisAlignment.center, //Column일 때 가운데 정렬
                           children: [
                             Text(
-                              widget.goods.starScore.toString(),
+                              ProductReview().Sum(),
                               style: TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.bold,
@@ -207,7 +208,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                             ),
                           ],
                         ),*/
-                        ProductReview()
+                        ProductReview(),
                       ],
                     )),
              //   const Padding(padding: EdgeInsets.only(bottom: 10)),

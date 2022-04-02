@@ -41,10 +41,11 @@ class _ChangeProfileState extends State<ChangeProfile> {
           children: <Widget>[
             Container(
                 padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                color: Colors.blue,
+                color: Colors.white,
                 child: Center(
                   child: Text("프로필 변경",
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black
+                    ),
                     //textAlign: TextAlign.center,
                   ),
                 )

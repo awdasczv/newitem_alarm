@@ -11,6 +11,7 @@ import 'package:newitem_alarm/ProfilePages/CommandMan.dart';
 import 'package:newitem_alarm/ProfilePages/Manual.dart';
 import 'package:newitem_alarm/ProfilePages/Notice.dart';
 import 'package:newitem_alarm/ProfilePages/ReviewMan.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:newitem_alarm/ProfilePages/SignInScreen.dart';
 import 'package:newitem_alarm/ProfilePages/components/sign_from.dart';
 import 'package:newitem_alarm/model/Firestore_model.dart';
@@ -21,12 +22,14 @@ class ProfileHome extends StatefulWidget {
 }
 
 class _ProfileHomeState extends State<ProfileHome> {
+  final GlobalKey<ScaffoldState> _globalKey = GlobalKey();
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication googleAuth = await googleUser
+        ?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -44,18 +47,15 @@ class _ProfileHomeState extends State<ProfileHome> {
 
   Future<UserCredential> signInWithFacebook() async {
     // Trigger the sign-in flow
-    final AccessToken result = (await FacebookAuth.instance.login()) as AccessToken;
+    final LoginResult loginResult = await FacebookAuth.instance.login();
 
     // Create a credential from the access token
-    final FacebookAuthCredential facebookAuthCredential =
-    FacebookAuthProvider.credential(result.token);
+    final OAuthCredential facebookAuthCredential = FacebookAuthProvider
+        .credential(loginResult.accessToken.token);
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance
-        .signInWithCredential(facebookAuthCredential);
+    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
-
-
   String _name = "";
   String _imagePath = "";
   final ImagePicker _picker = ImagePicker();
@@ -74,45 +74,79 @@ class _ProfileHomeState extends State<ProfileHome> {
     Icon(Icons.description_outlined, size: 25, color: Color(0xffFFC845)),
   ];
 
+  Widget IsLogoutButton() {
+    if(_isLogin == true)
+      {
+        return TextButton(
+            onPressed: () async{
+              await FirebaseAuth.instance.signOut();
+              setState(() {
+                _isLogin = false;
+              });
+            },
+            child: Text('로그아웃', style: TextStyle(color: Color(0xffFFC845), fontWeight: FontWeight.bold),)
+        );
+      }
+    else
+      {
+        return Text("");
+      }
+  }
+
+  /// 뒤로가기 한 번 누르면 알람 표시 함수
+  static DateTime currentBackPressTime;
+
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  onPressBackButton() {
+    DateTime now = DateTime.now();
+    if(currentBackPressTime == null || now.difference(currentBackPressTime) > Duration(seconds: 2))
+      {
+        currentBackPressTime = now;
+        Fluttertoast.showToast(
+          msg: ("뒤로가기 버튼을 한 번 더 누르면 종료됩니다."),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.grey
+        );
+        return false;
+      }
+      return true;
+  }
+  /// 뒤로가기 한 번 누르면 알람 표시 함수
+
   @override
   Widget build(BuildContext context) {
-    FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
-    if(_firebaseAuth.currentUser == null){_isLogin = false;}
-    else _isLogin =true;
-
-    return Scaffold(
-        appBar: AppBar(
-          //backgroundColor: Color(0xffFFC845),
-          leading: TextButton(
+    // 뒤로가기 한 번 누르면 메시지 표시
+    return WillPopScope(
+      onWillPop: () async {
+        bool result = onPressBackButton();
+        return await result;
+      },
+      child: Scaffold(
+        key: _globalKey,
+          appBar: AppBar(
+            //backgroundColor: Color(0xffFFC845),
+            /*leading: TextButton(
             child: Text('로그아웃'),
             onPressed: () {
               setState(() {
                 _isLogin == false;
               });
             },
+          ),*/
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            title: Text(
+              'My Page',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
+            ),
+            actions: [
+              IsLogoutButton()
+            ],
           ),
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: Text(
-            'My Page',
-            style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
-          ),
-          actions: [
-            TextButton(
-                onPressed: () async{
-                  await FirebaseAuth.instance.signOut();
-                  setState(() {
-                    _isLogin = false;
-                  });
-                },
-              child: Text('로그아웃', style: TextStyle(color: Color(0xffFFC845), fontWeight: FontWeight.bold),)
-            )
-
-          ],
-        ),
-        body: func(_isLogin));
+          body: func(_isLogin))
+    );
   }
 
   // 로그인/회원가입, 프로필 페이지
@@ -131,62 +165,139 @@ class _ProfileHomeState extends State<ProfileHome> {
     }
   }
 
-  // 프로필
-  Widget LoginProfile() {
+  Widget LoginProfile(){
     return Card(
-        color: Colors.white,
-        //padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+      color: Colors.white,
+      child : SizedBox(
+        height: 220, width: 500,
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 15,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color:Colors.black,
+                border: Border.all(),
+                  shape: BoxShape.circle),
+              child: CircleAvatar(
+                radius: 50,
+                backgroundColor: Colors.white,
+                backgroundImage: _imagePath.length == 0
+                    ? AssetImage('assets/images/profile3.png')
+                    : FileImage(File(_imagePath)),
+                //child: CameraIcon(),
               ),
-              Padding(
-                padding: EdgeInsets.all(14),
-              ),
-              //프로필 사진
-              Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      border: Border.all(),
-                      shape: BoxShape.circle),
-                  // padding:
-                  //     EdgeInsets.only(left: 20, right: 30, top: 20, bottom: 20),
-                  child: CircleAvatar(
-                    radius: 60,
-                    backgroundColor: Colors.white,
-                    backgroundImage: _imagePath.length == 0
-                        ? AssetImage('assets/images/profile3.png')
-                        : FileImage(File(_imagePath)),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8),
-              ),
+            ),
+            SizedBox(width: 10,),
+             Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
+                 Text('Developer',
+                   style: TextStyle(
+                     color: Colors.black,
+                     fontSize: 20.0,
+                     fontWeight: FontWeight.bold,
+                   )
+                 ),
+                 SizedBox(height: 10,
+                 width: 10,),
+                 Text(' User #0101',
+                 style: TextStyle(
+                   color: Colors.grey[500],
+                   fontSize: 15.0,
+                 ),),
 
-              //프로필 이름
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(_name,
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                      textAlign: TextAlign.center),
-                  SizedBox(
-                    height: 15,
-                  )
-                ],
-              )
-            ],
-          ),
-        ));
+               ],
+             ),
+
+
+
+          ],
+        ),
+      ),
+      ),
+    );
   }
 
+ //카메라 아이콘
+ Widget CameraIcon(){
+    return Stack(
+      children :[
+        Positioned(
+          right: 5,
+              bottom: 0,
+              child: Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.grey[100]),
+                child: Icon(
+                  Icons.camera_alt_outlined,
+                  color: Color(0xffFFC845),
+                  size: 20,
+                ),
+              ),
+        ),
+      ],
+    );
+  }
+
+  Widget ProfileImage(){
+    return Stack(
+      children: [
+        Positioned(
+          child:GestureDetector(
+              child: Center(
+                child: Container(
+                  height: 58,
+                  width: 400,
+                  child: Card(
+                    //color: Color(0xffFFC845),
+                      color: Colors.white,
+
+                      // decoration: BoxDecoration(
+                      //   border: Border.all(width: 1),
+                      //   color: Colors.transparent,
+                      // ),
+
+                      //padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.edit,
+                            color: Colors.black,
+                          ),
+                          Text(
+                            " 프로필 수정하기",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                                color: Colors.black),
+                          )
+                        ],
+                      )),
+                ),
+              ),
+              onTap: () async {
+                var a = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChangeProfile(imagePath: _imagePath)),
+                );
+                setState(() {
+                  _imagePath = a[0];
+                  _name = a[1];
+                });
+              }
+          )
+        )
+      ],
+    );
+  }
+
+/*
   // 프로필 수정
   Widget ProfileImage() {
     return GestureDetector(
@@ -195,7 +306,7 @@ class _ProfileHomeState extends State<ProfileHome> {
             height: 58,
             width: 400,
             child: Card(
-                //color: Color(0xffFFC845),
+              //color: Color(0xffFFC845),
                 color: Colors.white,
 
                 // decoration: BoxDecoration(
@@ -232,8 +343,11 @@ class _ProfileHomeState extends State<ProfileHome> {
             _imagePath = a[0];
             _name = a[1];
           });
-        });
+        }
+        );
   }
+
+ */
 
   // 리뷰 관리, 댓글 관리...
   Widget ListMenu() {
@@ -272,7 +386,7 @@ class _ProfileHomeState extends State<ProfileHome> {
         children: <Widget>[
           Card(
             child: Container(
-              //color: Colors.transparent,
+              //color: Color(0xffFFC845),
               padding: EdgeInsets.all(20),
               child: Center(
                   child: Column(
@@ -283,7 +397,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                   Text("간편 로그인",
                       style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                      fontSize: 18,
                       color: Colors.black87)),
                   Padding(
                     padding: EdgeInsets.all(10),
@@ -294,59 +408,74 @@ class _ProfileHomeState extends State<ProfileHome> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(right:5),
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: SizedBox(
-                            height: 60,
-                            width: 60,
-                             child: ElevatedButton(
-                                child: Image.asset(
-                                    'assets/images/google_logo.png'),
-                                onPressed: ()async{
-                                  await signInWithGoogle();
-                                  setState(() {});
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.white,
-                                  shape: CircleBorder(),
-                                ),
-                              )
-                          ),
-                        ),
+                        padding: EdgeInsets.all(10),
                       ),
-
+                      Text("간편 로그인",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.black87)),
                       Padding(
-                        padding: const EdgeInsets.only(right:10, left: 10),
-                        child: FittedBox(
-                          child: SizedBox(
-                              height: 60,
-                              width: 60,
-                              child: ElevatedButton(
-                                child: Text('f',
-
-                                    style: TextStyle(
-                                        fontFamily: 'Facebook',
-                                        fontWeight: FontWeight.bold,
-                                        height: 1.5,
-                                        fontSize: 35,
-                                        color: Colors.white)
-                                ),
-                                onPressed: signInWithFacebook,
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color(0xFF3B5998),
-                                  shape: CircleBorder(),
-                                ),
-                              )
-                          ),
-                        ),
+                        padding: EdgeInsets.all(10),
                       ),
+
+                      //여기서부터 동그라미 로그인 버튼 구현
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: SizedBox(
+                                  height: 60,
+                                  width: 60,
+                                  child: ElevatedButton(
+                                    child: Image.asset(
+                                        'assets/images/google_logo.png'),
+                                    onPressed: signInWithGoogle,
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.white,
+                                      shape: CircleBorder(),
+                                    ),
+                                  )
+                              ),
+                            ),
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10, left: 10),
+                            child: FittedBox(
+                              child: SizedBox(
+                                  height: 60,
+                                  width: 60,
+                                  child: ElevatedButton(
+                                    child: Text('f',
+
+                                        style: TextStyle(
+                                            fontFamily: 'Facebook',
+                                            fontWeight: FontWeight.bold,
+                                            height: 1.5,
+                                            fontSize: 35,
+                                            color: Colors.white)
+                                    ),
+                                    onPressed: signInWithFacebook,
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Color(0xFF3B5998),
+                                      shape: CircleBorder(),
+                                    ),
+                                  )
+                              ),
+                            ),
+                          ),
+
+
+                        ],
+                      )
 
 
                     ],
-                  )
-                ],
-              )),
+                  )),
             ),
           ),
           _NoListMenu(),
@@ -390,8 +519,8 @@ class _ProfileHomeState extends State<ProfileHome> {
                     title: Text(""),
                     content: SingleChildScrollView(
                         child: ListBody(
-                      children: [Center(child: Text("로그인이 필요합니다."))],
-                    )),
+                          children: [Center(child: Text("로그인이 필요합니다."))],
+                        )),
                     actions: <Widget>[
                       Center(
                           child: ElevatedButton(

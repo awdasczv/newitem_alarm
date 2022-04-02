@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/HomePages/FastFood.dart';
+import 'package:newitem_alarm/HomePages/HomePage.dart';
 import 'package:newitem_alarm/HomePages/SearchPage.dart';
 import 'package:newitem_alarm/model/Firestore_model.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
@@ -17,11 +18,15 @@ class HomePage extends StatefulWidget {
 
   static String routeName = "/home";
 
+
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
+  String productName = "";
 
   CollectionReference goodsRef = FirebaseFirestore.instance.collection('Goods');
   
@@ -241,7 +246,7 @@ class _HomePageState extends State<HomePage> {
         onTap: () async {
           await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => FastFood()),
+            MaterialPageRoute(builder: (context) => FastFood(changeName: label)),
           );
         },
         child: Column(
