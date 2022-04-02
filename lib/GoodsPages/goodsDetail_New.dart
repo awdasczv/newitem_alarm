@@ -216,7 +216,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                 TextButton(
                     onPressed: () {},
                     child: TextButton(
-                      onPressed: () {
+                      onPressed: () async{
                         if(_user == null){
                           showDialog(
                               context: context,
@@ -238,12 +238,15 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                           return;
                         }
 
-                        Navigator.push(
+                         await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => WritingReview(
                                       goods: widget.goods,
                                     )));
+                        setState(() {
+
+                        });
                       },
                       child: Text(
                         '리뷰 작성하러 가기',
