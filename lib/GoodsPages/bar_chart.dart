@@ -28,37 +28,76 @@ class ProductReview extends StatelessWidget {
       label: "5.0",
       colors: [Color(0xffFFC845), Color(0xffFFC845)],
       jumlah: 179,
-      tooltip: "179",
+      tooltip: "",
     ),
     VBarChartModel(
       index: 1,
       label: "4.0",
       colors: [Color(0xffFFC845), Color(0xffFFC845)],
       jumlah: 123,
-      tooltip: "123",
+      tooltip: "",
     ),
     VBarChartModel(
       index: 2,
       label: "3.0",
       colors: [Color(0xffFFC845), Color(0xffFFC845)],
       jumlah: 121,
-      tooltip: "121",
+      tooltip: "",
     ),
     VBarChartModel(
       index: 3,
       label: "2.0",
       colors: [Color(0xffFFC845), Color(0xffFFC845)],
       jumlah: 4,
-      tooltip: "4",
+      tooltip: "",
     ),
     VBarChartModel(
       index: 4,
       label: "1.0",
       colors: [Color(0xffFFC845), Color(0xffFFC845)],
       jumlah: 7,
+      tooltip: "",
+    ),
+  ];
+
+  List<VBarChartModel> barcount = [
+    VBarChartModel(
+      index: 0,
+      label: "",
+      colors: [Colors.grey, Colors.grey],
+      jumlah: 400,
+      tooltip: "179",
+    ),
+    VBarChartModel(
+      index: 1,
+      label: "",
+      colors: [Colors.grey, Colors.grey],
+      jumlah: 400,
+      tooltip: "123",
+    ),
+    VBarChartModel(
+      index: 2,
+      label: "",
+      colors: [Colors.grey, Colors.grey],
+      jumlah: 400,
+      tooltip: "121",
+    ),
+    VBarChartModel(
+      index: 3,
+      label: "",
+      colors: [Colors.grey, Colors.grey],
+      jumlah: 400,
+      tooltip: "4",
+    ),
+    VBarChartModel(
+      index: 4,
+      label: "",
+      colors: [Colors.grey, Colors.grey],
+      jumlah: 400,
       tooltip: "7",
     ),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,19 +106,31 @@ class ProductReview extends StatelessWidget {
       child: Container(
         width: 200,
         height: 130,
-        child: _buildGrafik(bardata),
+        child: _buildGrafik(bardata, barcount),
       ),
     );
   }
 
-  Widget _buildGrafik(List<VBarChartModel> bardata) {
-    return VerticalBarchart(
-      background: Colors.transparent,
-      labelColor: Color(0xff283137),
-      tooltipColor: Color(0xff8e97a0),
-      maxX: 400,
-      data: bardata,
-      barStyle: BarStyle.DEFAULT,
+  Widget _buildGrafik(List<VBarChartModel> bardata, barcount) {
+    return Stack(
+      children: [
+        VerticalBarchart(
+          background: Colors.transparent,
+          labelColor: Color(0xff283137),
+          tooltipColor: Color(0xff8e97a0),
+          maxX: 400,
+          data: barcount,
+          barStyle: BarStyle.DEFAULT,
+        ),
+        VerticalBarchart(
+          background: Colors.transparent,
+          labelColor: Color(0xff283137),
+          tooltipColor: Color(0xff8e97a0),
+          maxX: 400,
+          data: bardata,
+          barStyle: BarStyle.DEFAULT,
+        ),
+      ],
     );
   }
 
