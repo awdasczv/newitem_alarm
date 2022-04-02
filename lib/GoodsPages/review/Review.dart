@@ -36,7 +36,7 @@ class _ReviewPageState extends State<ReviewPage> {
 
   Widget _futureListView(){
     return FutureBuilder<QuerySnapshot>(
-        future: _reviewRef.orderBy('updateTime',descending: false).get(),
+        future: _reviewRef.orderBy('updateTime',descending: true).get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
