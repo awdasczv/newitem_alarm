@@ -208,7 +208,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                             ),
                           ],
                         ),*/
-                        //ProductReview(),
+                        GraphOutPut(ProductReview().bardata, ProductReview().barcount)//ProductReview(),
                       ],
                     )),
              //   const Padding(padding: EdgeInsets.only(bottom: 10)),
