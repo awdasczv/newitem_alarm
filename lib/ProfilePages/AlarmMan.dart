@@ -74,7 +74,8 @@ class _AlarmManState extends State<AlarmMan> {
       itemBuilder: (context, index) {
         final item = _alarm[index];
         return SwitchListTile(
-          title: Text(item, style: TextStyle(fontSize: 25)),
+          activeColor: Color(0xffFFC845),
+          title: Text(item, style: TextStyle(fontSize: 20)),
           value: _alarmSwitch[index],
           onChanged: (value) {
             setState(() {
