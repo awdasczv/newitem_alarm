@@ -1,12 +1,18 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
 class NoticeList_header extends StatefulWidget {
   @override
   _NoticeList_headerState createState() => _NoticeList_headerState();
+
 }
 
+
 class _NoticeList_headerState extends State<NoticeList_header> {
+  CollectionReference noticeRef =FirebaseFirestore.instance.collection("Notice");
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -19,6 +25,40 @@ class _NoticeList_headerState extends State<NoticeList_header> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              height: 500,
+              child: StreamBuilder<QuerySnapshot>(
+                stream: noticeRef.snapshots(),
+                //limit제한, orderBy정렬, where 필터링,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot)
+                  {
+                   if(snapshot.hasError) return Text("Error : ${snapshot.error}");
+                   switch (snapshot.connectionState)
+                  {
+                    case ConnectionState.waiting:
+                      return Text("Loading...");
+                     default:
+                       return ListView(
+                           children: snapshot.data.documents
+                               .map((DocumentSnapshot document)
+                       {
+                         Timestamp tt = document["datetime"];
+                         DateTime dt = DateTime.fromMicrosecondsSinceEpoch(
+                             tt.microsecondsSinceEpoch);
+
+
+
+                        }));
+                    }
+                  }),
+            ),
+          ]),
+        ));
+  }
+}
+
+/*
             Text("짧은 공지제목입니다.",
                 textAlign: TextAlign.start,
                 style: TextStyle(
@@ -30,10 +70,5 @@ class _NoticeList_headerState extends State<NoticeList_header> {
                   color: Colors.black,
                   fontSize: 18.0, fontWeight: FontWeight.bold,
                 )
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+                ),
+             */
