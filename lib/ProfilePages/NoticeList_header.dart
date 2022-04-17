@@ -26,6 +26,7 @@ class _NoticeList_headerState extends State<NoticeList_header> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
+              /*
               height: 500,
               child: StreamBuilder<QuerySnapshot>(
                 stream: noticeRef.snapshots(),
@@ -52,6 +53,7 @@ class _NoticeList_headerState extends State<NoticeList_header> {
                         }));
                     }
                   }),
+              */
             ),
           ]),
         ));
