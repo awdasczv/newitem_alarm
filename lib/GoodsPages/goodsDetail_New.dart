@@ -136,7 +136,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                           MainAxisAlignment.center, //Column일 때 가운데 정렬
                           children: [
                             Text(
-                              ProductReview().Sum(),
+                              '4.0',
                               style: TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.bold,
@@ -162,53 +162,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                           height: 120,
                           color: Colors.grey[200],
                         ),
-                        //여기서는 VerticalDivider()보다 Container()사용하는 게 더 편함.
-                        /*Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            RatingBarIndicator(
-                              rating: 3.5,
-                              itemBuilder: (context, index) {
-                                switch (index) {
-                                  case 0:
-                                    return Container(
-                                      width: 10,
-                                      height: 150,
-                                      color: Colors.purple,
-                                    );
-                                  case 1:
-                                    return Container(
-                                      width: 3,
-                                      height: 70,
-                                      color: Colors.green,
-                                    );
-                                  case 2:
-                                    return Container(
-                                      width: 3,
-                                      height: 70,
-                                      color: Colors.deepOrange,
-                                    );
-                                  case 3:
-                                    return Container(
-                                      width: 3,
-                                      height: 70,
-                                      color: Colors.black26,
-                                    );
-                                  case 4:
-                                    return Container(
-                                      width: 3,
-                                      height: 70,
-                                      color: Colors.black26,
-                                    );
-                                }
-                              },
-                              itemCount: 5,
-                              itemSize: 30,
-                              direction: Axis.horizontal,
-                            ),
-                          ],
-                        ),*/
-                        GraphOutPut(ProductReview().bardata, ProductReview().barcount)//ProductReview(),
+                        barChart(15, 123, 121, 4, 200)//ProductReview(),
                       ],
                     )),
              //   const Padding(padding: EdgeInsets.only(bottom: 10)),
@@ -216,7 +170,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                 TextButton(
                     onPressed: () {},
                     child: TextButton(
-                      onPressed: () {
+                      onPressed: () async{
                         if(_user == null){
                           showDialog(
                               context: context,
@@ -238,12 +192,15 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                           return;
                         }
 
-                        Navigator.push(
+                         await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => WritingReview(
                                       goods: widget.goods,
                                     )));
+                        setState(() {
+
+                        });
                       },
                       child: Text(
                         '리뷰 작성하러 가기',
