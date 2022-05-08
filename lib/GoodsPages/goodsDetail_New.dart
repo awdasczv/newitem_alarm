@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -92,127 +93,149 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
   }
 
   SliverToBoxAdapter buildSliverToBoxAdapter2(BuildContext context) {
+    DocumentReference reviewRateRef = FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).collection('ReviewRate').doc('ReviewRate');
+
     return SliverToBoxAdapter(
-      child: Container(
-          margin: EdgeInsets.only(top: 10, bottom: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-          ),
-          height: 270,
-          child: Padding(
-            padding: EdgeInsets.only(top: 15),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start, //Row일 때 왼쪽으로 정렬
-                  children: [
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      '신상품 리뷰',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      "(${widget.goods.reviewNum.toString()}개)",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black26),
-                    )
-                  ],
+      child: FutureBuilder(
+        future: reviewRateRef.get(),
+        builder: (context,snapshot){
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f))),
+            );
+          } else if (snapshot.hasError) {
+            return Center(child: Text(snapshot.error.toString()));
+          }
+          else {
+            double _avg = (snapshot.data['1'] + snapshot.data['2'] + snapshot.data['3'] + snapshot.data['4'] + snapshot.data['5'])/5;
+
+            return Container(
+                margin: EdgeInsets.only(top: 10, bottom: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
                 ),
-                const Padding(padding: EdgeInsets.only(bottom: 10)),
-                Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          mainAxisAlignment:
-                          MainAxisAlignment.center, //Column일 때 가운데 정렬
-                          children: [
-                            Text(
-                              '4.0',
-                              style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
-                              ),
+                height: 270,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 15),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start, //Row일 때 왼쪽으로 정렬
+                        children: [
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            '신상품 리뷰',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
-                            RatingBarIndicator(
-                              rating: widget.goods.starScore,
-                              itemBuilder: (context, index) {
-                                return Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                );
-                              },
-                              itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                              itemCount: 5,
-                              itemSize: 15,
-                              direction: Axis.horizontal,
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 2,
-                          height: 120,
-                          color: Colors.grey[200],
-                        ),
-                        barChart(15, 123, 121, 4, 200)//ProductReview(),
-                      ],
-                    )),
-             //   const Padding(padding: EdgeInsets.only(bottom: 10)),
-
-                TextButton(
-                    onPressed: () {},
-                    child: TextButton(
-                      onPressed: () async{
-                        if(_user == null){
-                          showDialog(
-                              context: context,
-                              barrierDismissible: true,
-                              builder: (BuildContext context){
-                                return AlertDialog(
-                                  title: Text('로그인 후 이용해주세요'),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: (){
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('네')
-                                    )
-                                  ],
-                                );
-                              }
-                          );
-                          return;
-                        }
-
-                         await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WritingReview(
-                                      goods: widget.goods,
-                                    )));
-                        setState(() {
-
-                        });
-                      },
-                      child: Text(
-                        '리뷰 작성하러 가기',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.blueAccent),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            "(${widget.goods.reviewNum.toString()}개)",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black26),
+                          )
+                        ],
                       ),
-                    ))
-              ],
-            ),
-          )),
+                      const Padding(padding: EdgeInsets.only(bottom: 10)),
+                      Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.center, //Column일 때 가운데 정렬
+                                children: [
+                                  Text(
+                                    _avg.toStringAsFixed(1),
+                                    style: TextStyle(
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  RatingBarIndicator(
+                                    rating: widget.goods.starScore,
+                                    itemBuilder: (context, index) {
+                                      return Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      );
+                                    },
+                                    itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                    itemCount: 5,
+                                    itemSize: 15,
+                                    direction: Axis.horizontal,
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                width: 2,
+                                height: 120,
+                                color: Colors.grey[200],
+                              ),
+                              barChart(snapshot.data['1'], snapshot.data['2'], snapshot.data['3'], snapshot.data['4'], snapshot.data['5'])//ProductReview(),
+                            ],
+                          )
+                      ),
+                      //   const Padding(padding: EdgeInsets.only(bottom: 10)),
+
+                      TextButton(
+                          onPressed: () {},
+                          child: TextButton(
+                            onPressed: () async{
+                              if(_user == null){
+                                showDialog(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    builder: (BuildContext context){
+                                      return AlertDialog(
+                                        title: Text('로그인 후 이용해주세요'),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: (){
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text('네')
+                                          )
+                                        ],
+                                      );
+                                    }
+                                );
+                                return;
+                              }
+
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WritingReview(
+                                        goods: widget.goods,
+                                      )));
+                              setState(() {
+
+                              });
+                            },
+                            child: Text(
+                              '리뷰 작성하러 가기',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.blueAccent),
+                            ),
+                          ))
+                    ],
+                  ),
+                )
+            );
+          }
+        },
+      )
     );
   }
 
