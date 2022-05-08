@@ -72,6 +72,9 @@ class _WritingReviewState extends State<WritingReview> {
                         child:ValueListenableBuilder(
                           valueListenable: _counter,
                           builder: (BuildContext context, int value, Widget child){
+                            if(_uploadImageList.length < 1){
+                              return Text('업로드중...    ',style: TextStyle(fontSize: 15),);
+                            }
                             return  Text('이미지 업로드중...   ' + (value+1).toString() + '/' + _uploadImageList.length.toString(),
                               style: TextStyle(
                                   fontSize: 15
@@ -94,15 +97,16 @@ class _WritingReviewState extends State<WritingReview> {
     }
 
     var documentSnapshot = await FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).get();
-
-
+    var reviewRateDocumentSnapshot = await FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).collection('ReviewRate').doc('ReviewRate').get();
+    DocumentReference reviewRateRef = FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).collection('ReviewRate').doc('ReviewRate');
+    
     int _reviewNum = documentSnapshot.data()["reviewNum"] + 1;
 
     String _reviewId = widget.goods.id + '-02-' + _reviewNum.toString();
 
     List<File> _tempUploadFile = List.generate(_uploadImageList.length, (index) => File(_uploadImageList[index].path));
 
-    for(_counter.value = 0 ; _counter.value < _tempUploadFile.length - 1; _counter.value++){
+    void _uploadImage() async{
       //사진 경로 설정
       Reference ref = _firebaseStorage.ref().child("reviewImage/${widget.goods.id}/${_reviewId.toString()}/${_counter.value.toString()}");
 
@@ -116,18 +120,17 @@ class _WritingReviewState extends State<WritingReview> {
 
       _reviewImageUrlForFirebase.add(downloadURL);
     }
-    //사진 경로 설정
-    Reference ref = _firebaseStorage.ref().child("reviewImage/${widget.goods.id}/${_reviewId.toString()}/${_counter.value.toString()}");
 
-    // 사진 업로드
-    UploadTask  storageUploadTask = ref.putFile(_tempUploadFile[_counter.value]);
-    // 파일 업로드 완료까지 대기
-    await storageUploadTask.whenComplete(() => null);
+    for(_counter.value = 0 ; _counter.value < _tempUploadFile.length - 1; _counter.value++){
+      _uploadImage();
+    }
+    if(_tempUploadFile.length > 0){_uploadImage();}
 
-    // 업로드한 사진의 URL 획득
-    String downloadURL = await ref.getDownloadURL();
 
-    _reviewImageUrlForFirebase.add(downloadURL);
+
+    print(reviewRateDocumentSnapshot.data()[_starScore.toInt().toString()] );
+
+    reviewRateRef.update({_starScore.toInt().toString() : reviewRateDocumentSnapshot.data()[_starScore.toInt().toString()] + 1});
 
 
     reviewRef.doc(_reviewId).set({
