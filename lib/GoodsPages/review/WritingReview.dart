@@ -24,41 +24,136 @@ class _WritingReviewState extends State<WritingReview> {
 
   final mainColor = 0xfff1c40f;
   final _tc = TextEditingController();
-  final _nickNameTc = TextEditingController();
 
-  File _image;
+  double _imageBoxLength;
+
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User _user;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-  String _profileImageURL = "";
 
-  void _prepareService() async {
-    _user = _firebaseAuth.currentUser;
-  }
+  CollectionReference reviewRef;
+  DocumentReference goodsRef;
 
-  TempReviewData _reviewData;
-  XFile _uploadImage;
-  XFile _tempUploadImage;
+
   bool _success_get_image = false;
-  bool _temp_success_get_image = false;
 
+  List<XFile> _uploadImageList = [];
+
+  double _starScore = 3;
+  List<String> _reviewImageUrlForFirebase = [];
+  
   @override
   void initState() {
     // TODO: implement initState
-    _reviewData = TempReviewData(
-        profileImageUrl: 'templink',
-        nickname: '임시',
-        starScore: 3.0,
-        reviewImageUrl: '',
-        mainText: ''
-    );
-    _prepareService();
+    _user = _firebaseAuth.currentUser;
+    
+    reviewRef = FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).collection('Review');
+    goodsRef = FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id);
 
     super.initState();
   }
 
+
+  Future<void> _uploadReview() async{
+
+    final ValueNotifier<int> _counter = ValueNotifier<int>(0);
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+              builder: (context, setState){
+                return AlertDialog(
+                  content: Row(
+                    children: [
+                      CircularProgressIndicator(),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child:ValueListenableBuilder(
+                          valueListenable: _counter,
+                          builder: (BuildContext context, int value, Widget child){
+                            if(_uploadImageList.length < 1){
+                              return Text('업로드중...    ',style: TextStyle(fontSize: 15),);
+                            }
+                            return  Text('이미지 업로드중...   ' + (value+1).toString() + '/' + _uploadImageList.length.toString(),
+                              style: TextStyle(
+                                  fontSize: 15
+                              ),
+                            );
+                          },
+                        )
+                      )
+                    ],
+                  ),
+                );
+              }
+          );
+        }
+    );
+
+    if(_success_get_image == false && _tc.text.length < 1){
+      Navigator.pop(context);
+      return;
+    }
+
+    var documentSnapshot = await FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).get();
+    var reviewRateDocumentSnapshot = await FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).collection('ReviewRate').doc('ReviewRate').get();
+    DocumentReference reviewRateRef = FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).collection('ReviewRate').doc('ReviewRate');
+    
+    int _reviewNum = documentSnapshot.data()["reviewNum"] + 1;
+
+    String _reviewId = widget.goods.id + '-02-' + _reviewNum.toString();
+
+    List<File> _tempUploadFile = List.generate(_uploadImageList.length, (index) => File(_uploadImageList[index].path));
+
+    void _uploadImage() async{
+      //사진 경로 설정
+      Reference ref = _firebaseStorage.ref().child("reviewImage/${widget.goods.id}/${_reviewId.toString()}/${_counter.value.toString()}");
+
+      // 사진 업로드
+      UploadTask  storageUploadTask = ref.putFile(_tempUploadFile[_counter.value]);
+      // 파일 업로드 완료까지 대기
+      await storageUploadTask.whenComplete(() => null);
+
+      // 업로드한 사진의 URL 획득
+      String downloadURL = await ref.getDownloadURL();
+
+      _reviewImageUrlForFirebase.add(downloadURL);
+    }
+
+    for(_counter.value = 0 ; _counter.value < _tempUploadFile.length - 1; _counter.value++){
+      _uploadImage();
+    }
+    if(_tempUploadFile.length > 0){_uploadImage();}
+
+
+
+    print(reviewRateDocumentSnapshot.data()[_starScore.toInt().toString()] );
+
+    reviewRateRef.update({_starScore.toInt().toString() : reviewRateDocumentSnapshot.data()[_starScore.toInt().toString()] + 1});
+
+
+    reviewRef.doc(_reviewId).set({
+      'uid':_user.uid,
+      'reviewId' : _reviewId,
+      'starScore' : _starScore,
+      'mainText': _tc.text,
+      'goodsId' : widget.goods.id,
+      'updateTime' : Timestamp.now(),
+      'reviewImageUrl' : _reviewImageUrlForFirebase
+    });
+
+    goodsRef.update({
+      'reviewNum' : _reviewNum
+    });
+
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
+    _imageBoxLength = MediaQuery.of(context).size.width/6;
+
     return Scaffold(
       body: SafeArea(
           child: ListView(
@@ -78,7 +173,7 @@ class _WritingReviewState extends State<WritingReview> {
                   Spacer(),
                   TextButton(
                       onPressed: ()async{
-                        uploadNewGoods();
+                        await _uploadReview();
                         Navigator.pop(context);
                       },
                       child: Text('완료',style: TextStyle(color: Colors.black,fontSize: 17),
@@ -86,20 +181,26 @@ class _WritingReviewState extends State<WritingReview> {
                   )
                 ],
               ),
-              Text(widget.goods.title),
-              RatingBar.builder(
-                initialRating: 3,
-                minRating: 1,
-                direction: Axis.horizontal,
-                itemCount: 5,
-                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                itemBuilder: (context, _) => Icon(
-                  Icons.star,
-                  color: Colors.amber,
+              Center(
+                child: Column(
+                  children: [
+                    Text(widget.goods.title),
+                    RatingBar.builder(
+                      initialRating: 3,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      onRatingUpdate: (rating) {
+                        _starScore = rating;
+                      },
+                    ),
+                  ],
                 ),
-                onRatingUpdate: (rating) {
-                  _reviewData.starScore = rating;
-                },
               ),
               Container(
                 margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -128,98 +229,56 @@ class _WritingReviewState extends State<WritingReview> {
                   children: [
                     InkWell(
                       child: Container(
-                        height: 50,
-                        width: 50,
+                        height:_imageBoxLength,
+                        width:_imageBoxLength,
                         color: Colors.grey.shade200,
                         margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                        child: Icon(Icons.image),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Icon(Icons.image),
+                            Text(_uploadImageList.length.toString() + '/4')
+                          ],
+                        ),
                       ),
                       onTap: () async{
-                        var _image = await ImagePicker().pickImage(source: ImageSource.gallery);
+                        var _image = await ImagePicker().pickMultiImage();
                         if(_image != null){
                           setState(() {
-                            _uploadImage = _image;
+                            if(_image.length > 4){
+                              _uploadImageList = _image.sublist(0,4);
+                            }
+                            else _uploadImageList = _image;
                             _success_get_image = true;
                           });
                         }
                       },
                     ),
                     _success_get_image == true ?
-                    Container(
-                      height: 50,
-                      width: 50,
-                      child: Image.file(File(_uploadImage.path),fit: BoxFit.cover),
-                    ) :
+                    Expanded(
+                        child: Container(
+                          height: _imageBoxLength,
+                          child: ListView.separated(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: _uploadImageList.length,
+                              itemBuilder: (BuildContext context,int index){
+                                return Container(
+                                  height:_imageBoxLength,
+                                  width: _imageBoxLength,
+                                  child: Image.file(File(_uploadImageList[index].path),fit: BoxFit.cover),
+                                );
+                              },
+                            separatorBuilder: (BuildContext context, int index){
+                                return SizedBox(width: 10,);
+                            },
+                          ),
+                        )
+                    ):
                     Container()
                   ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: TextField(
-                  controller: _nickNameTc,
-                  decoration: InputDecoration(
-                      hintText: '임시 닉네임 적어두는곳'
-                  ),
-                ),
-              ),
-              Padding(
-                padding:  EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child:  Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      child: Container(
-                        height: 50,
-                        width: 100,
-                        color: Colors.grey.shade200,
-                        margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                        child: Text('임시프로필이미지 가져오는곳'),
-                      ),
-                      onTap: () async{
-                        var _image = await ImagePicker().pickImage(source: ImageSource.gallery);
-                        if(_image != null){
-                          setState(() {
-                            _tempUploadImage = _image;
-                            _temp_success_get_image = true;
-                          });
-                        }
-                        // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거
-                        Reference ref = _firebaseStorage.ref().child("reviewImage/${widget.goods.id}/profileImage");
-
-                        // 파일 업로드
-                        File _tempFile = File(_tempUploadImage.path);
-                        UploadTask  storageUploadTask = ref.putFile(_tempFile);
-
-                        // 파일 업로드 완료까지 대기
-                        await storageUploadTask.whenComplete(() => null);
-
-                        // 업로드한 사진의 URL 획득
-                        String downloadURL = await ref.getDownloadURL();
-
-                        // 업로드된 사진의 URL을 페이지에 반영
-                        setState(() {
-                          _profileImageURL = downloadURL;
-                        });
-                        print(_profileImageURL);
-                      },
-                    ),
-                    _temp_success_get_image == true ?
-                    Container(
-                      height: 50,
-                      width: 50,
-                      child: Image.file(File(_tempUploadImage.path),fit: BoxFit.cover),
-                    ) :
-                    Container()
-                  ],
-                ),
-              ),
-              ElevatedButton(
-                  onPressed: (){
-                    uploadNewGoods();
-                  },
-                  child: Text('임시 버튼(새 상품 업로드)')
-              )
             ],
           )
       ),
@@ -241,8 +300,6 @@ class _WritingReviewState extends State<WritingReview> {
     );
 
     newGoods.uploadNewGoods();
-
-
   }
 
   Map<int,String> category = {
@@ -260,3 +317,4 @@ class _WritingReviewState extends State<WritingReview> {
     12 : '과자'
   };
 }
+

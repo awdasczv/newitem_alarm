@@ -146,40 +146,44 @@ class _EditReviewState extends State<EditReview> {
               content: SingleChildScrollView(
                 child: ListBody(children: [
                   Text(
+                    "확인",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)
+                  ),
+                  Text(
                     "선택 항목을 삭제 하시겠습니까?",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    //style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ]),
               ),
               actions: <Widget>[
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red,
-                    onPrimary: Colors.white,
+                TextButton(
+                  /*style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    onPrimary: Colors.grey,
+                  ),*/
+                  child: Text(
+                    "아니오",
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                   ),
+                  onPressed: () {
+                    //widget.comment.removeAt(index)
+                    Navigator.pop(context, 2);
+                  },
+                ),
+                TextButton(
+                  /*style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    onPrimary: Color(0xffFFC845),
+                  ),*/
                   child: Text(
                     "삭제",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xffFFC845)),
                   ),
                   onPressed: () {
                     //widget.comment.removeAt(index);
                     Navigator.pop(context, 1);
                   },
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
-                    onPrimary: Colors.white,
-                  ),
-                  child: Text(
-                    "아니오",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  onPressed: () {
-                    //widget.comment.removeAt(index)
-                    Navigator.pop(context, 2);
-                  },
-                )
               ]);
         });
     if (a == 1) {

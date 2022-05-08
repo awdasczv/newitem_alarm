@@ -12,7 +12,6 @@ class NoticeList_header extends StatefulWidget {
 
 class _NoticeList_headerState extends State<NoticeList_header> {
 
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -27,9 +26,39 @@ class _NoticeList_headerState extends State<NoticeList_header> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
+            Container(
+              /*
+              height: 500,
+              child: StreamBuilder<QuerySnapshot>(
+                stream: noticeRef.snapshots(),
+                //limit제한, orderBy정렬, where 필터링,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot)
+                  {
+                   if(snapshot.hasError) return Text("Error : ${snapshot.error}");
+                   switch (snapshot.connectionState)
+                  {
+                    case ConnectionState.waiting:
+                      return Text("Loading...");
+                     default:
+                       return ListView(
+                           children: snapshot.data.documents
+                               .map((DocumentSnapshot document)
+                       {
+                         Timestamp tt = document["datetime"];
+                         DateTime dt = DateTime.fromMicrosecondsSinceEpoch(
+                             tt.microsecondsSinceEpoch);
+
+
+
+                        }));
+                    }
+                  }),
+              */
+            ),
           ]),
-        )
-    );
+        ));
+
   }
 }
 
