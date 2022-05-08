@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:newitem_alarm/ProfilePages/NoticeList.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+
 
 class Notice extends StatelessWidget {
+  CollectionReference noticeRef = FirebaseFirestore.instance.collection("Notice");
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,41 +38,49 @@ class Notice extends StatelessWidget {
             // 최대 높이
             expandedHeight: 50,
           ),
-          // 리스트 추가
-          SliverList(
-            // 아이템을 빌드하기 위해서 delegate 항목을 구성함
-            // SliverChildBuilderDelegate는 ListView.builder 처럼 리스트의 아이템을 생성해줌
-            // Padding으로 박스형식으로 끝부분 만들어줌
+          StreamBuilder<QuerySnapshot>(
+          stream: noticeRef.snapshots(),
+          //limit제한, orderBy정렬, where 필터링,
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot)
+          {
+            if(snapshot.hasError)
+            {
+              return Text("Error : ${snapshot.error}");
+            }
+            if(snapshot.connectionState == ConnectionState.waiting)
+            {
+              return Text("Loading...");
+            }
+            return SliverList(
+              // 아이템을 빌드하기 위해서 delegate 항목을 구성함
+              // SliverChildBuilderDelegate는 ListView.builder 처럼 리스트의 아이템을 생성해줌
+              // Padding으로 박스형식으로 끝부분 만들어줌
+                delegate: SliverChildListDelegate(
+                    snapshot.data.docs.map(
+                            (DocumentSnapshot snapshot)
+                        {
+                          Timestamp tt = snapshot["datetime"];
+                          DateTime dt = DateTime.fromMicrosecondsSinceEpoch(tt.microsecondsSinceEpoch);
+                          return Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Container(
+                              height: 200,
+                              color: Colors.grey,
+                              child: Text(snapshot["Title"]),
+                              ),
+                          );
+                        }).toList()
+                )
+            );
 
-            delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-              return Padding(padding:const EdgeInsets.all(3.0),
-              child: GestureDetector(
-                child: Container(
-              height: 200.0,
-              color: Colors.grey,
-              child: Center
-                (
-                child: Text("이것은 공지사항입니다.: $index",textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14.0, fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-                ),
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => NoticeList()),
-                  );
-                  },
-              ),
-              );
-            },
-            ),
-          ),
+              }),
         ],
       ),
     );
   }
 }
+
+/*
+Widget NoticeBack(){
+  return Card
+*/
