@@ -125,15 +125,6 @@ class _ProfileHomeState extends State<ProfileHome> {
       child: Scaffold(
         key: _globalKey,
           appBar: AppBar(
-            //backgroundColor: Color(0xffFFC845),
-            /*leading: TextButton(
-            child: Text('로그아웃'),
-            onPressed: () {
-              setState(() {
-                _isLogin == false;
-              });
-            },
-          ),*/
             backgroundColor: Colors.white,
             centerTitle: true,
             title: Text(

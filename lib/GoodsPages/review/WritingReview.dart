@@ -53,48 +53,98 @@ class _WritingReviewState extends State<WritingReview> {
     super.initState();
   }
 
+
   Future<void> _uploadReview() async{
+
+    final ValueNotifier<int> _counter = ValueNotifier<int>(0);
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+              builder: (context, setState){
+                return AlertDialog(
+                  content: Row(
+                    children: [
+                      CircularProgressIndicator(),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child:ValueListenableBuilder(
+                          valueListenable: _counter,
+                          builder: (BuildContext context, int value, Widget child){
+                            return  Text('이미지 업로드중...   ' + (value+1).toString() + '/' + _uploadImageList.length.toString(),
+                              style: TextStyle(
+                                  fontSize: 15
+                              ),
+                            );
+                          },
+                        )
+                      )
+                    ],
+                  ),
+                );
+              }
+          );
+        }
+    );
+
     if(_success_get_image == false && _tc.text.length < 1){
+      Navigator.pop(context);
       return;
     }
 
-     var documentSnapshot = await FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).get();
+    var documentSnapshot = await FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).get();
 
 
-     int _reviewNum = documentSnapshot.data()["reviewNum"] + 1;
+    int _reviewNum = documentSnapshot.data()["reviewNum"] + 1;
 
-     String _reviewId = widget.goods.id + '-02-' + _reviewNum.toString();
+    String _reviewId = widget.goods.id + '-02-' + _reviewNum.toString();
 
-     List<File> _tempUploadFile = List.generate(_uploadImageList.length, (index) => File(_uploadImageList[index].path));
+    List<File> _tempUploadFile = List.generate(_uploadImageList.length, (index) => File(_uploadImageList[index].path));
 
-     for(int i = 0 ; i < _tempUploadFile.length ; i++){
-       //사진 경로 설정
-       Reference ref = _firebaseStorage.ref().child("reviewImage/${widget.goods.id}/${_reviewId.toString()}/${i.toString()}");
+    for(_counter.value = 0 ; _counter.value < _tempUploadFile.length - 1; _counter.value++){
+      //사진 경로 설정
+      Reference ref = _firebaseStorage.ref().child("reviewImage/${widget.goods.id}/${_reviewId.toString()}/${_counter.value.toString()}");
 
-       // 사진 업로드
-       UploadTask  storageUploadTask = ref.putFile(_tempUploadFile[i]);
-       // 파일 업로드 완료까지 대기
-       await storageUploadTask.whenComplete(() => null);
+      // 사진 업로드
+      UploadTask  storageUploadTask = ref.putFile(_tempUploadFile[_counter.value]);
+      // 파일 업로드 완료까지 대기
+      await storageUploadTask.whenComplete(() => null);
 
-       // 업로드한 사진의 URL 획득
-       String downloadURL = await ref.getDownloadURL();
+      // 업로드한 사진의 URL 획득
+      String downloadURL = await ref.getDownloadURL();
 
-       _reviewImageUrlForFirebase.add(downloadURL);
-     }
-     
-     reviewRef.doc(_reviewId).set({
-       'uid':_user.uid,
-       'reviewId' : _reviewId,
-       'starScore' : _starScore,
-       'mainText': _tc.text,
-       'goodsId' : widget.goods.id,
-       'updateTime' : Timestamp.now(),
-       'reviewImageUrl' : _reviewImageUrlForFirebase
-     });
+      _reviewImageUrlForFirebase.add(downloadURL);
+    }
+    //사진 경로 설정
+    Reference ref = _firebaseStorage.ref().child("reviewImage/${widget.goods.id}/${_reviewId.toString()}/${_counter.value.toString()}");
 
-     goodsRef.update({
-       'reviewNum' : _reviewNum
-     });
+    // 사진 업로드
+    UploadTask  storageUploadTask = ref.putFile(_tempUploadFile[_counter.value]);
+    // 파일 업로드 완료까지 대기
+    await storageUploadTask.whenComplete(() => null);
+
+    // 업로드한 사진의 URL 획득
+    String downloadURL = await ref.getDownloadURL();
+
+    _reviewImageUrlForFirebase.add(downloadURL);
+
+
+    reviewRef.doc(_reviewId).set({
+      'uid':_user.uid,
+      'reviewId' : _reviewId,
+      'starScore' : _starScore,
+      'mainText': _tc.text,
+      'goodsId' : widget.goods.id,
+      'updateTime' : Timestamp.now(),
+      'reviewImageUrl' : _reviewImageUrlForFirebase
+    });
+
+    goodsRef.update({
+      'reviewNum' : _reviewNum
+    });
+
+    Navigator.pop(context);
   }
 
   @override
@@ -264,3 +314,4 @@ class _WritingReviewState extends State<WritingReview> {
     12 : '과자'
   };
 }
+
