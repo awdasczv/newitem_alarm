@@ -7,7 +7,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:newitem_alarm/GoodsPages/MukTV.dart';
 import 'package:newitem_alarm/model/Firestore_model.dart';
-import 'package:newitem_alarm/model/goods.dart';
 
 import './comment/Comment.dart';
 import './review/Review.dart';
@@ -31,6 +30,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
   int currentIndex = 0;
   final bar = ['댓글', '리뷰', '먹TV'];
   final CarouselController _carouselController = CarouselController();
+  bool _expandNutrient = false;
 
   User _user;
 
@@ -84,10 +84,12 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                   ];
                 },
                 body: TabBarView(
-                  children: [Comment(), ReviewPage(goods: widget.goods), MukTV()],
-                )
-            )
-        ),
+                  children: [
+                    Comment(goods: widget.goods),
+                    ReviewPage(goods: widget.goods),
+                    MukTV()
+                  ],
+                ))),
       ),
     );
   }
@@ -210,7 +212,6 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                                 );
                                 return;
                               }
-
                               await Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -605,7 +606,6 @@ class TabSliverDelegate extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
 }
-
 
 /*
 RatingBarIndicator(

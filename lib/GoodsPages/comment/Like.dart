@@ -35,7 +35,7 @@ class _LikeState extends State<Like> {
     }
   }
 
-  //null safety만 되면 late 사용해서 굳이 initState() 핳 필요 없음.....
+  //null safety만 되면 late 사용해서 굳이 initState() 할 필요 없음.....
   @override
   void initState() {
     super.initState();
