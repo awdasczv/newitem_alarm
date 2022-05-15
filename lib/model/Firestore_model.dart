@@ -22,22 +22,39 @@ Map<int,String> category = {
   12 : '과자'
 };
 
-class Review{
+class ReviewData{
   final String uid;
+  final String reviewID;
   final double starScore;
   final String goodsID;
-  final List<String> reviewImageUrl;
+  final List<dynamic> reviewImageUrl;
   final DateTime updateTime;
   final String mainText;
 
-  Review({
+  ReviewData({
     this.uid,
     this.starScore = 0,
+    this.reviewID,
     this.mainText = "",
     this.reviewImageUrl = const [""],
     this.updateTime,
     this.goodsID
 });
+
+  factory ReviewData.fromJson(Map<String,dynamic> json){
+    Timestamp _timestamp = json['updateTime'];
+
+    return ReviewData(
+      uid : json['uid'],
+      starScore : json['starScore'],
+      reviewID: json['reviewId'],
+      mainText : json['mainText'],
+      reviewImageUrl : json['reviewImageUrl'],
+      updateTime:_timestamp.toDate(),
+      goodsID: json['goodsId']
+    );
+  }
+
   void uploadReview ()async{
     FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
     FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -222,3 +239,49 @@ List<NewGoods> _newGoods= [
   )
 ];
 
+void checkProfileImage(){
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  DocumentReference userRef;
+  User _user;
+
+  if(_firebaseAuth.currentUser == null){return;}
+
+  _user = _firebaseAuth.currentUser;
+  userRef = FirebaseFirestore.instance.collection('User').doc(_user.uid);
+  
+  userRef.update({'profileImageURL':_user.photoURL});
+}
+
+/*
+class AddUser extends StatefulWidget {
+  final String userName;
+  final String userID;
+  final String userProfileUrl;
+  final String uid;
+  final likeList;
+  final myCommnet;
+  final myReview;
+
+  const AddUser(
+      {Key key,
+        @required this.userName,
+        @required this.userID,
+        @required this.userProfileUrl,
+        @required this.uid,
+        @required this.likeList,
+        @required this.myCommnet,
+        @required this.myReview})
+      : super(key: key);
+
+  @override
+  State<AddUser> createState() => _AddUserState();
+}
+
+class _AddUserState extends State<AddUser> {
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+  Future<void> addUser(){
+
+  }
+
+}*/

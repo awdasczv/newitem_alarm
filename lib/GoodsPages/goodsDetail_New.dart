@@ -1,4 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,6 +17,7 @@ import 'bar_chart.dart';
 class GoodsDetailHome extends StatefulWidget {
   final NewGoods goods;
 
+
   const GoodsDetailHome({Key key, @required this.goods}) : super(key: key);
 
   @override
@@ -29,11 +32,16 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
   final CarouselController _carouselController = CarouselController();
   bool _expandNutrient = false;
 
+  User _user;
+
+  bool buttonStyle = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    //  print(widget.goods.starScore);
+  //  print(widget.goods.starScore);
+
+    _user = FirebaseAuth.instance.currentUser;
   }
 
   @override
@@ -87,149 +95,148 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
   }
 
   SliverToBoxAdapter buildSliverToBoxAdapter2(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Container(
-          margin: EdgeInsets.only(top: 10, bottom: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-          ),
-          height: 270,
-          child: Padding(
-            padding: EdgeInsets.only(top: 15),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start, //Row일 때 왼쪽으로 정렬
-                  children: [
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      '신상품 리뷰',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      "(${widget.goods.reviewNum.toString()}개)",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black26),
-                    )
-                  ],
-                ),
-                const Padding(padding: EdgeInsets.only(bottom: 10)),
-                Expanded(
-                    child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      mainAxisAlignment:
-                          MainAxisAlignment.center, //Column일 때 가운데 정렬
-                      children: [
-                        Text(
-                          widget.goods.starScore.toString(),
-                          style: TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        RatingBarIndicator(
-                          rating: widget.goods.starScore,
-                          itemBuilder: (context, index) {
-                            return Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            );
-                          },
-                          itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                          itemCount: 5,
-                          itemSize: 15,
-                          direction: Axis.horizontal,
-                        ),
-                      ],
-                    ),
-                    Container(
-                      width: 2,
-                      height: 120,
-                      color: Colors.grey[200],
-                    ),
-                    //여기서는 VerticalDivider()보다 Container()사용하는 게 더 편함.
-                    /*Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            RatingBarIndicator(
-                              rating: 3.5,
-                              itemBuilder: (context, index) {
-                                switch (index) {
-                                  case 0:
-                                    return Container(
-                                      width: 10,
-                                      height: 150,
-                                      color: Colors.purple,
-                                    );
-                                  case 1:
-                                    return Container(
-                                      width: 3,
-                                      height: 70,
-                                      color: Colors.green,
-                                    );
-                                  case 2:
-                                    return Container(
-                                      width: 3,
-                                      height: 70,
-                                      color: Colors.deepOrange,
-                                    );
-                                  case 3:
-                                    return Container(
-                                      width: 3,
-                                      height: 70,
-                                      color: Colors.black26,
-                                    );
-                                  case 4:
-                                    return Container(
-                                      width: 3,
-                                      height: 70,
-                                      color: Colors.black26,
-                                    );
-                                }
-                              },
-                              itemCount: 5,
-                              itemSize: 30,
-                              direction: Axis.horizontal,
-                            ),
-                          ],
-                        ),*/
-                    ProductReview()
-                  ],
-                )),
-                //   const Padding(padding: EdgeInsets.only(bottom: 10)),
+    DocumentReference reviewRateRef = FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).collection('ReviewRate').doc('ReviewRate');
 
-                TextButton(
-                    onPressed: () {},
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WritingReview(
-                                      goods: widget.goods,
-                                    )));
-                      },
-                      child: Text(
-                        '리뷰 작성하러 가기',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.blueAccent),
+    return SliverToBoxAdapter(
+      child: FutureBuilder(
+        future: reviewRateRef.get(),
+        builder: (context,snapshot){
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f))),
+            );
+          } else if (snapshot.hasError) {
+            return Center(child: Text(snapshot.error.toString()));
+          }
+          else {
+            double _avg = (snapshot.data['1'] + snapshot.data['2'] + snapshot.data['3'] + snapshot.data['4'] + snapshot.data['5'])/5;
+
+            return Container(
+                margin: EdgeInsets.only(top: 10, bottom: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                height: 270,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 15),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start, //Row일 때 왼쪽으로 정렬
+                        children: [
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            '신상품 리뷰',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            "(${widget.goods.reviewNum.toString()}개)",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black26),
+                          )
+                        ],
                       ),
-                    ))
-              ],
-            ),
-          )),
+                      const Padding(padding: EdgeInsets.only(bottom: 10)),
+                      Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.center, //Column일 때 가운데 정렬
+                                children: [
+                                  Text(
+                                    _avg.toStringAsFixed(1),
+                                    style: TextStyle(
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  RatingBarIndicator(
+                                    rating: widget.goods.starScore,
+                                    itemBuilder: (context, index) {
+                                      return Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      );
+                                    },
+                                    itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                    itemCount: 5,
+                                    itemSize: 15,
+                                    direction: Axis.horizontal,
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                width: 2,
+                                height: 120,
+                                color: Colors.grey[200],
+                              ),
+                              barChart(snapshot.data['1'], snapshot.data['2'], snapshot.data['3'], snapshot.data['4'], snapshot.data['5'])//ProductReview(),
+                            ],
+                          )
+                      ),
+                      //   const Padding(padding: EdgeInsets.only(bottom: 10)),
+
+                      TextButton(
+                          onPressed: () {},
+                          child: TextButton(
+                            onPressed: () async{
+                              if(_user == null){
+                                showDialog(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    builder: (BuildContext context){
+                                      return AlertDialog(
+                                        title: Text('로그인 후 이용해주세요'),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: (){
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text('네')
+                                          )
+                                        ],
+                                      );
+                                    }
+                                );
+                                return;
+                              }
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WritingReview(
+                                        goods: widget.goods,
+                                      )));
+                              setState(() {
+
+                              });
+                            },
+                            child: Text(
+                              '리뷰 작성하러 가기',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.blueAccent),
+                            ),
+                          ))
+                    ],
+                  ),
+                )
+            );
+          }
+        },
+      )
     );
   }
 
@@ -239,7 +246,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
           decoration: BoxDecoration(
             color: Colors.white,
           ),
-          height: 195,
+          //height: 500,
           child: Column(
             children: [
               Padding(
@@ -330,57 +337,70 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                         )
                       ],
                     ),
-                    _expandNutrient == false
-                        ? Row(
-                            children: [
-                              Text(
-                                '영양성분',
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w600),
-                              ),
-                              // const SizedBox(
-                              //   width: 15,
-                              // ),
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _expandNutrient = true;
-                                  });
-                                },
-                                //추후에 영양성분 api랑 연결해서 정보 뜨게 만들기!
-                                icon: Icon(Icons.arrow_forward_ios_rounded),
-                                iconSize: 15,
-                              ),
-                            ],
-                          )
-                        : Row(
-                            children: [
-                              Text(
-                                '영양성분',
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w600),
-                              ),
-                              // const SizedBox(
-                              //   width: 15,
-                              // ),
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _expandNutrient = false;
-                                  });
-                                },
-                                //추후에 영양성분 api랑 연결해서 정보 뜨게 만들기!
-                                icon: Icon(Icons.arrow_forward_ios_rounded),
-                                iconSize: 15,
-                              ),
-                              Text('가나마라')
-                            ],
-                          )
+                    buttonStyle == false ? Nutrient1() : Nutrient2(),
                   ],
                 ),
               )
             ],
           )),
+    );
+  }
+
+  Widget Nutrient1() {
+    return Row(
+      children: [
+        Text(
+          '영양성분',
+          style: TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w600),
+        ),
+        // const SizedBox(
+        //   width: 15,
+        // ),
+        IconButton(
+          icon: Icon(Icons.arrow_forward_ios_rounded),
+          iconSize: 15,
+          onPressed: () {
+            setState(() {
+              buttonStyle = !buttonStyle;
+            });
+          },
+          //추후에 영양성분 api랑 연결해서 정보 뜨게 만들기!
+
+        ),
+        //Nutrient(),
+      ],
+    );
+  }
+
+  Widget Nutrient2() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('영양성분', style: TextStyle( fontSize: 14, fontWeight: FontWeight.w600),),
+            // const SizedBox(
+            //   width: 15,
+            // ),
+            IconButton(
+              icon: Icon(Icons.keyboard_arrow_down_sharp),
+              iconSize: 25,
+              onPressed: () {
+                setState(() {
+                  buttonStyle = !buttonStyle;
+                });
+              },
+              //추후에 영양성분 api랑 연결해서 정보 뜨게 만들기!
+            ),
+          ],
+        ),
+        Text( '가나다라마바사akefeihjaie라더먀더ㅑ처파ㅓ미ㅏ어먀ㅐ더마ㅓㅜㅊ낲미ㅏ괘먀ㅙㅏ춮먀ㅗㄷ개먀니차ㅓㅍ먀거매ㅑㅜ내먀ㅙ먀ㅗㅓㅐㅑ더', style: TextStyle( fontSize: 14, fontWeight: FontWeight.w600), ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+        )
+      ],
     );
   }
 
@@ -498,7 +518,9 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                                                       fontWeight:
                                                           FontWeight.normal))
                                             ]),
-                                      ))),
+                                      )
+                                      )
+                                  ),
                                 )
                               ],
                             )),

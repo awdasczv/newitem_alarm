@@ -33,6 +33,24 @@ class _WatchDetailState extends State<WatchDetail> {
 
   bool _expandDescription = false;
 
+  /*
+  // 유튜브 URL을 사용하여 동영상 재생
+  String videoId;
+  videoId = YoutubePlayer.convertUrlToId("https://www.youtube.com/watch?v=BBAyRBTfsOU");
+  print(videoId); // BBAyRBTfsOU
+  */
+
+  // 특정 위치로 타임점프 하고 싶다면
+  /*
+  InkWell or GestureDetector, button의 onTap or onPressed 함수에
+  _controller.seekTo(Duration(seconds: int.parse(_qsubList[index].info)));
+  seekTo 함수를 사용하시면 특정위치로 이동할 수 있습니다!
+   */
+
+  /*
+  // full screen 화면이 자릴 때
+  해당 페이지의 width 를 MediaQuery().size.height*1 로 하거나, youtube_player의 aspect ratio를 바꾸기기
+  */
   @override
   Widget build(BuildContext context) {
     return YoutubePlayerBuilder(
