@@ -82,19 +82,48 @@ class _CommentState extends State<Comment> {
       'userProfileUrl': userProfile(),
       'userID': userID(),
       'like': 0,
-      'likedBy': []
+      'likedBy': [],
+      'goodsID': widget.goods.id
     };
-    setState(() {
+    setState(() async {
       _isComposing = false;
       CollectionReference commentRef =
           //왜 widget.goods.id로 하면 되고, 왜 id 받아서 하면 안될까,,,?
           goodsRef.doc(widget.goods.id).collection('Comment');
-      commentRef //commentRef.doc(commentid를 문서 번호로)
-          .add(data)
+      //total 나중에 사용할 수도 있을 것 같아 남겨둠.
+      var total = await commentRef
+          .get()
+          .then((value) => value.docs.asMap().keys.length);
+
+      commentRef.doc('metadata').set({'total': total, 'delete + total': 0});
+
+      String index = '';
+      if (_i < 10) {
+        index = '00' + _i.toString();
+      } else if (_i < 100) {
+        index = '0' + _i.toString();
+      } else {
+        index = _i.toString();
+      }
+
+      String commentID = widget.goods.id + "-01-" + index;
+
+      commentRef
+          .doc(commentID)
+          .set(data)
           .then((value) => print('Comment Upload'))
           .catchError((error) {
-        return print('댓글 입력 오류: $error'); //제대로 추가되면 id 출력하고, 문제가 발생하면 오류 출력
+        return print('댓글 입력 오류: $error'); //문제가 발생하면 오류 출력
       });
+      commentRef.doc(commentID).update({'commentID': commentID});
+    });
+  }
+
+  int _i = 0;
+
+  void add() {
+    setState(() {
+      _i++;
     });
   }
 
@@ -118,23 +147,21 @@ class _CommentState extends State<Comment> {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                if (index < commentDocs.length) {
-                  var comment_index = commentDocs[index];
-
+                if (index < commentDocs.length)
                   return Column(
                     children: [
                       commentListItem(
-                          commentDocs[index]['userProfileUrl'],
-                          commentDocs[index]['userName'],
-                          commentDocs[index]['dateTime'],
-                          commentDocs[index]['text'],
-                          commentDocs[index]['userID'],
-                          commentDocs[index]['like'],
-                          commentDocs[index]['likedBy'],
-                          commentDocs[index].reference),
+                        commentDocs[index]['userProfileUrl'],
+                        commentDocs[index]['userName'],
+                        commentDocs[index]['dateTime'],
+                        commentDocs[index]['text'],
+                        commentDocs[index]['userID'],
+                        commentDocs[index]['like'],
+                        commentDocs[index]['likedBy'],
+                        commentDocs[index].reference,
+                      ),
                     ],
                   );
-                }
               });
         });
   }
@@ -217,6 +244,7 @@ class _CommentState extends State<Comment> {
                 onPressed: _isComposing
                     ? () {
                         if (userName() != null) {
+                          add();
                           _handleSubmitted(_textEditingController.text);
                         } else {
                           showDialog(
