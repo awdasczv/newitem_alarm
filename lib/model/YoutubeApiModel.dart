@@ -61,7 +61,7 @@ Future<List<YoutubeAPI>> fetchYoutubeMetaData(List<String> channelIDList, List<S
       res.add(YoutubeAPI.fromJson(channelJson, videoJson));
 
     }
-    else throw Exception("Fail to load ArvInfo");
+    else throw Exception("Fail to load YoutubeMetadata");
   }
   return res;
 }
