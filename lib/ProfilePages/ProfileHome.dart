@@ -74,6 +74,7 @@ class _ProfileHomeState extends State<ProfileHome> {
     Icon(Icons.description_outlined, size: 25, color: Color(0xffFFC845)),
   ];
 
+
   Widget IsLogoutButton() {
     if(_isLogin == true)
       {

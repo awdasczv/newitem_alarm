@@ -13,14 +13,14 @@ class Edit extends StatefulWidget {
 class _EditState extends State<Edit> {
   final mainColor = Color(0xffFFC845);
 
-  Future<void> edit() async {}
+  void _edit() async {}
 
   @override
   Widget build(BuildContext context) {
     return InkResponse(
       onTap: () {
         Navigator.pop(context);
-        edit();
+        _edit();
       },
       child: Row(
         children: [

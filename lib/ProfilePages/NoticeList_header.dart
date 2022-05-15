@@ -11,7 +11,6 @@ class NoticeList_header extends StatefulWidget {
 
 
 class _NoticeList_headerState extends State<NoticeList_header> {
-  CollectionReference noticeRef =FirebaseFirestore.instance.collection("Notice");
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +21,11 @@ class _NoticeList_headerState extends State<NoticeList_header> {
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         //카드모양을 선언하고 엣지값을 줘서 둥글게 잘라 저 형태 바를 만들었음
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
             Container(
               /*
               height: 500,
@@ -57,6 +58,7 @@ class _NoticeList_headerState extends State<NoticeList_header> {
             ),
           ]),
         ));
+
   }
 }
 
