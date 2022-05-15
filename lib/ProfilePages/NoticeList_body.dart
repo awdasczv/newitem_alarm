@@ -7,6 +7,7 @@ class NoticeList_body extends StatefulWidget {
 }
 
 class _NoticeList_bodyState extends State<NoticeList_body> {
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,6 +31,7 @@ class _NoticeList_bodyState extends State<NoticeList_body> {
               ),
             ),
           ],
+
 
       ),
       )
