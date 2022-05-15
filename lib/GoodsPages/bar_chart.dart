@@ -5,6 +5,9 @@ import 'package:vertical_barchart/vertical-barchartmodel.dart';
 Widget barChart(int num1, int num2,int num3,int num4,int num5){
 
   int _total = num1 + num2 + num3 + num4 + num5;
+  if(_total == 0){
+    _total = 1;
+  }
 
   List<VBarChartModel> bardata = [
     VBarChartModel(

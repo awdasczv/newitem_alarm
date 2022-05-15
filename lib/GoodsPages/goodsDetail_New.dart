@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -94,12 +96,38 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
     );
   }
 
+
   SliverToBoxAdapter buildSliverToBoxAdapter2(BuildContext context) {
     DocumentReference reviewRateRef = FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).collection('ReviewRate').doc('ReviewRate');
 
+    //리뷰가 하나도 없어서 Review Rate 컬렉션이 없는 경우를 대비해서!!
+    Future<DocumentSnapshot> _checkIfDocExists() async {
+      try {
+        var doc = await reviewRateRef.get();
+
+        //ReviewRate 문서가 있으면 그냥 그대로 반환하고
+        if(doc.exists){
+          return doc;
+        }
+        else{//ReviewRate 문서가 없으면 컬렉션/ 문서 생성해서 새로 만들어줌
+          int reviewNum = widget.goods.reviewNum;
+          List<int> _n = [0,0,0,0,0];
+          for(int i = 0 ; i < reviewNum ; i++){
+            int random = Random(DateTime.now().compareTo(DateTime.utc(2020))).nextInt(5);
+            _n[random]++;
+          }
+          await FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).collection('ReviewRate').doc('ReviewRate').set({'1':_n[0],'2':_n[1],'3':_n[2],'4':_n[3],'5':_n[4]});
+          var doc = await reviewRateRef.get();
+          return doc;
+        }
+      } catch (e) {
+        throw e;
+      }
+    }
+
     return SliverToBoxAdapter(
       child: FutureBuilder(
-        future: reviewRateRef.get(),
+        future: _checkIfDocExists(),
         builder: (context,snapshot){
 
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -111,7 +139,12 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
             return Center(child: Text(snapshot.error.toString()));
           }
           else {
-            double _avg = (snapshot.data['1'] + snapshot.data['2'] + snapshot.data['3'] + snapshot.data['4'] + snapshot.data['5'])/5;
+            double _avg;
+            var _total = snapshot.data['1'] + snapshot.data['2'] + snapshot.data['3'] + snapshot.data['4'] + snapshot.data['5'];
+            if(_total != 0){
+              _avg = (snapshot.data['1']*1 + snapshot.data['2']*2 + snapshot.data['3']*3 + snapshot.data['4']*4 + snapshot.data['5']*5)/_total;
+            }else _avg = 0;
+
 
             return Container(
                 margin: EdgeInsets.only(top: 10, bottom: 10),
@@ -138,7 +171,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            "(${widget.goods.reviewNum.toString()}개)",
+                            "(${_total.toString()}개)",
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
@@ -163,7 +196,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                                     ),
                                   ),
                                   RatingBarIndicator(
-                                    rating: widget.goods.starScore,
+                                    rating: _avg,
                                     itemBuilder: (context, index) {
                                       return Icon(
                                         Icons.star,
