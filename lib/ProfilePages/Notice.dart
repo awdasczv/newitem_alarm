@@ -4,10 +4,19 @@ import 'package:newitem_alarm/ProfilePages/NoticeList.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Notice extends StatelessWidget {
+  String datetime;
+  String title;
+  String description;
+  Notice({Key key,  this.datetime, this.title, this.description}) : super(key: key);
   CollectionReference noticeRef = FirebaseFirestore.instance.collection("Notice");
 
   @override
   Widget build(BuildContext context) {
+    List data_list = [];
+    noticeRef.get().then((value) => value.docs.forEach((element) {data_list.add(element.data());}));
+    datetime = data_list[0];
+    title = data_list[1];
+    description = data_list[2];
     return Scaffold(
       body: StreamBuilder(
         stream: noticeRef.snapshots(),

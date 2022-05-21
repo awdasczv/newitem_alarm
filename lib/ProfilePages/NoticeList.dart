@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:newitem_alarm/ProfilePages/Notice.dart';
 
 class NoticeList extends StatelessWidget {
+  final Notice notice;
+  NoticeList({Key key,  this.notice}) : super(key: key);
   CollectionReference noticeRef = FirebaseFirestore.instance.collection("Notice");
 
   @override
@@ -25,7 +28,7 @@ class NoticeList extends StatelessWidget {
       ),
       body:ListView(
         children: [
-          NoticeHeader(),
+          NoticeHeader(notice.datetime, notice.title, notice.description),
           Padding(padding: const EdgeInsets.only(bottom: 1.0),
             child:NoticeBody(),
           )
@@ -36,7 +39,7 @@ class NoticeList extends StatelessWidget {
 }
 
 
-Widget NoticeHeader() {
+Widget NoticeHeader(String datetime, String title, String description, ) {
   CollectionReference noticeRef = FirebaseFirestore.instance.collection("Notice");
   return Scaffold(
     body: StreamBuilder(
@@ -67,7 +70,7 @@ Widget NoticeHeader() {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(document["Title"],
+                      Text(title,
                       style: TextStyle(
                         color:  Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold,
                       ),
