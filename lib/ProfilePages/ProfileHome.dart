@@ -9,7 +9,7 @@ import 'package:newitem_alarm/ProfilePages/AlarmMan.dart';
 import 'package:newitem_alarm/ProfilePages/ChangeProfile.dart';
 import 'package:newitem_alarm/ProfilePages/CommandMan.dart';
 import 'package:newitem_alarm/ProfilePages/Manual.dart';
-import 'package:newitem_alarm/ProfilePages/Notice.dart';
+import 'package:newitem_alarm/ProfilePages/NoticeHome.dart';
 import 'package:newitem_alarm/ProfilePages/ReviewMan.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:newitem_alarm/ProfilePages/SignInScreen.dart';
@@ -63,7 +63,7 @@ class _ProfileHomeState extends State<ProfileHome> {
 
   bool _isLogin = true;
 
-  final _menuList = [ReviewMan(), CommandMan(), AlarmMan(), Notice(), Manual()];
+  final _menuList = [ReviewMan(), CommandMan(), AlarmMan(), NoticeHome(), Manual()];
 
   final _menuIcon = [
     Icon(Icons.rate_review_outlined, size: 25, color: Color(0xffFFC845)),
