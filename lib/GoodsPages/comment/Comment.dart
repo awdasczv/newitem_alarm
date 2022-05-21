@@ -170,15 +170,15 @@ class _CommentState extends State<Comment> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      backgroundColor: Colors.white,
-      body: ListView(
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
-        children: [_buildcommentList()],
-      ),
-      bottomNavigationBar:
+          backgroundColor: Colors.white,
+          body: ListView(
+            shrinkWrap: true,
+            physics: ClampingScrollPhysics(),
+            children: [_buildcommentList()],
+          ),
+          bottomNavigationBar:
           buildInput(_isReply == false ? '댓글을 입력해주세요.' : ' 답글을 입력해주세요.'),
-    ));
+        ));
   }
 
   Future<void> commentCount() async {
