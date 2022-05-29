@@ -197,7 +197,7 @@ class _State extends State<FastFood> {
             NewGoods allGoods = NewGoods.fromJson(_newGoodsList[i].data());
             if(allGoods.category == categorize["전체"])
             {
-              categorizeGoods.add(NewGoods.fromJson(_newGoodsList[i].data()));
+              categorizeGoods.add(_newGoodsList[i].data());
             }
             else if(allGoods.category == categorize[widget.changeName])
             {
