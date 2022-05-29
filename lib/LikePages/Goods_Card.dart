@@ -24,7 +24,7 @@ class GoodsCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ), //elevation주고 싶어서 Card사용했지만..
                 child: Hero(
-                  tag: goods.title,
+                  tag: goods.id,
                   child: Container(
                     height: 190,
                     width: 180,
