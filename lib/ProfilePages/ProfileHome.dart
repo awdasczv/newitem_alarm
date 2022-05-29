@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -9,7 +10,7 @@ import 'package:newitem_alarm/ProfilePages/AlarmMan.dart';
 import 'package:newitem_alarm/ProfilePages/ChangeProfile.dart';
 import 'package:newitem_alarm/ProfilePages/CommandMan.dart';
 import 'package:newitem_alarm/ProfilePages/Manual.dart';
-import 'package:newitem_alarm/ProfilePages/Notice.dart';
+import 'package:newitem_alarm/ProfilePages/NoticeHome.dart';
 import 'package:newitem_alarm/ProfilePages/ReviewMan.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:newitem_alarm/ProfilePages/SignInScreen.dart';
@@ -61,9 +62,19 @@ class _ProfileHomeState extends State<ProfileHome> {
   final ImagePicker _picker = ImagePicker();
   PickedFile _image;
 
-  bool _isLogin = true;
+  bool _isLogin;
+  User _user;
 
-  final _menuList = [ReviewMan(), CommandMan(), AlarmMan(), Notice(), Manual()];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _user = FirebaseAuth.instance.currentUser;
+    _isLogin = _user != null;
+  }
+
+  final _menuList = [ReviewMan(), CommandMan(), AlarmMan(), NoticeHome(), Manual()];
 
   final _menuIcon = [
     Icon(Icons.rate_review_outlined, size: 25, color: Color(0xffFFC845)),
@@ -201,9 +212,6 @@ class _ProfileHomeState extends State<ProfileHome> {
 
                ],
              ),
-
-
-
           ],
         ),
       ),
@@ -425,7 +433,16 @@ class _ProfileHomeState extends State<ProfileHome> {
                                       child: ElevatedButton(
                                         child: Image.asset(
                                             'assets/images/google_logo.png'),
-                                        onPressed: signInWithGoogle,
+                                        onPressed: ()async{
+                                          await signInWithGoogle();
+                                          _user = FirebaseAuth.instance.currentUser;
+                                          if(_user != null){
+                                            setState(() {
+                                              _isLogin = true;
+                                            });
+                                            logInProgress(_user);
+                                          }
+                                        },
                                         style: ElevatedButton.styleFrom(
                                           primary: Colors.white,
                                           shape: CircleBorder(),
@@ -451,7 +468,16 @@ class _ProfileHomeState extends State<ProfileHome> {
                                                 fontSize: 35,
                                                 color: Colors.white)
                                         ),
-                                        onPressed: signInWithFacebook,
+                                        onPressed: ()async{
+                                          await signInWithFacebook();
+                                          _user = FirebaseAuth.instance.currentUser;
+                                          if(_user != null){
+                                            setState(() {
+                                              _isLogin = true;
+                                            });
+                                            logInProgress(_user);
+                                          }
+                                        },
                                         style: ElevatedButton.styleFrom(
                                           primary: Color(0xFF3B5998),
                                           shape: CircleBorder(),
@@ -460,12 +486,8 @@ class _ProfileHomeState extends State<ProfileHome> {
                                   ),
                                 ),
                               ),
-
-
                             ],
                           )
-
-
                         ],
                       ),
                     ]),
@@ -473,6 +495,34 @@ class _ProfileHomeState extends State<ProfileHome> {
             ),),
           _NoListMenu(),
         ]);
+  }
+
+  void logInProgress(User _user)async{
+    CollectionReference userRef = FirebaseFirestore.instance.collection('User');
+    DocumentSnapshot snapshot;
+    bool _isExist = true;
+    try{
+      snapshot = await userRef.doc(_user.uid).get();
+    }catch(e){
+      _isExist = false;
+    }
+
+    if(_isExist){
+      await userRef.doc(_user.uid).update({
+        'nickname' : _user.displayName,
+        'profileImageURL' : _user.photoURL,
+        'userID' : _user.email
+      });
+    }else{
+      await userRef.doc(_user.uid).set({
+        'LikeList':[],
+        'myComment':[],
+        'myReview':[],
+        'nickname' : _user.displayName,
+        'profileImageURL' : _user.photoURL,
+        'userID' : _user.email
+      });
+    }
   }
 
   ListTile _MenuListTile(int index, String name) {

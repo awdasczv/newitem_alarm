@@ -82,24 +82,24 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      children: [
-        _banner(),
-        _category(),
-        Divider(
-          thickness: 3,
-        ),
-        Padding(
-          padding: EdgeInsets.all(10),
-          child: Text(
-            '이주의 신상',
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
-        _newProductList()
-      ],
-    ));
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          children: [
+            _banner(),
+            _category(),
+            Divider(
+              thickness: 3,
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                '이주의 신상',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            _newProductList()
+          ],
+        ));
   }
 
   Widget _banner() {

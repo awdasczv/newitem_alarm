@@ -18,8 +18,6 @@ import 'bar_chart.dart';
 
 class GoodsDetailHome extends StatefulWidget {
   final NewGoods goods;
-
-
   const GoodsDetailHome({Key key, @required this.goods}) : super(key: key);
 
   @override
@@ -475,7 +473,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
         )
       ],
       flexibleSpace: Hero(
-        tag: widget.goods.title,
+        tag: widget.goods.id,
         child: LayoutBuilder(builder: (context, constraints) {
           double height = constraints.biggest.height;
           // print(height);
