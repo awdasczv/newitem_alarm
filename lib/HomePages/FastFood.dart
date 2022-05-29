@@ -23,6 +23,20 @@ class _State extends State<FastFood> {
   DateTime _selectedDate = DateTime.now();
   String text = '';
 
+  Map categorize = {
+    '젤리/초콜릿': 1,
+    '빵': 2,
+    '음료': 3,
+    '카페/디저트': 4,
+    '주류': 5,
+    '라면': 6,
+    '햄버거': 7,
+    '피자': 8,
+    '치킨': 9,
+    '즉석/냉동': 10,
+    '아이스크림': 11,
+    '과자': 12
+  };
 
   List yearList = ["2021년", "2020년", "2019년"];
 
@@ -176,9 +190,24 @@ class _State extends State<FastFood> {
             return Center(child: Text(snapshot.error.toString()));
           }
           final List<QueryDocumentSnapshot<Object>> _newGoodsList = snapshot.data.docs;
+
+          List<NewGoods> categorizeGoods = [];
+          for(int i = 0; i < _newGoodsList.length - 1; i++)
+          {
+            NewGoods allGoods = NewGoods.fromJson(_newGoodsList[i].data());
+            if(allGoods.category == categorize["전체"])
+            {
+              categorizeGoods.add(NewGoods.fromJson(_newGoodsList[i].data()));
+            }
+            else if(allGoods.category == categorize[widget.changeName])
+            {
+              categorizeGoods.add(allGoods);
+            }
+          }
+
           return GridView.builder(
               shrinkWrap: true,
-              itemCount: _newGoodsList.length - 1,
+              itemCount: categorizeGoods.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   //2행
@@ -194,14 +223,14 @@ class _State extends State<FastFood> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => GoodsDetailHome(
-                                goods: NewGoods.fromJson(_newGoodsList[index].data())
+                              goods: categorizeGoods[index],
                             )
                         )
                     );
                   },
                   child: GoodsCard(
-                      goods: NewGoods.fromJson(_newGoodsList[index].data(),
-                      ))
+                    goods: categorizeGoods[index],
+                  )
               )
           );
         }
