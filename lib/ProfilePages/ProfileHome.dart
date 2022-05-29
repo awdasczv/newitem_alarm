@@ -500,21 +500,20 @@ class _ProfileHomeState extends State<ProfileHome> {
   void logInProgress(User _user)async{
     CollectionReference userRef = FirebaseFirestore.instance.collection('User');
     DocumentSnapshot snapshot;
-    bool _isExist = true;
     try{
       snapshot = await userRef.doc(_user.uid).get();
     }catch(e){
-      _isExist = false;
+      print(e);
     }
-
-    if(_isExist){
-      await userRef.doc(_user.uid).update({
+    if(snapshot.exists){
+      print(_user.uid);
+      userRef.doc(_user.uid).update({
         'nickname' : _user.displayName,
         'profileImageURL' : _user.photoURL,
         'userID' : _user.email
       });
-    }else{
-      await userRef.doc(_user.uid).set({
+    }else {
+      userRef.doc(_user.uid).set({
         'LikeList':[],
         'myComment':[],
         'myReview':[],
