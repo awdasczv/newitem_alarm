@@ -18,6 +18,7 @@ import 'bar_chart.dart';
 
 class GoodsDetailHome extends StatefulWidget {
   final NewGoods goods;
+  
   const GoodsDetailHome({Key key, @required this.goods}) : super(key: key);
 
   @override
@@ -35,11 +36,12 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
   User _user;
 
   bool buttonStyle = false;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-  //  print(widget.goods.starScore);
+    //  print(widget.goods.starScore);
 
     _user = FirebaseAuth.instance.currentUser;
   }
@@ -94,9 +96,12 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
     );
   }
 
-
   SliverToBoxAdapter buildSliverToBoxAdapter2(BuildContext context) {
-    DocumentReference reviewRateRef = FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).collection('ReviewRate').doc('ReviewRate');
+    DocumentReference reviewRateRef = FirebaseFirestore.instance
+        .collection('Goods')
+        .doc(widget.goods.id)
+        .collection('ReviewRate')
+        .doc('ReviewRate');
 
     //리뷰가 하나도 없어서 Review Rate 컬렉션이 없는 경우를 대비해서!!
     Future<DocumentSnapshot> _checkIfDocExists() async {
@@ -104,17 +109,24 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
         var doc = await reviewRateRef.get();
 
         //ReviewRate 문서가 있으면 그냥 그대로 반환하고
-        if(doc.exists){
+        if (doc.exists) {
           return doc;
-        }
-        else{//ReviewRate 문서가 없으면 컬렉션/ 문서 생성해서 새로 만들어줌
+        } else {
+          //ReviewRate 문서가 없으면 컬렉션/ 문서 생성해서 새로 만들어줌
           int reviewNum = widget.goods.reviewNum;
-          List<int> _n = [0,0,0,0,0];
-          for(int i = 0 ; i < reviewNum ; i++){
-            int random = Random(DateTime.now().compareTo(DateTime.utc(2020))).nextInt(5);
+          List<int> _n = [0, 0, 0, 0, 0];
+          for (int i = 0; i < reviewNum; i++) {
+            int random =
+                Random(DateTime.now().compareTo(DateTime.utc(2020))).nextInt(5);
             _n[random]++;
           }
-          await FirebaseFirestore.instance.collection('Goods').doc(widget.goods.id).collection('ReviewRate').doc('ReviewRate').set({'1':_n[0],'2':_n[1],'3':_n[2],'4':_n[3],'5':_n[4]});
+          await FirebaseFirestore.instance
+              .collection('Goods')
+              .doc(widget.goods.id)
+              .collection('ReviewRate')
+              .doc('ReviewRate')
+              .set(
+                  {'1': _n[0], '2': _n[1], '3': _n[2], '4': _n[3], '5': _n[4]});
           var doc = await reviewRateRef.get();
           return doc;
         }
@@ -124,151 +136,158 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
     }
 
     return SliverToBoxAdapter(
-      child: FutureBuilder(
-        future: _checkIfDocExists(),
-        builder: (context,snapshot){
+        child: FutureBuilder(
+      future: _checkIfDocExists(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f))),
+          );
+        } else if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error.toString()));
+        } else {
+          double _avg;
+          var _total = snapshot.data['1'] +
+              snapshot.data['2'] +
+              snapshot.data['3'] +
+              snapshot.data['4'] +
+              snapshot.data['5'];
+          if (_total != 0) {
+            _avg = (snapshot.data['1'] * 1 +
+                    snapshot.data['2'] * 2 +
+                    snapshot.data['3'] * 3 +
+                    snapshot.data['4'] * 4 +
+                    snapshot.data['5'] * 5) /
+                _total;
+          } else
+            _avg = 0;
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(Color(0xfff1c40f))),
-            );
-          } else if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
-          }
-          else {
-            double _avg;
-            var _total = snapshot.data['1'] + snapshot.data['2'] + snapshot.data['3'] + snapshot.data['4'] + snapshot.data['5'];
-            if(_total != 0){
-              _avg = (snapshot.data['1']*1 + snapshot.data['2']*2 + snapshot.data['3']*3 + snapshot.data['4']*4 + snapshot.data['5']*5)/_total;
-            }else _avg = 0;
-
-
-            return Container(
-                margin: EdgeInsets.only(top: 10, bottom: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                height: 270,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 15),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start, //Row일 때 왼쪽으로 정렬
-                        children: [
-                          const SizedBox(
-                            width: 15,
+          return Container(
+              margin: EdgeInsets.only(top: 10, bottom: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              height: 270,
+              child: Padding(
+                padding: EdgeInsets.only(top: 15),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      //Row일 때 왼쪽으로 정렬
+                      children: [
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          '신상품 리뷰',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Text(
-                            '신상품 리뷰',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          "(${_total.toString()}개)",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black26),
+                        )
+                      ],
+                    ),
+                    const Padding(padding: EdgeInsets.only(bottom: 10)),
+                    Expanded(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          mainAxisAlignment:
+                              MainAxisAlignment.center, //Column일 때 가운데 정렬
+                          children: [
+                            Text(
+                              _avg.toStringAsFixed(1),
+                              style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            "(${_total.toString()}개)",
+                            RatingBarIndicator(
+                              rating: _avg,
+                              itemBuilder: (context, index) {
+                                return Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                );
+                              },
+                              itemPadding:
+                                  EdgeInsets.symmetric(horizontal: 1.0),
+                              itemCount: 5,
+                              itemSize: 15,
+                              direction: Axis.horizontal,
+                            ),
+                          ],
+                        ),
+                        Container(
+                          width: 2,
+                          height: 120,
+                          color: Colors.grey[200],
+                        ),
+                        barChart(
+                            snapshot.data['1'],
+                            snapshot.data['2'],
+                            snapshot.data['3'],
+                            snapshot.data['4'],
+                            snapshot.data['5']) //ProductReview(),
+                      ],
+                    )),
+                    //   const Padding(padding: EdgeInsets.only(bottom: 10)),
+
+                    TextButton(
+                        onPressed: () {},
+                        child: TextButton(
+                          onPressed: () async {
+                            if (_user == null) {
+                              showDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('로그인 후 이용해주세요'),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text('네'))
+                                      ],
+                                    );
+                                  });
+                              return;
+                            }
+                            await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WritingReview(
+                                          goods: widget.goods,
+                                        )));
+                            setState(() {});
+                          },
+                          child: Text(
+                            '리뷰 작성하러 가기',
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.black26),
-                          )
-                        ],
-                      ),
-                      const Padding(padding: EdgeInsets.only(bottom: 10)),
-                      Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center, //Column일 때 가운데 정렬
-                                children: [
-                                  Text(
-                                    _avg.toStringAsFixed(1),
-                                    style: TextStyle(
-                                      fontSize: 40,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  RatingBarIndicator(
-                                    rating: _avg,
-                                    itemBuilder: (context, index) {
-                                      return Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                      );
-                                    },
-                                    itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                                    itemCount: 5,
-                                    itemSize: 15,
-                                    direction: Axis.horizontal,
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                width: 2,
-                                height: 120,
-                                color: Colors.grey[200],
-                              ),
-                              barChart(snapshot.data['1'], snapshot.data['2'], snapshot.data['3'], snapshot.data['4'], snapshot.data['5'])//ProductReview(),
-                            ],
-                          )
-                      ),
-                      //   const Padding(padding: EdgeInsets.only(bottom: 10)),
-
-                      TextButton(
-                          onPressed: () {},
-                          child: TextButton(
-                            onPressed: () async{
-                              if(_user == null){
-                                showDialog(
-                                    context: context,
-                                    barrierDismissible: true,
-                                    builder: (BuildContext context){
-                                      return AlertDialog(
-                                        title: Text('로그인 후 이용해주세요'),
-                                        actions: [
-                                          TextButton(
-                                              onPressed: (){
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text('네')
-                                          )
-                                        ],
-                                      );
-                                    }
-                                );
-                                return;
-                              }
-                              await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => WritingReview(
-                                        goods: widget.goods,
-                                      )));
-                              setState(() {
-
-                              });
-                            },
-                            child: Text(
-                              '리뷰 작성하러 가기',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.blueAccent),
-                            ),
-                          ))
-                    ],
-                  ),
-                )
-            );
-          }
-        },
-      )
-    );
+                                color: Colors.blueAccent),
+                          ),
+                        ))
+                  ],
+                ),
+              ));
+        }
+      },
+    ));
   }
 
   SliverToBoxAdapter buildSliverToBoxAdapter() {
@@ -382,8 +401,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
       children: [
         Text(
           '영양성분',
-          style: TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
         // const SizedBox(
         //   width: 15,
@@ -397,7 +415,6 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
             });
           },
           //추후에 영양성분 api랑 연결해서 정보 뜨게 만들기!
-
         ),
         //Nutrient(),
       ],
@@ -411,7 +428,10 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('영양성분', style: TextStyle( fontSize: 14, fontWeight: FontWeight.w600),),
+            Text(
+              '영양성분',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            ),
             // const SizedBox(
             //   width: 15,
             // ),
@@ -427,7 +447,10 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
             ),
           ],
         ),
-        Text( '가나다라마바사akefeihjaie라더먀더ㅑ처파ㅓ미ㅏ어먀ㅐ더마ㅓㅜㅊ낲미ㅏ괘먀ㅙㅏ춮먀ㅗㄷ개먀니차ㅓㅍ먀거매ㅑㅜ내먀ㅙ먀ㅗㅓㅐㅑ더', style: TextStyle( fontSize: 14, fontWeight: FontWeight.w600), ),
+        Text(
+          '가나다라마바사akefeihjaie라더먀더ㅑ처파ㅓ미ㅏ어먀ㅐ더마ㅓㅜㅊ낲미ㅏ괘먀ㅙㅏ춮먀ㅗㄷ개먀니차ㅓㅍ먀거매ㅑㅜ내먀ㅙ먀ㅗㅓㅐㅑ더',
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        ),
         Padding(
           padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
         )
@@ -472,23 +495,23 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
           width: 7,
         )
       ],
-      flexibleSpace: Hero(
-        tag: widget.goods.title,
-        child: LayoutBuilder(builder: (context, constraints) {
-          double height = constraints.biggest.height;
-          // print(height);
-          return FlexibleSpaceBar(
-              title: height < 60
-                  ? Text(
-                      widget.goods.title,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold),
-                    )
-                  : null,
-              background: widget.goods.imageURL.length > 1
-                  ? Stack(
+      flexibleSpace: LayoutBuilder(builder: (context, constraints) {
+        double height = constraints.biggest.height;
+        // print(height);
+        return FlexibleSpaceBar(
+            title: height < 60
+                ? Text(
+                    widget.goods.title,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold),
+                  )
+                : null,
+            background: widget.goods.imageURL.length > 1
+                ? Hero(
+                    tag: widget.goods.title,
+                    child: Stack(
                       children: [
                         CarouselSlider(
                           carouselController: _carouselController,
@@ -549,15 +572,16 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                                                       fontWeight:
                                                           FontWeight.normal))
                                             ]),
-                                      )
-                                      )
-                                  ),
+                                      ))),
                                 )
                               ],
                             )),
                       ],
-                    )
-                  : Stack(
+                    ),
+                  )
+                : Hero(
+                    tag: widget.goods.title,
+                    child: Stack(
                       children: [
                         Container(
                           height: 320,
@@ -603,9 +627,9 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
                               ],
                             ))
                       ],
-                    ));
-        }),
-      ),
+                    ),
+                  ));
+      }),
     );
   }
 }
