@@ -303,8 +303,10 @@ class _HomePageState extends State<HomePage> {
     return Padding(
       padding: EdgeInsets.all(4),
       child: Card(
+        //color: Colors.grey,
         elevation: 3,
         shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.grey, width: 1),
           borderRadius: BorderRadius.circular(15),
         ),
         child: Container(
@@ -327,6 +329,9 @@ class _HomePageState extends State<HomePage> {
                       },
                       child: Column(
                         children: [
+                          Padding(
+                            padding: EdgeInsets.all(5),
+                          ),
                           Stack(
                             children: [
                               Container(
@@ -339,42 +344,79 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
+                          Padding(
+                            padding: EdgeInsets.all(2),
+                          ),
                           Container(
-                            height: 70,
-                            color: Colors.white30,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey, width: 1),
+                              color: Color(0xfff4ffff),
+                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
+                            ),
+                            height: 86,
+                            //color: Colors.white30,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Padding(
                                   padding: EdgeInsets.all(10),
-                                  child: Container(
-                                      height: 50,
+                                  /*child: Container(
+                                      height: 60,
+                                      width: 60,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         color: Colors.teal,
                                       ),
                                       child: Center(
                                         child: Text('Profile'),
-                                      )),
+                                      )),*/
                                 ),
+                                /*Padding(
+                                  padding: EdgeInsets.all(5),
+                                ),*/
                                 Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      _goods.title,
-                                      style: TextStyle(fontSize: 17),
+                                    Padding(
+                                      padding: EdgeInsets.all(10.5),
                                     ),
-                                    Text(
-                                      _goods.price.toString() + "원",
-                                      style: TextStyle(fontSize: 17),
-                                    )
+                                    Container(
+                                      width: 300,
+                                      //color: Colors.red,
+                                      child: Text(
+                                        _goods.title,
+                                        maxLines: 1,
+                                        //overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(height: 1.0, fontSize: 17, letterSpacing: 1.2),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(3),
+                                    ),
+                                    Container(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            _goods.price.toString(),
+                                            style: TextStyle(height: 1.0, fontSize: 20, fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                              " 원",
+                                            style: TextStyle(height: 1.3, fontSize: 13),
+                                          )
+                                        ],
+                                      )
+                                    ),
                                   ],
                                 ),
                               ],
                             ),
                           ),
                         ],
-                      )))
+                      ),
+                  ),
+              )
             ],
           ),
         ),

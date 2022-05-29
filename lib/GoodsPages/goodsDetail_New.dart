@@ -18,7 +18,7 @@ import 'bar_chart.dart';
 
 class GoodsDetailHome extends StatefulWidget {
   final NewGoods goods;
-
+  
   const GoodsDetailHome({Key key, @required this.goods}) : super(key: key);
 
   @override
