@@ -12,7 +12,7 @@ class Category extends StatefulWidget {
 class _CategoryState extends State<Category> {
   List<String> category = [
     '전체',
-    '스낵',
+    '젤리/초콜릿',
     '빵',
     '음료',
     '카페/디저트',
