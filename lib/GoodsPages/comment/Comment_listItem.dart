@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import './Comment.dart';
 import './Delete_Comment.dart';
 import './Edit_Comment.dart';
 import './Like.dart';
@@ -18,6 +18,7 @@ class commentListItem extends StatefulWidget {
       @required this.like,
       @required this.likedBy,
       @required this.reference,
+      @required this.comment,
       {Key key})
       : super(key: key);
 
@@ -29,7 +30,7 @@ class commentListItem extends StatefulWidget {
   final int like;
   final likedBy;
   final DocumentReference reference;
-
+  final Comment comment;
 
   @override
   _commentListItemState createState() => _commentListItemState();
@@ -217,7 +218,7 @@ class _commentListItemState extends State<commentListItem> {
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               child: Column(
                 children: [
-                  Edit(widget.reference),
+                  Edit(widget.reference, widget.comment),
                   const SizedBox(
                     height: 20,
                   ),

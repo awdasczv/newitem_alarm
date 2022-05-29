@@ -7,17 +7,30 @@ import './Comment_listItem.dart';
 
 class Comment extends StatefulWidget {
   final NewGoods goods;
+  final TextEditingController textEditingController;
+  final TextEditingController editingController;
+  final FocusNode focusNode2;
 
-  const Comment({Key key, this.goods}) : super(key: key);
+  const Comment(
+      {Key key,
+      this.goods,
+      this.textEditingController,
+      this.editingController,
+      this.focusNode2})
+      : super(key: key);
 
   @override
   _CommentState createState() => _CommentState();
 }
 
 class _CommentState extends State<Comment> {
-  TextEditingController _textEditingController = TextEditingController();
-  FocusNode _focusNode = FocusNode();
+  TextEditingController textEditingController = TextEditingController();
+  TextEditingController editingController = TextEditingController();
+  FocusNode focusNode1 = FocusNode();
+  FocusNode focusNode2 = FocusNode();
+  int i = 0;
   bool _isComposing = false;
+  bool _isEditing = false;
   bool _isReply = false;
   String goodsID;
 
@@ -33,6 +46,14 @@ class _CommentState extends State<Comment> {
               final goodsID = element.reference.id.toString();
               return goodsID;
             }));
+  }
+
+  userID() {
+    final user = auth.currentUser;
+    if (user != null) {
+      final user_id = user.uid;
+      return user_id;
+    }
   }
 
   userName() {
@@ -51,30 +72,26 @@ class _CommentState extends State<Comment> {
     }
   }
 
-  userID() {
-    final user = auth.currentUser;
-    if (user != null) {
-      final user_id = user.uid;
-      return user_id;
-    }
-  }
-
   @override
   void initState() {
     super.initState();
+    ;
   }
 
   @override
   void dispose() {
-    _textEditingController.dispose();
-    _focusNode.dispose();
+    textEditingController.dispose();
+    editingController.dispose();
+    focusNode1.dispose();
+    focusNode2.dispose();
     super.dispose();
   }
 
   void _handleSubmitted(String text) {
-    _textEditingController.clear();
-    _focusNode.requestFocus();
+    textEditingController.clear();
+    focusNode1.requestFocus();
     FocusScope.of(context).unfocus();
+
     Map<String, dynamic> data = {
       'text': text,
       'dateTime': Timestamp.now(),
@@ -98,33 +115,37 @@ class _CommentState extends State<Comment> {
       commentRef.doc('metadata').set({'total': total, 'delete + total': 0});
 
       String index = '';
-      if (_i < 10) {
-        index = '00' + _i.toString();
-      } else if (_i < 100) {
-        index = '0' + _i.toString();
+      if (i < 10) {
+        index = '00' + i.toString();
+      } else if (i < 100) {
+        index = '0' + i.toString();
       } else {
-        index = _i.toString();
+        index = i.toString();
       }
 
       String commentID = widget.goods.id + "-01-" + index;
 
       commentRef
-          .doc(commentID)
+          .doc()
           .set(data)
           .then((value) => print('Comment Upload'))
           .catchError((error) {
         return print('댓글 입력 오류: $error'); //문제가 발생하면 오류 출력
       });
-      commentRef.doc(commentID).update({'commentID': commentID});
+      commentRef.doc().update({'commentID': commentID});
     });
   }
 
-  int _i = 0;
-
   void add() {
     setState(() {
-      _i++;
+      i++;
     });
+  }
+
+  void editComment(String commentID, String text) {
+    goodsRef = FirebaseFirestore.instance.collection('Gooods');
+    goodsRef.get().then((doc) => doc);
+    goodsRef.doc(commentID).update({'text': text});
   }
 
   Widget _buildcommentList() {
@@ -151,15 +172,15 @@ class _CommentState extends State<Comment> {
                   return Column(
                     children: [
                       commentListItem(
-                        commentDocs[index]['userProfileUrl'],
-                        commentDocs[index]['userName'],
-                        commentDocs[index]['dateTime'],
-                        commentDocs[index]['text'],
-                        commentDocs[index]['userID'],
-                        commentDocs[index]['like'],
-                        commentDocs[index]['likedBy'],
-                        commentDocs[index].reference,
-                      ),
+                          commentDocs[index]['userProfileUrl'],
+                          commentDocs[index]['userName'],
+                          commentDocs[index]['dateTime'],
+                          commentDocs[index]['text'],
+                          commentDocs[index]['userID'],
+                          commentDocs[index]['like'],
+                          commentDocs[index]['likedBy'],
+                          commentDocs[index].reference,
+                          widget),
                     ],
                   );
               });
@@ -201,36 +222,66 @@ class _CommentState extends State<Comment> {
               margin: const EdgeInsets.only(left: 10, right: 10),
               width: MediaQuery.of(context).size.width - 70,
               child: Expanded(
-                child: TextField(
-                  // scrollPadding: EdgeInsets.all(3),
-                  maxLines: null,
-                  //자동으로 줄바꿈
-                  keyboardType: TextInputType.multiline,
-                  controller: _textEditingController,
-                  focusNode: _focusNode,
-                  textCapitalization: TextCapitalization.sentences,
-                  cursorColor: Color(0xffFFC845),
-                  cursorWidth: 3,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(
-                        left: 15, right: 10, top: 10, bottom: 10),
-                    hintText: hintText,
-                    hintStyle: TextStyle(color: Colors.grey),
-                    alignLabelWithHint: true,
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                    ),
-                  ),
-                  onSubmitted: _isComposing ? _handleSubmitted : null,
-                  onChanged: (text) {
-                    setState(() {
-                      _isComposing = text.trim().isNotEmpty;
-                    });
-                  },
-                ),
+                child: _isEditing
+                    ? TextField(
+                        // scrollPadding: EdgeInsets.all(3),
+                        maxLines: null,
+                        //자동으로 줄바꿈
+                        keyboardType: TextInputType.multiline,
+                        controller: editingController,
+                        autofocus: true,
+                        focusNode: focusNode2,
+                        textCapitalization: TextCapitalization.sentences,
+                        cursorColor: Color(0xffFFC845),
+                        cursorWidth: 3,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(
+                              left: 15, right: 10, top: 10, bottom: 10),
+                          hintText: hintText,
+                          hintStyle: TextStyle(color: Colors.grey),
+                          alignLabelWithHint: true,
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                        ),
+                        onSubmitted: _isComposing ? _handleSubmitted : null,
+                        onChanged: (text) {
+                          setState(() {
+                            _isComposing = text.trim().isNotEmpty;
+                          });
+                        },
+                      )
+                    : TextField(
+                        maxLines: null,
+                        keyboardType: TextInputType.multiline,
+                        controller: textEditingController,
+                        focusNode: focusNode1,
+                        textCapitalization: TextCapitalization.sentences,
+                        cursorColor: Color(0xffFFC845),
+                        cursorWidth: 3,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(
+                              left: 15, right: 10, top: 10, bottom: 10),
+                          hintText: hintText,
+                          hintStyle: TextStyle(color: Colors.grey),
+                          alignLabelWithHint: true,
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                        ),
+                        onSubmitted: _isComposing ? _handleSubmitted : null,
+                        onChanged: (text) {
+                          setState(() {
+                            _isComposing = text.trim().isNotEmpty;
+                          });
+                        },
+                      ),
               )),
           CircleAvatar(
               backgroundColor: Color(0xffFFC845),
@@ -245,7 +296,7 @@ class _CommentState extends State<Comment> {
                     ? () {
                         if (userName() != null) {
                           add();
-                          _handleSubmitted(_textEditingController.text);
+                          _handleSubmitted(textEditingController.text);
                         } else {
                           showDialog(
                               context: context,
