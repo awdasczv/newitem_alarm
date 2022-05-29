@@ -200,8 +200,8 @@ class _State extends State<FastFood> {
                     );
                   },
                   child: GoodsCard(
-                      goods: NewGoods.fromJson(_newGoodsList[index].data(),
-                      ))
+                      goods: NewGoods.fromJson(_newGoodsList[index].data(),)
+                  )
               )
           );
         }

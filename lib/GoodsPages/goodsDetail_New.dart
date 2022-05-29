@@ -473,7 +473,7 @@ class _GoodsDeatilHomeState extends State<GoodsDetailHome> {
         )
       ],
       flexibleSpace: Hero(
-        tag: widget.goods.title,
+        tag: widget.goods.id,
         child: LayoutBuilder(builder: (context, constraints) {
           double height = constraints.biggest.height;
           // print(height);
